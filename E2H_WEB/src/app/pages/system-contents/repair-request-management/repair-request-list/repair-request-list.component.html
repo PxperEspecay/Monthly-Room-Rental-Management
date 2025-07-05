@@ -1,0 +1,1052 @@
+<div class="row d-flex justify-content-between align-items-center">
+    <div class="col-9 d-flex align-items-center">
+        <div class="ps-3">
+            <p class="mt-3 head-title">รายการแจ้งซ่อม</p>
+        </div>
+        <div class="ms-3">
+            <div class="d-flex flex-column flex-sm-row select-filter">
+                <div class="item-filter" (click)="ChangeTabs('all')" [class.active]="tab === 'all'">
+                    <div class="text">ทั้งหมด</div>
+                    <div class="under"></div>
+                </div>
+                <div class="item-filter" (click)="ChangeTabs('aogtion')" [class.active]="tab === 'aogtion'">
+                    <div class="text">รอตรวจสอบ</div>
+                    <div class="under"></div>
+                </div>
+                <div class="item-filter" (click)="ChangeTabs('bids')" [class.active]="tab === 'bids'">
+                    <div class="text">รอดำเนินการ</div>
+                    <div class="under"></div>
+                </div>
+                <div class="item-filter" (click)="ChangeTabs('confirm')" [class.active]="tab === 'confirm'">
+                    <div class="text">กำลังดำเนินการ</div>
+                    <div class="under"></div>
+                </div>
+                <div class="item-filter" (click)="ChangeTabs('final')" [class.active]="tab === 'final'">
+                    <div class="text">ดำเนินการเสร็จสิ้น</div>
+                    <div class="under"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-3 d-flex align-items-center justify-content-end position-relative">
+
+        <button class="btn btn-primary me-3" (click)="toggleDropdown()"
+            style="height: 40px; width: 150px; background-color:  rgba(0, 102, 102, 1);border-radius: 8px; border-color: rgba(0, 102, 102, 1);">
+            <img class="me-2" src="assets/system_icons/icon-Filter.png" style="height: 15px;"><span
+                style="font-size: 16px;">ตัวกรอง</span>
+        </button>
+        <div *ngIf="showDropdown" class="dropdown-box p-3">
+            <div class="row p-2">
+                <div class="col">
+                    <div class="form-check">
+                        <input [(ngModel)]="ckecked_all" class="form-check-input" type="checkbox"
+                            (click)="CheckAllType()">
+                        <span class="form-check-label" style="font-weight: 600; font-size: 18px; margin-top: 5px;">
+                            ประเภทงานทั้งหมด
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row p-2 justify-content-between">
+                <div class="col-6" *ngFor="let item of repair_type_list, let index = index">
+                    <div class="form-check">
+                        <input [(ngModel)]="item.checked" class="form-check-input" type="checkbox"
+                            (click)="HandleType(item)">
+                        <span class="form-check-label" style="font-weight: 300; font-size: 18px; margin-top: 5px;">
+                            {{item.name}}
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div>
+            <input [(ngModel)]="search_input" class="nosubmit form-control" type="text" placeholder="ค้นหา"
+                (keydown.enter)="UpdateListType()">
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+    <!-- Tab All -->
+    <ng-container *ngIf="tab == 'all'">
+        <div class="row">
+            <div class="col-4 col-md-12 col-lg-6 col-xl-4 mb-sm-3 mb-md-3 mb-lg-3"
+                *ngFor="let item of data_All | paginate: { itemsPerPage: 9, currentPage: page };">
+                <div class="card mb-2 border-0 shadow-sm" style="border-radius: 16px;"
+                    [ngClass]="(item.status_id === 8) ? 'ended_auc' : ''">
+                    <div class="card-body" style="padding: 8px !important;">
+                        <div class="row">
+
+                            <!-- <div class="col p-0 d-flex align-items-center" *ngIf="item.status_id != 8">
+                                    <img src="" alt="" style="width: 18px;">
+                                    <span class="ms-2" style="font-weight: 500;">{{item.name}}</span>
+                                </div> -->
+                            <div class="col p-0 d-flex align-items-center" *ngIf="item.type_repair_id == 1">
+                                <img src="assets/system_icons/icon-repair-electricity.png" alt="" style="width: 48px;">
+                                <span class="ms-2" style="font-weight: 500; font-size: 20px;">{{'งานไฟฟ้า'}}</span>
+                            </div>
+                            <div class="col p-0 d-flex align-items-center" *ngIf="item.type_repair_id == 2">
+                                <img src="assets/system_icons/icon-repair-plumbing.png" alt="" style="width: 48px;">
+                                <span class="ms-2" style="font-weight: 500; font-size: 20px;">{{'งานประปา'}}</span>
+                            </div>
+                            <div class="col p-0 d-flex align-items-center" *ngIf="item.type_repair_id == 3">
+                                <img src="assets/system_icons/icon-repair-air-conditioner.png" alt=""
+                                    style="width: 48px;">
+                                <span class="ms-2"
+                                    style="font-weight: 500; font-size: 20px;">{{'งานเครื่องปรับอากาศ'}}</span>
+                            </div>
+                            <div class="col p-0 d-flex align-items-center" *ngIf="item.type_repair_id == 4">
+                                <img src="assets/system_icons/icon-repair-other.png" alt="" style="width: 48px;">
+                                <span class="ms-2" style="font-weight: 500; font-size: 20px;">{{'งานอื่นๆ'}}</span>
+                            </div>
+
+                            <div class="col p-0 text-end">
+                                <span *ngIf="item.status == 'waiting_to_check'"
+                                    class="status-aog">รอตรวจสอบคำร้อง</span>
+                                <span *ngIf="item.status == 'acknowledged'" class="status-aog">รอนัดหมาย</span>
+                                <span *ngIf="item.status == 'scheduled'" class="status-confirm">รอตรวจสอบนัดหมาย</span>
+                                <span *ngIf="item.status == 'pending'" class="status-bids">รอดำเนินการ</span>
+                                <span *ngIf="item.status == 'in_progress'"
+                                    class="status-in_progress">กำลังดำเนินการ</span>
+                                <span *ngIf="item.status == 'completed'" class="status-final">ดำเนินการเสร็จสิ้น</span>
+                            </div>
+
+                        </div>
+
+                        <div class="row mt-3">
+                            <div class="col p-0 m-0" [ngClass]="(item.status_id === 8) ? 'ended_auc' : 'main_text'">
+                                <p>หัวข้อ :</p>
+                            </div>
+                            <div class="col text-end p-0 m-0">
+                                <p>{{item.issue_title}}</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col p-0 m-0" [ngClass]="(item.status_id === 8) ? 'ended_auc' : 'main_text'">
+                                <p>รายละเอียด :</p>
+                            </div>
+                            <div class="col text-end p-0 m-0">
+                                <p>{{item.issue_description}}</p>
+                            </div>
+                        </div>
+
+                        <div class="row" *ngIf="item.status_id != 8">
+                            <div class="col-3 p-0 m-0">
+                                <img class="" src="" alt="" style="width: 16px;">
+                                <span class="ms-2" style="color: rgba(31, 47, 116, 1);">อาคาร :</span>
+                            </div>
+                            <div class="col text-end p-0 m-0">
+                                <p>{{item.Renter.Room.Building.building_name}}</p>
+                            </div>
+                        </div>
+
+
+                        <div class="row" *ngIf="item.status_id != 8">
+                            <div class="col-3 p-0 m-0">
+                                <img class="" src="" alt="" style="width: 16px;">
+                                <span class="ms-2" style="color: rgba(31, 47, 116, 1);">ชั้น :</span>
+                            </div>
+                            <div class="col text-end p-0 m-0">
+                                <p>{{'ชั้น'}} {{item.Renter.Room.floor}}</p>
+                            </div>
+                        </div>
+
+
+                        <div class="row" *ngIf="item.status_id != 8">
+                            <div class="col-3 p-0 m-0">
+                                <img class="" src="" alt="" style="width: 16px;">
+                                <span class="ms-2" style="color: rgba(31, 47, 116, 1);">บ้านเลขที่ :</span>
+                            </div>
+                            <div class="col text-end p-0 m-0">
+                                <p>{{item.date_etd | date : 'dd/MM/yyyy'}} {{item.Renter.Room.room_number}}</p>
+                            </div>
+                        </div>
+
+                        <div class="row mt-3">
+                            <div class="col-3 p-0 m-0" [ngClass]="(item.status_id === 8) ? 'ended_auc' : 'main_text'">
+                                <p>ผู้แจ้ง : </p>
+                            </div>
+                            <div class="col text-end p-0 m-0">
+                                <p>{{item.Renter.prefix}}{{item.Renter.first_name}} {{item.Renter.last_name}}</p>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col p-0 m-0" [ngClass]="(item.status_id === 8) ? 'ended_auc' : 'main_text'">
+                                <p>วันที่แจ้ง:</p>
+                            </div>
+                            <div class="col text-end p-0 m-0">
+                                <p>{{item.created_at}} {{item.time_ecot}}</p>
+                            </div>
+                        </div>
+
+                        <div class="divider"></div>
+
+                        <div class="row" *ngIf="item.status_id != 8">
+                            <div class="col p-0 m-0">
+                                <!-- <p
+                                    style="color: rgba(180, 180, 180, 1); font-weight: 300; margin-bottom: 0 !important;">
+                                    last updated <span class="ms-1"
+                                        style="color: rgba(180, 180, 180, 1); font-weight: 300;">{{item.date_update |
+                                        date : 'dd/MM/yyyy'}} {{item.time_update}}</span></p> -->
+
+                            </div>
+                            <div class="col-6 text-end p-0 m-0">
+                                <span role="button" class="details-button" (click)="MoreDetail(item.id , item.status)"
+                                    style="margin-bottom: 0 !important; font-weight: 500;">
+                                    รายละเอียดเพิ่มเติม <span class="ms-3" style="font-size: 20px;">></span>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="row" *ngIf="item.status_id == 8">
+                            <div class="col text-end p-0 m-0">
+                                <span class="details-button" style="margin-bottom: 0 !important;">
+                                    Delete
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </ng-container>
+
+    <!-- Tab รอตรวจสอบ -->
+    <ng-container *ngIf="tab == 'aogtion'">
+
+        <div class="row">
+            <div class="col-12 p-0 m-0">
+                <div class="d-flex mt-1 ms-3">
+                    <div class="d-flex flex-column flex-sm-row select-filter"
+                        style=" box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.15);">
+                        <div class="item-filter">
+                            <div class="text" style="color: rgba(192, 192, 192, 1);">Sort<span><img
+                                        src="assets/system_icons/icon-GreySort1.png" alt=""
+                                        style="width: 15px; margin-left: 5px;"></span>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-center align-items-center">
+                            <img src="assets/system_icons/icon-Line.png" alt="" style="width: 1px; height: 70%;">
+                        </div>
+                        <div class="item-filter" (click)="ChangeSecondaryTabs('all')"
+                            [class.active]="secondary_tab === 'all'">
+                            <div class="text">ทั้งหมด</div>
+                            <div class="under"></div>
+                        </div>
+                        <div class="item-filter" (click)="ChangeSecondaryTabs('created auction')"
+                            [class.active]="secondary_tab === 'created auction'">
+                            <div class="text">คำร้องแจ้งซ่อม</div>
+                            <div class="under"></div>
+                        </div>
+                        <!-- <div class="item-filter" (click)="ChangeSecondaryTabs('ended auction')"
+                            [class.active]="secondary_tab === 'ended auction'">
+                            <div class="text">รอนัดหมาย</div>
+                            <div class="under"></div>
+                        </div> -->
+                        <div class="item-filter" (click)="ChangeSecondaryTabs('scheduled')"
+                            [class.active]="secondary_tab === 'scheduled'">
+                            <div class="text">คำร้องนัดหมาย </div>
+                            <div class="under"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- All Auction -->
+        <ng-container *ngIf="secondary_tab == 'all'">
+            <div class="row mt-4">
+                <div class="col-md-12 col-lg-6 col-xl-4 mb-sm-3 mb-md-3 mb-lg-3"
+                    *ngFor="let item of data_check_all | paginate: { itemsPerPage: 6, currentPage: page };">
+                    <div class="card mb-2" style="border-radius: 16px;"
+                        [ngClass]="(item.status_id === 8) ? 'ended_auc' : ''">
+                        <div class="card-body" style="padding: 8px !important;">
+                            <div class="row">
+
+                                <div class="col p-0 d-flex align-items-center" *ngIf="item.type_repair_id == 1">
+                                    <img src="assets/system_icons/icon-repair-electricity.png" alt=""
+                                        style="width: 48px;">
+                                    <span class="ms-2" style="font-weight: 500; font-size: 20px;">{{'งานไฟฟ้า'}}</span>
+                                </div>
+                                <div class="col p-0 d-flex align-items-center" *ngIf="item.type_repair_id == 2">
+                                    <img src="assets/system_icons/icon-repair-plumbing.png" alt="" style="width: 48px;">
+                                    <span class="ms-2" style="font-weight: 500; font-size: 20px;">{{'งานประปา'}}</span>
+                                </div>
+                                <div class="col p-0 d-flex align-items-center" *ngIf="item.type_repair_id == 3">
+                                    <img src="assets/system_icons/icon-repair-air-conditioner.png" alt=""
+                                        style="width: 48px;">
+                                    <span class="ms-2"
+                                        style="font-weight: 500; font-size: 20px;">{{'งานเครื่องปรับอากาศ'}}</span>
+                                </div>
+                                <div class="col p-0 d-flex align-items-center" *ngIf="item.type_repair_id == 4">
+                                    <img src="assets/system_icons/icon-repair-other.png" alt="" style="width: 48px;">
+                                    <span class="ms-2" style="font-weight: 500; font-size: 20px;">{{'งานอื่นๆ'}}</span>
+                                </div>
+
+                                <div class="col p-0 text-end">
+                                    <span *ngIf="item.status == 'waiting_to_check'"
+                                        class="status-aog">รอตรวจสอบคำร้อง</span>
+                                    <!-- <span *ngIf="item.status == 'acknowledged'" class="status-aog">รอตรวจสอบ2</span> -->
+                                    <span *ngIf="item.status == 'scheduled'"
+                                        class="status-confirm">รอตรวจสอบนัดหมาย</span>
+                                </div>
+                            </div>
+
+
+                            <div class="row mt-3">
+                                <div class="col p-0 m-0" [ngClass]="(item.status_id === 8) ? 'ended_auc' : 'main_text'">
+                                    <p>หัวข้อ :</p>
+                                </div>
+                                <div class="col text-end p-0 m-0">
+                                    <p>{{item.issue_title}}</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col p-0 m-0" [ngClass]="(item.status_id === 8) ? 'ended_auc' : 'main_text'">
+                                    <p>รายละเอียด :</p>
+                                </div>
+                                <div class="col text-end p-0 m-0">
+                                    <p>{{item.issue_description}}</p>
+                                </div>
+                            </div>
+
+                            <div class="row" *ngIf="item.status_id != 8">
+                                <div class="col-3 p-0 m-0">
+                                    <img class="" src="" alt="" style="width: 16px;">
+                                    <span class="ms-2" style="color: rgba(31, 47, 116, 1);">อาคาร :</span>
+                                </div>
+                                <div class="col text-end p-0 m-0">
+                                    <p>{{item.Renter.Room.Building.building_name}}</p>
+                                </div>
+                            </div>
+
+
+                            <div class="row" *ngIf="item.status_id != 8">
+                                <div class="col-3 p-0 m-0">
+                                    <img class="" src="" alt="" style="width: 16px;">
+                                    <span class="ms-2" style="color: rgba(31, 47, 116, 1);">ชั้น :</span>
+                                </div>
+                                <div class="col text-end p-0 m-0">
+                                    <p>{{'ชั้น'}} {{item.Renter.Room.floor}}</p>
+                                </div>
+                            </div>
+
+
+                            <div class="row" *ngIf="item.status_id != 8">
+                                <div class="col-3 p-0 m-0">
+                                    <img class="" src="" alt="" style="width: 16px;">
+                                    <span class="ms-2" style="color: rgba(31, 47, 116, 1);">บ้านเลขที่ :</span>
+                                </div>
+                                <div class="col text-end p-0 m-0">
+                                    <p>{{item.date_etd | date : 'dd/MM/yyyy'}} {{item.Renter.Room.room_number}}</p>
+                                </div>
+                            </div>
+
+                            <div class="row mt-3">
+                                <div class="col-3 p-0 m-0"
+                                    [ngClass]="(item.status_id === 8) ? 'ended_auc' : 'main_text'">
+                                    <p>ผู้แจ้ง : </p>
+                                </div>
+                                <div class="col text-end p-0 m-0">
+                                    <p>{{item.Renter.prefix}}{{item.Renter.first_name}} {{item.Renter.last_name}}</p>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col p-0 m-0" [ngClass]="(item.status_id === 8) ? 'ended_auc' : 'main_text'">
+                                    <p>วันที่แจ้ง:</p>
+                                </div>
+                                <div class="col text-end p-0 m-0">
+                                    <p>{{item.created_at}} {{item.time_ecot}}</p>
+                                </div>
+                            </div>
+
+                            <div class="divider"></div>
+
+                            <div class="row" *ngIf="item.status_id != 8">
+                                <div class="col p-0 m-0">
+                                    <!-- <p
+                                        style="color: rgba(180, 180, 180, 1); font-weight: 300; margin-bottom: 0 !important;">
+                                        last updated <span class="ms-1"
+                                            style="color: rgba(180, 180, 180, 1); font-weight: 300;">{{item.date_update
+                                            | date : 'dd/MM/yyyy'}} {{item.time_update}}</span></p> -->
+
+                                </div>
+                                <div class="col text-end p-0 m-0">
+                                    <span role="button" class="details-button"
+                                        (click)="MoreDetail(item.id , item.status)"
+                                        style="margin-bottom: 0 !important; font-weight: 500;">
+                                        รายละเอียดเพิ่มเติม <span class="ms-3" style="font-size: 20px;">></span>
+                                    </span>
+                                </div>
+                            </div>
+                            <!-- <div class="row" *ngIf="item.status_id == 8">
+                                <div class="col text-end p-0 m-0">
+                                    <span class="details-button" style="margin-bottom: 0 !important;">
+                                        Delete
+                                    </span>
+                                </div>
+                            </div> -->
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </ng-container>
+
+        <!-- New Repair Request Only -->
+        <ng-container *ngIf="secondary_tab == 'created auction'">
+            <div class="row mt-4">
+                <div class="col-md-12 col-lg-6 col-xl-4 mb-sm-3 mb-md-3 mb-lg-3"
+                    *ngFor="let item of data_new_repair_request | paginate: { itemsPerPage: 6, currentPage: page };">
+                    <div class="card mb-2" style="border-radius: 16px;">
+                        <div class="card-body" style="padding: 8px !important;">
+                            <div class="row">
+                                <div class="col p-0 d-flex align-items-center" *ngIf="item.type_repair_id == 1">
+                                    <img src="assets/system_icons/icon-repair-electricity.png" alt=""
+                                        style="width: 48px;">
+                                    <span class="ms-2" style="font-weight: 500; font-size: 20px;">{{'งานไฟฟ้า'}}</span>
+                                </div>
+                                <div class="col p-0 d-flex align-items-center" *ngIf="item.type_repair_id == 2">
+                                    <img src="assets/system_icons/icon-repair-plumbing.png" alt="" style="width: 48px;">
+                                    <span class="ms-2" style="font-weight: 500; font-size: 20px;">{{'งานประปา'}}</span>
+                                </div>
+                                <div class="col p-0 d-flex align-items-center" *ngIf="item.type_repair_id == 3">
+                                    <img src="assets/system_icons/icon-repair-air-conditioner.png" alt=""
+                                        style="width: 48px;">
+                                    <span class="ms-2"
+                                        style="font-weight: 500; font-size: 20px;">{{'งานเครื่องปรับอากาศ'}}</span>
+                                </div>
+                                <div class="col p-0 d-flex align-items-center" *ngIf="item.type_repair_id == 4">
+                                    <img src="assets/system_icons/icon-repair-other.png" alt="" style="width: 48px;">
+                                    <span class="ms-2" style="font-weight: 500; font-size: 20px;">{{'งานอื่นๆ'}}</span>
+                                </div>
+
+                                <div class="col p-0 text-end">
+                                    <span *ngIf="item.status == 'waiting_to_check'"
+                                        class="status-aog">รอตรวจสอบคำร้อง</span>
+                                    <!-- <span *ngIf="item.status == 'acknowledged'" class="status-aog">รอตรวจสอบ2</span>
+                                    <span *ngIf="item.status == 'scheduled'" class="status-confirm">รอตรวจสอบ3</span> -->
+                                </div>
+                            </div>
+
+                            <div class="row mt-3">
+                                <div class="col p-0 m-0" [ngClass]="(item.status_id === 8) ? 'ended_auc' : 'main_text'">
+                                    <p>หัวข้อ :</p>
+                                </div>
+                                <div class="col text-end p-0 m-0">
+                                    <p>{{item.issue_title}}</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col p-0 m-0" [ngClass]="(item.status_id === 8) ? 'ended_auc' : 'main_text'">
+                                    <p>รายละเอียด :</p>
+                                </div>
+                                <div class="col text-end p-0 m-0">
+                                    <p>{{item.issue_description}}</p>
+                                </div>
+                            </div>
+
+                            <div class="row" *ngIf="item.status_id != 8">
+                                <div class="col-3 p-0 m-0">
+                                    <img class="" src="" alt="" style="width: 16px;">
+                                    <span class="ms-2" style="color: rgba(31, 47, 116, 1);">อาคาร :</span>
+                                </div>
+                                <div class="col text-end p-0 m-0">
+                                    <p>{{item.Renter.Room.Building.building_name}}</p>
+                                </div>
+                            </div>
+
+
+                            <div class="row" *ngIf="item.status_id != 8">
+                                <div class="col-3 p-0 m-0">
+                                    <img class="" src="" alt="" style="width: 16px;">
+                                    <span class="ms-2" style="color: rgba(31, 47, 116, 1);">ชั้น :</span>
+                                </div>
+                                <div class="col text-end p-0 m-0">
+                                    <p>{{'ชั้น'}} {{item.Renter.Room.floor}}</p>
+                                </div>
+                            </div>
+
+
+                            <div class="row" *ngIf="item.status_id != 8">
+                                <div class="col-3 p-0 m-0">
+                                    <img class="" src="" alt="" style="width: 16px;">
+                                    <span class="ms-2" style="color: rgba(31, 47, 116, 1);">บ้านเลขที่ :</span>
+                                </div>
+                                <div class="col text-end p-0 m-0">
+                                    <p>{{item.date_etd | date : 'dd/MM/yyyy'}} {{item.Renter.Room.room_number}}</p>
+                                </div>
+                            </div>
+
+                            <div class="row mt-3">
+                                <div class="col-3 p-0 m-0"
+                                    [ngClass]="(item.status_id === 8) ? 'ended_auc' : 'main_text'">
+                                    <p>ผู้แจ้ง : </p>
+                                </div>
+                                <div class="col text-end p-0 m-0">
+                                    <p>{{item.Renter.prefix}}{{item.Renter.first_name}} {{item.Renter.last_name}}</p>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col p-0 m-0" [ngClass]="(item.status_id === 8) ? 'ended_auc' : 'main_text'">
+                                    <p>วันที่แจ้ง:</p>
+                                </div>
+                                <div class="col text-end p-0 m-0">
+                                    <p>{{item.created_at}} {{item.time_ecot}}</p>
+                                </div>
+                            </div>
+
+                            <div class="divider"></div>
+                            <div class="row">
+                                <div class="col p-0 m-0">
+                                    <!-- <p
+                                        style="color: rgba(180, 180, 180, 1); font-weight: 300; margin-bottom: 0 !important;">
+                                        last updated <span class="ms-1"
+                                            style="color: rgba(180, 180, 180, 1); font-weight: 300;">{{item.date_update
+                                            | date : 'dd/MM/yyyy'}} {{item.time_update}}</span></p> -->
+
+                                </div>
+                                <div class="col text-end p-0 m-0">
+                                    <span role="button" class="details-button"
+                                        (click)="MoreDetail(item.id , item.status)"
+                                        style="margin-bottom: 0 !important; font-weight: 500;">
+                                        รายละเอียดเพิ่มเติม <span class="ms-3" style="font-size: 20px;">></span>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </ng-container>
+
+        <!-- Scheduled Only -->
+        <ng-container *ngIf="secondary_tab == 'scheduled'">
+            <div class="row mt-4">
+                <div class="col-md-12 col-lg-6 col-xl-4 mb-sm-3 mb-md-3 mb-lg-3"
+                    *ngFor="let item of data_scheduled | paginate: { itemsPerPage: 6, currentPage: page };">
+                    <div class="card mb-2" style="border-radius: 16px;">
+                        <div class="card-body" style="padding: 8px !important;">
+                            <div class="row">
+                                <div class="col p-0 d-flex align-items-center" *ngIf="item.type_repair_id == 1">
+                                    <img src="assets/system_icons/icon-repair-electricity.png" alt=""
+                                        style="width: 48px;">
+                                    <span class="ms-2" style="font-weight: 500; font-size: 20px;">{{'งานไฟฟ้า'}}</span>
+                                </div>
+                                <div class="col p-0 d-flex align-items-center" *ngIf="item.type_repair_id == 2">
+                                    <img src="assets/system_icons/icon-repair-plumbing.png" alt="" style="width: 48px;">
+                                    <span class="ms-2" style="font-weight: 500; font-size: 20px;">{{'งานประปา'}}</span>
+                                </div>
+                                <div class="col p-0 d-flex align-items-center" *ngIf="item.type_repair_id == 3">
+                                    <img src="assets/system_icons/icon-repair-air-conditioner.png" alt=""
+                                        style="width: 48px;">
+                                    <span class="ms-2"
+                                        style="font-weight: 500; font-size: 20px;">{{'งานเครื่องปรับอากาศ'}}</span>
+                                </div>
+                                <div class="col p-0 d-flex align-items-center" *ngIf="item.type_repair_id == 4">
+                                    <img src="assets/system_icons/icon-repair-other.png" alt="" style="width: 48px;">
+                                    <span class="ms-2" style="font-weight: 500; font-size: 20px;">{{'งานอื่นๆ'}}</span>
+                                </div>
+
+                                <div class="col p-0 text-end">
+                                    <!-- <span *ngIf="item.status == 'waiting_to_check'" class="status-aog">รอตรวจสอบ1</span> -->
+                                    <!-- <span *ngIf="item.status == 'acknowledged'" class="status-aog">รอตรวจสอบ2</span> -->
+                                    <span *ngIf="item.status == 'scheduled'"
+                                        class="status-confirm">รอตรวจสอบนัดหมาย</span>
+                                </div>
+                            </div>
+
+                            <div class="row mt-3">
+                                <div class="col p-0 m-0" [ngClass]="(item.status_id === 8) ? 'ended_auc' : 'main_text'">
+                                    <p>หัวข้อ :</p>
+                                </div>
+                                <div class="col text-end p-0 m-0">
+                                    <p>{{item.issue_title}}</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col p-0 m-0" [ngClass]="(item.status_id === 8) ? 'ended_auc' : 'main_text'">
+                                    <p>รายละเอียด :</p>
+                                </div>
+                                <div class="col text-end p-0 m-0">
+                                    <p>{{item.issue_description}}</p>
+                                </div>
+                            </div>
+
+                            <div class="row" *ngIf="item.status_id != 8">
+                                <div class="col-3 p-0 m-0">
+                                    <img class="" src="" alt="" style="width: 16px;">
+                                    <span class="ms-2" style="color: rgba(31, 47, 116, 1);">อาคาร :</span>
+                                </div>
+                                <div class="col text-end p-0 m-0">
+                                    <p>{{item.Renter.Room.Building.building_name}}</p>
+                                </div>
+                            </div>
+
+
+                            <div class="row" *ngIf="item.status_id != 8">
+                                <div class="col-3 p-0 m-0">
+                                    <img class="" src="" alt="" style="width: 16px;">
+                                    <span class="ms-2" style="color: rgba(31, 47, 116, 1);">ชั้น :</span>
+                                </div>
+                                <div class="col text-end p-0 m-0">
+                                    <p>{{'ชั้น'}} {{item.Renter.Room.floor}}</p>
+                                </div>
+                            </div>
+
+
+                            <div class="row" *ngIf="item.status_id != 8">
+                                <div class="col-3 p-0 m-0">
+                                    <img class="" src="" alt="" style="width: 16px;">
+                                    <span class="ms-2" style="color: rgba(31, 47, 116, 1);">บ้านเลขที่ :</span>
+                                </div>
+                                <div class="col text-end p-0 m-0">
+                                    <p>{{item.date_etd | date : 'dd/MM/yyyy'}} {{item.Renter.Room.room_number}}</p>
+                                </div>
+                            </div>
+
+                            <div class="row mt-3">
+                                <div class="col-3 p-0 m-0"
+                                    [ngClass]="(item.status_id === 8) ? 'ended_auc' : 'main_text'">
+                                    <p>ผู้แจ้ง : </p>
+                                </div>
+                                <div class="col text-end p-0 m-0">
+                                    <p>{{item.Renter.prefix}}{{item.Renter.first_name}} {{item.Renter.last_name}}</p>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col p-0 m-0" [ngClass]="(item.status_id === 8) ? 'ended_auc' : 'main_text'">
+                                    <p>วันที่แจ้ง:</p>
+                                </div>
+                                <div class="col text-end p-0 m-0">
+                                    <p>{{item.created_at}} {{item.time_ecot}}</p>
+                                </div>
+                            </div>
+
+                            <div class="divider"></div>
+
+
+
+                            <div class="row">
+                                <div class="col p-0 m-0">
+
+                                </div>
+                                <div class="col text-end p-0 m-0">
+                                    <span role="button" class="details-button"
+                                        (click)="MoreDetail(item.id , item.status)"
+                                        style="margin-bottom: 0 !important; font-weight: 500;">
+                                        รายละเอียดเพิ่มเติม <span class="ms-3" style="font-size: 20px;">></span>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </ng-container>
+
+    </ng-container>
+
+    <!-- Tab รอดำเนินการ -->
+    <ng-container *ngIf="tab == 'bids'">
+        <div class="row">
+            <div class="col-md-12 col-lg-6 col-xl-4 mb-sm-3 mb-md-3 mb-lg-3"
+                *ngFor="let item of data_pending | paginate: { itemsPerPage: 6, currentPage: page };">
+                <div class="card mb-2" style="border-radius: 16px;">
+                    <div class="card-body" style="padding: 8px !important;">
+                        <div class="row">
+
+                            <div class="col p-0 d-flex align-items-center" *ngIf="item.type_repair_id == 1">
+                                <img src="assets/system_icons/icon-repair-electricity.png" alt="" style="width: 48px;">
+                                <span class="ms-2" style="font-weight: 500; font-size: 20px;">{{'งานไฟฟ้า'}}</span>
+                            </div>
+                            <div class="col p-0 d-flex align-items-center" *ngIf="item.type_repair_id == 2">
+                                <img src="assets/system_icons/icon-repair-plumbing.png" alt="" style="width: 48px;">
+                                <span class="ms-2" style="font-weight: 500; font-size: 20px;">{{'งานประปา'}}</span>
+                            </div>
+                            <div class="col p-0 d-flex align-items-center" *ngIf="item.type_repair_id == 3">
+                                <img src="assets/system_icons/icon-repair-air-conditioner.png" alt=""
+                                    style="width: 48px;">
+                                <span class="ms-2"
+                                    style="font-weight: 500; font-size: 20px;">{{'งานเครื่องปรับอากาศ'}}</span>
+                            </div>
+                            <div class="col p-0 d-flex align-items-center" *ngIf="item.type_repair_id == 4">
+                                <img src="assets/system_icons/icon-repair-other.png" alt="" style="width: 48px;">
+                                <span class="ms-2" style="font-weight: 500; font-size: 20px;">{{'งานอื่นๆ'}}</span>
+                            </div>
+
+                            <div class="col p-0 text-end">
+                                <span *ngIf="item.status == 'pending'" class="status-bids">รอดำเนินการ</span>
+                            </div>
+
+                        </div>
+
+
+
+                        <div class="row mt-3">
+                            <div class="col p-0 m-0" [ngClass]="(item.status_id === 8) ? 'ended_auc' : 'main_text'">
+                                <p>หัวข้อ :</p>
+                            </div>
+                            <div class="col text-end p-0 m-0">
+                                <p>{{item.issue_title}}</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col p-0 m-0" [ngClass]="(item.status_id === 8) ? 'ended_auc' : 'main_text'">
+                                <p>รายละเอียด :</p>
+                            </div>
+                            <div class="col text-end p-0 m-0">
+                                <p>{{item.issue_description}}</p>
+                            </div>
+                        </div>
+
+                        <div class="row" *ngIf="item.status_id != 8">
+                            <div class="col-3 p-0 m-0">
+                                <img class="" src="" alt="" style="width: 16px;">
+                                <span class="ms-2" style="color: rgba(31, 47, 116, 1);">อาคาร :</span>
+                            </div>
+                            <div class="col text-end p-0 m-0">
+                                <p>{{item.Renter.Room.Building.building_name}}</p>
+                            </div>
+                        </div>
+
+
+                        <div class="row" *ngIf="item.status_id != 8">
+                            <div class="col-3 p-0 m-0">
+                                <img class="" src="" alt="" style="width: 16px;">
+                                <span class="ms-2" style="color: rgba(31, 47, 116, 1);">ชั้น :</span>
+                            </div>
+                            <div class="col text-end p-0 m-0">
+                                <p>{{'ชั้น'}} {{item.Renter.Room.floor}}</p>
+                            </div>
+                        </div>
+
+
+                        <div class="row" *ngIf="item.status_id != 8">
+                            <div class="col-3 p-0 m-0">
+                                <img class="" src="" alt="" style="width: 16px;">
+                                <span class="ms-2" style="color: rgba(31, 47, 116, 1);">บ้านเลขที่ :</span>
+                            </div>
+                            <div class="col text-end p-0 m-0">
+                                <p>{{item.date_etd | date : 'dd/MM/yyyy'}} {{item.Renter.Room.room_number}}</p>
+                            </div>
+                        </div>
+
+                        <div class="row mt-3">
+                            <div class="col-3 p-0 m-0" [ngClass]="(item.status_id === 8) ? 'ended_auc' : 'main_text'">
+                                <p>ผู้แจ้ง : </p>
+                            </div>
+                            <div class="col text-end p-0 m-0">
+                                <p>{{item.Renter.prefix}}{{item.Renter.first_name}} {{item.Renter.last_name}}</p>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col p-0 m-0" [ngClass]="(item.status_id === 8) ? 'ended_auc' : 'main_text'">
+                                <p>วันที่แจ้ง:</p>
+                            </div>
+                            <div class="col text-end p-0 m-0">
+                                <p>{{item.created_at}} {{item.time_ecot}}</p>
+                            </div>
+                        </div>
+
+                        <div class="divider"></div>
+
+                        <div class="row">
+                            <div class="col p-0 m-0">
+                                <p
+                                    style="color: rgba(180, 180, 180, 1); font-weight: 300; margin-bottom: 0 !important;">
+                                    last updated <span class="ms-1"
+                                        style="color: rgba(180, 180, 180, 1); font-weight: 300;">{{item.date_update |
+                                        date : 'dd/MM/yyyy'}} {{item.time_update}}</span></p>
+
+                            </div>
+                            <div class="col-4 text-end p-0 m-0">
+                                <span role="button" class="details-button"
+                                    style="margin-bottom: 0 !important; font-weight: 500;">
+                                    รายละเอียด<span class="ms-3" style="font-size: 20px;">></span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </ng-container>
+
+    <!-- Tab In Progress -->
+    <ng-container *ngIf="tab == 'confirm'">
+        <div class="row">
+            <div class="col-md-12 col-lg-6 col-xl-4 mb-sm-3 mb-md-3 mb-lg-3"
+                *ngFor="let item of data_in_progress | paginate: { itemsPerPage: 6, currentPage: page };">
+                <div class="card mb-2" style="border-radius: 16px;">
+                    <div class="card-body" style="padding: 8px !important;">
+                        <div class="row">
+
+                            <div class="col p-0 d-flex align-items-center" *ngIf="item.type_repair_id == 1">
+                                <img src="assets/system_icons/icon-repair-electricity.png" alt="" style="width: 48px;">
+                                <span class="ms-2" style="font-weight: 500; font-size: 20px;">{{'งานไฟฟ้า'}}</span>
+                            </div>
+                            <div class="col p-0 d-flex align-items-center" *ngIf="item.type_repair_id == 2">
+                                <img src="assets/system_icons/icon-repair-plumbing.png" alt="" style="width: 48px;">
+                                <span class="ms-2" style="font-weight: 500; font-size: 20px;">{{'งานประปา'}}</span>
+                            </div>
+                            <div class="col p-0 d-flex align-items-center" *ngIf="item.type_repair_id == 3">
+                                <img src="assets/system_icons/icon-repair-air-conditioner.png" alt=""
+                                    style="width: 48px;">
+                                <span class="ms-2"
+                                    style="font-weight: 500; font-size: 20px;">{{'งานเครื่องปรับอากาศ'}}</span>
+                            </div>
+                            <div class="col p-0 d-flex align-items-center" *ngIf="item.type_repair_id == 4">
+                                <img src="assets/system_icons/icon-repair-other.png" alt="" style="width: 48px;">
+                                <span class="ms-2" style="font-weight: 500; font-size: 20px;">{{'งานอื่นๆ'}}</span>
+                            </div>
+
+                            <div class="col p-0 text-end">
+                                <span *ngIf="item.status == 'in_progress'"
+                                    class="status-in_progress">กำลังดำเนินการ</span>
+                            </div>
+
+                        </div>
+
+                        <div class="row mt-3">
+                            <div class="col p-0 m-0" [ngClass]="(item.status_id === 8) ? 'ended_auc' : 'main_text'">
+                                <p>หัวข้อ :</p>
+                            </div>
+                            <div class="col text-end p-0 m-0">
+                                <p>{{item.issue_title}}</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col p-0 m-0" [ngClass]="(item.status_id === 8) ? 'ended_auc' : 'main_text'">
+                                <p>รายละเอียด :</p>
+                            </div>
+                            <div class="col text-end p-0 m-0">
+                                <p>{{item.issue_description}}</p>
+                            </div>
+                        </div>
+
+                        <div class="row" *ngIf="item.status_id != 8">
+                            <div class="col-3 p-0 m-0">
+                                <img class="" src="" alt="" style="width: 16px;">
+                                <span class="ms-2" style="color: rgba(31, 47, 116, 1);">อาคาร :</span>
+                            </div>
+                            <div class="col text-end p-0 m-0">
+                                <p>{{item.Renter.Room.Building.building_name}}</p>
+                            </div>
+                        </div>
+
+
+                        <div class="row" *ngIf="item.status_id != 8">
+                            <div class="col-3 p-0 m-0">
+                                <img class="" src="" alt="" style="width: 16px;">
+                                <span class="ms-2" style="color: rgba(31, 47, 116, 1);">ชั้น :</span>
+                            </div>
+                            <div class="col text-end p-0 m-0">
+                                <p>{{'ชั้น'}} {{item.Renter.Room.floor}}</p>
+                            </div>
+                        </div>
+
+
+                        <div class="row" *ngIf="item.status_id != 8">
+                            <div class="col-3 p-0 m-0">
+                                <img class="" src="" alt="" style="width: 16px;">
+                                <span class="ms-2" style="color: rgba(31, 47, 116, 1);">บ้านเลขที่ :</span>
+                            </div>
+                            <div class="col text-end p-0 m-0">
+                                <p>{{item.date_etd | date : 'dd/MM/yyyy'}} {{item.Renter.Room.room_number}}</p>
+                            </div>
+                        </div>
+
+                        <div class="row mt-3">
+                            <div class="col-3 p-0 m-0" [ngClass]="(item.status_id === 8) ? 'ended_auc' : 'main_text'">
+                                <p>ผู้แจ้ง : </p>
+                            </div>
+                            <div class="col text-end p-0 m-0">
+                                <p>{{item.Renter.prefix}}{{item.Renter.first_name}} {{item.Renter.last_name}}</p>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col p-0 m-0" [ngClass]="(item.status_id === 8) ? 'ended_auc' : 'main_text'">
+                                <p>วันที่แจ้ง:</p>
+                            </div>
+                            <div class="col text-end p-0 m-0">
+                                <p>{{item.created_at}} {{item.time_ecot}}</p>
+                            </div>
+                        </div>
+
+                        <div class="divider"></div>
+
+                        <div class="row">
+                            <div class="col p-0 m-0">
+                                <p
+                                    style="color: rgba(180, 180, 180, 1); font-weight: 300; margin-bottom: 0 !important;">
+                                    last updated <span class="ms-1"
+                                        style="color: rgba(180, 180, 180, 1); font-weight: 300;">{{item.date_update |
+                                        date : 'dd/MM/yyyy'}} {{item.time_update}}</span></p>
+
+                            </div>
+                            <div class="col-4 text-end p-0 m-0">
+                                <span role="button" class="details-button"
+                                    style="margin-bottom: 0 !important; font-weight: 500;">
+                                    รายละเอียดเพิ่มเติม <span class="ms-3" style="font-size: 20px;">></span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </ng-container>
+
+    <!-- Tab Completed -->
+    <ng-container *ngIf="tab == 'final'">
+        <div class="row">
+            <div class="col-md-12 col-lg-6 col-xl-4 mb-sm-3 mb-md-3 mb-lg-3"
+                *ngFor="let item of data_final | paginate: { itemsPerPage: 6, currentPage: page };">
+                <div class="card mb-2" style="border-radius: 16px;">
+                    <div class="card-body" style="padding: 8px !important;">
+                        <div class="row">
+                            <div class="col p-0 d-flex align-items-center" *ngIf="item.type_repair_id == 1">
+                                <img src="assets/system_icons/icon-repair-electricity.png" alt="" style="width: 48px;">
+                                <span class="ms-2" style="font-weight: 500; font-size: 20px;">{{'งานไฟฟ้า'}}</span>
+                            </div>
+                            <div class="col p-0 d-flex align-items-center" *ngIf="item.type_repair_id == 2">
+                                <img src="assets/system_icons/icon-repair-plumbing.png" alt="" style="width: 48px;">
+                                <span class="ms-2" style="font-weight: 500; font-size: 20px;">{{'งานประปา'}}</span>
+                            </div>
+                            <div class="col p-0 d-flex align-items-center" *ngIf="item.type_repair_id == 3">
+                                <img src="assets/system_icons/icon-repair-air-conditioner.png" alt=""
+                                    style="width: 48px;">
+                                <span class="ms-2"
+                                    style="font-weight: 500; font-size: 20px;">{{'งานเครื่องปรับอากาศ'}}</span>
+                            </div>
+                            <div class="col p-0 d-flex align-items-center" *ngIf="item.type_repair_id == 4">
+                                <img src="assets/system_icons/icon-repair-other.png" alt="" style="width: 48px;">
+                                <span class="ms-2" style="font-weight: 500; font-size: 20px;">{{'งานอื่นๆ'}}</span>
+                            </div>
+
+                            <div class="col p-0 text-end">
+                                <span *ngIf="item.status == 'completed'" class="status-final">ดำเนินการเสร็จสิ้น</span>
+                            </div>
+                        </div>
+
+                        <div class="row mt-3">
+                            <div class="col p-0 m-0" [ngClass]="(item.status_id === 8) ? 'ended_auc' : 'main_text'">
+                                <p>หัวข้อ :</p>
+                            </div>
+                            <div class="col text-end p-0 m-0">
+                                <p>{{item.issue_title}}</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col p-0 m-0" [ngClass]="(item.status_id === 8) ? 'ended_auc' : 'main_text'">
+                                <p>รายละเอียด :</p>
+                            </div>
+                            <div class="col text-end p-0 m-0">
+                                <p>{{item.issue_description}}</p>
+                            </div>
+                        </div>
+
+                        <div class="row" *ngIf="item.status_id != 8">
+                            <div class="col-3 p-0 m-0">
+                                <img class="" src="" alt="" style="width: 16px;">
+                                <span class="ms-2" style="color: rgba(31, 47, 116, 1);">อาคาร :</span>
+                            </div>
+                            <div class="col text-end p-0 m-0">
+                                <p>{{item.Renter.Room.Building.building_name}}</p>
+                            </div>
+                        </div>
+
+
+                        <div class="row" *ngIf="item.status_id != 8">
+                            <div class="col-3 p-0 m-0">
+                                <img class="" src="" alt="" style="width: 16px;">
+                                <span class="ms-2" style="color: rgba(31, 47, 116, 1);">ชั้น :</span>
+                            </div>
+                            <div class="col text-end p-0 m-0">
+                                <p>{{'ชั้น'}} {{item.Renter.Room.floor}}</p>
+                            </div>
+                        </div>
+
+
+                        <div class="row" *ngIf="item.status_id != 8">
+                            <div class="col-3 p-0 m-0">
+                                <img class="" src="" alt="" style="width: 16px;">
+                                <span class="ms-2" style="color: rgba(31, 47, 116, 1);">บ้านเลขที่ :</span>
+                            </div>
+                            <div class="col text-end p-0 m-0">
+                                <p>{{item.date_etd | date : 'dd/MM/yyyy'}} {{item.Renter.Room.room_number}}</p>
+                            </div>
+                        </div>
+
+                        <div class="row mt-3">
+                            <div class="col-3 p-0 m-0" [ngClass]="(item.status_id === 8) ? 'ended_auc' : 'main_text'">
+                                <p>ผู้แจ้ง : </p>
+                            </div>
+                            <div class="col text-end p-0 m-0">
+                                <p>{{item.Renter.prefix}}{{item.Renter.first_name}} {{item.Renter.last_name}}</p>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col p-0 m-0" [ngClass]="(item.status_id === 8) ? 'ended_auc' : 'main_text'">
+                                <p>วันที่แจ้ง:</p>
+                            </div>
+                            <div class="col text-end p-0 m-0">
+                                <p>{{item.created_at}} {{item.time_ecot}}</p>
+                            </div>
+                        </div>
+
+                        <div class="divider"></div>
+
+                        <div class="row">
+                            <div class="col p-0 m-0">
+                                <p
+                                    style="color: rgba(180, 180, 180, 1); font-weight: 300; margin-bottom: 0 !important;">
+                                    last updated <span class="ms-1"
+                                        style="color: rgba(180, 180, 180, 1); font-weight: 300;">{{item.date_update |
+                                        date : 'dd/MM/yyyy'}} {{item.time_update}}</span></p>
+
+                            </div>
+                            <div class="col-4 text-end p-0 m-0">
+                                <span role="button" class="details-button"
+                                    style="margin-bottom: 0 !important; font-weight: 500;">
+                                    รายละเอียดเพิ่มเติม <span class="ms-3" style="font-size: 20px;">></span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </ng-container>
+
+</div>
+
+<div class="row text-center">
+    <div class="col-10  mt-3">
+        <pagination-controls (pageChange)="page = $event" previousLabel="" nextLabel=""></pagination-controls>
+    </div>
+</div>

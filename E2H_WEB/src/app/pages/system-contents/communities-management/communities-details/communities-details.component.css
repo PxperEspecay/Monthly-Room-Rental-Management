@@ -1,0 +1,11 @@
+.bg-tab {
+    height: 80px;
+    background-image: linear-gradient(#009d9d, #006666);
+    color: #ffffff;
+  }
+
+.bg-img {
+    position: absolute !important;
+    width: 35% !important;
+    height: 80px !important;
+}

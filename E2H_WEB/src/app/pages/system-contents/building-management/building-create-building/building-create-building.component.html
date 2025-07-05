@@ -1,0 +1,176 @@
+<div class="row">
+    <div class="col mt-2">
+        <button class="p-0 btn-icon-view shadow-sm" (click)="BackTo()">
+            <img src="assets/system_icons/back.png" alt="" />
+        </button>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xl-6 col-lg-4 col-md-4 col-4 mt-2">
+        <p class="head-title">เพิ่มข้อมูลอาคารใหม่</p>
+    </div>
+</div>
+
+<div class="row d-flex justify-content-between m-0 p-0">
+    <div class="col">
+
+        <div class="card" style="border-radius: 16px;">
+            <div class="card-body p-5">
+
+                <div class="row p-0">
+                    <div class="col-12">
+                       
+                        <div class="row">
+                            <div class="col-xl-12 d-flex align-items-center mb-3">
+                                <label class="number-icon me-3">1</label>
+                                <label>รายละเอียดอาคาร</label>
+                            </div>
+                            <div class="col-6 mb-3">
+                                <label for="" class="mb-2 f-b">ชื่ออาคาร</label>
+                                <input type="text" class="form-control rounded-3" placeholder="ชื่ออาคาร" name="name"
+                                    ngDefaultControl [(ngModel)]="body_CreateNewBuilding.building_name"/>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-6 mb-3">
+                                <label for="" class="mb-2 f-b">จำนวนชั้นทั้งหมด</label>
+                                <input type="text" class="form-control rounded-3" placeholder="จำนวนชั้นทั้งหมด" name="name"
+                                    ngDefaultControl [(ngModel)]="body_CreateNewBuilding.floors"/>
+                            </div>
+                        </div>
+
+                        <!-- รูปภาพที่ 1 -->
+                        <ng-container>
+
+                            <div class="row">
+                                <div class="col-12 d-flex flex-column mt-3">
+                                    <label for="" class="f-b mb-2" style="color: #000">รูปภาพ</label>
+                                    <div class="row">
+                                        <div class="col p-0 d-flex align-items-center">
+                                            <ul>
+                                                <li class="f-b" style="color: #000">แนบไฟล์</li>
+                                            </ul>
+                                        </div>
+                                        <div class="col-2 p-0 d-flex align-items-center justify-content-end">
+                                            <label for="select-img" style="cursor: pointer">
+                                                <span class="material-icons plus-icon" for="select-img">
+                                                    add
+                                                </span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <br />
+                                    <!-- <input type="file" name="" id="" id="select-img" name="select-img" hidden multiple
+                                        (change)="uploadImages($any($event.target).files)" /> -->
+                                    <input id="select-img" type="file" style="display: none" name="img_commu1"
+                                        accept="image/jpg, image/png, image/jpeg" (change)="SelectImageCommu1($event)" />
+    
+                                </div>
+                            </div>
+    
+                            <div class="row">
+                                <div class="col d-flex justify-content-between">
+    
+                                    <div *ngIf="fileInfo1" class="m-0 p-0 align-items-center" style="position: relative !important">
+                                        <img *ngIf="preview1" class="circle-photo me-3 mb-3"
+                                            style="height: 150px !important; width: 300px !important; border-radius: 8px;"
+                                            [src]="preview1" alt="Preview" />
+                                        <span>{{ fileInfo1.name }}</span> <!-- File name -->
+                                        
+                                    </div>
+    
+                                    <!-- Section to display file details and remove option -->
+                                    <div *ngIf="fileInfo1" class="m-0 p-0 d-flex justify-content-between align-items-center">
+                                        <div class="m-0 p-0 d-flex align-items-center text-end">
+                                            <span style="color: #989898;">{{ showMegaByte(fileInfo1.size) }} MB</span>
+                                            <!-- File size in MB -->
+                                            <span class="material-icons fs-5 ps-3" role="button" (click)="DeleteImageCommu1()"
+                                                style="color: red;">
+                                                close
+                                            </span> <!-- Remove icon -->
+                                        </div>
+                                    </div>
+    
+                                    
+    
+                                </div>
+                            </div>
+    
+
+                        </ng-container>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="row">
+    <div class="col my-3">
+        <div class="card" style="border-radius: 16px;">
+            <div class="card-body p-5">
+                <ng-container *ngFor="let df of new_room; let i = index; let last = last">
+                    <div class="row pt-2">
+                        <div class="col">
+
+                            <div class="row">
+
+                                <div class="col-xl-12 d-flex align-items-center mb-3">
+                                    <label class="number-icon me-3">2</label>
+                                    <label>ข้อมูลห้องพัก</label>
+                                </div>
+                                
+                                <div class="col-4">
+                                    <label for="" class="mb-2 f-b">เลขห้อง / บ้านเลขที่</label>
+                                    <input type="text" class="form-control rounded-3" placeholder="เลขห้อง / บ้านเลขที่"
+                                        name="name" ngDefaultControl [(ngModel)]="df.room_number" />
+                                </div>
+
+                                <div class="col-4">
+                                    <label for="" class="mb-2 f-b">ชั้นที่</label>
+                                    <input type="text" class="form-control rounded-3" placeholder="ชั้นที่"
+                                        name="name" ngDefaultControl [(ngModel)]="df.floor" />
+                                </div>
+                                
+                               
+                                <div class="col-2 d-flex align-items-end">
+                                    <button *ngIf="!last" class="btn add-remove-btn"
+                                        (click)="toggleButton(i, df.room_id)">
+                                        <span class="material-icons"> remove </span>
+                                    </button>
+                                    <ng-container class="m-0 p-0" *ngIf="last">
+                                        <button class="btn add-remove-btn" (click)="toggleButton(i, df.room_id)">
+                                            <span class="material-icons"> remove </span>
+                                        </button>
+                                        <button class="btn add-remove-btn" (click)="addNewDayOff()">
+                                            <span class="material-icons"> add </span>
+                                        </button>
+                                    </ng-container>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </ng-container>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col text-end my-3">
+        <button class="col-xl-2 col-lg-2 col-md-2 col-2 btn btn-cancel me-2" mat-button color="primary" (click)="BackTo()">
+            ยกเลิก
+        </button>
+        <button class="col-xl-2 col-lg-2 col-md-2 col-2 btn btn-submit ms-2" mat-button color="primary" (click)="CreateNewBuilding()">
+            บันทึก
+        </button>
+    </div>
+</div>
+    
+

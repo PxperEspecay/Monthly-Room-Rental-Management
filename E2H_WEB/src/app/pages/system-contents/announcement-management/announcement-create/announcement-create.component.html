@@ -1,0 +1,446 @@
+<div class="row">
+    <div class="col mt-2 d-flex">
+        <button class="p-0 btn-icon-view shadow-sm" (click)="BackTo()">
+            <img src="assets/system_icons/back.png" alt="" />
+        </button>
+
+        <div class="col-xl-6 col-lg-4 col-md-4 col-4 mt-2 ms-3">
+            <p class="head-title">เพิ่มประกาศใหม่</p>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-3">
+    <div class="col">
+        <div class="card" style="border-radius: 16px;">
+            <div class="card-body p-5">
+
+                <div class="row d-flex justify-content-center">
+
+                    <div class="col-xl-12 d-flex align-items-center mb-3">
+                        <label class="number-icon me-3">1</label>
+                        <label>เลือกประเภท</label>
+                    </div>
+
+                    <div class="col-8 d-flex flex-column">
+                        <label class="f-b mb-2">ประเภท</label>
+                        <ul class="nav nav-pills mb-4" id="pills-tab" role="tablist">
+                            <li class="col nav-item" role="presentation">
+                                <button ngDefaultControl class="nav-link w-100" id="" data-bs-toggle="pill"
+                                    type="button" name="General" aria-selected="true"
+                                    (click)="body.announcement_type = 'G'"
+                                    [class.active]="body.announcement_type == 'G'" [(ngModel)]="body.announcement_type">
+                                    ประกาศทั่วไป
+                                </button>
+                            </li>
+                            <li class="col nav-item ps-2" role="presentation">
+                                <button ngDefaultControl class="nav-link w-100" id="" data-bs-toggle="pill"
+                                    type="button" name="Important" aria-selected="false"
+                                    (click)="body.announcement_type = 'I'"
+                                    [class.active]="body.announcement_type == 'I'" [(ngModel)]="body.announcement_type">
+                                    ประกาศสำคัญ
+                                </button>
+                            </li>
+                        </ul>
+
+                    </div>
+
+                    <!-- <div class="col-4">
+                     
+                       
+                       
+                    </div> -->
+
+
+
+                </div>
+
+                <div class="row d-flex justify-content-center">
+
+                    <div class="col-xl-12 d-flex align-items-center mb-3">
+                        <label class="number-icon me-3">2</label>
+                        <label>ลงรายละเอียดประกาศ</label>
+                    </div>
+
+                    <!-- รูปภาพแบรนด์เนอร์ที่ 1 -->
+                    <ng-container>
+
+                        <div class="col-8 d-flex flex-column mt-3">
+                            <label for="" class="f-b mb-2" style="color: #000">รูปภาพแบรนด์เนอร์</label>
+                            <div class="row">
+                                <div class="col p-0 d-flex align-items-center">
+                                    <ul>
+                                        <li class="f-b" style="color: #000">แนบไฟล์</li>
+                                    </ul>
+                                </div>
+                                <div class="col-2 p-0 d-flex align-items-center justify-content-end">
+                                    <label for="select-img-banner" style="cursor: pointer">
+                                        <span class="material-icons plus-icon" for="select-img-banner">
+                                            add
+                                        </span>
+                                    </label>
+                                </div>
+                            </div>
+                            <br />
+                            <!-- <input type="file" name="" id="" id="select-img-banner" name="select-img-banner" hidden multiple
+                                        (change)="uploadImages($any($event.target).files)" /> -->
+                            <input id="select-img-banner" type="file" style="display: none" name="img_announce_banner"
+                                accept="image/jpg, image/png, image/jpeg" (change)="SelectImageBanner($event)" />
+
+                        </div>
+
+                        <div class="col-8 d-flex justify-content-between">
+
+                            <div *ngIf="fileInfo_banner" class="m-0 p-0 align-items-center"
+                                style="position: relative !important">
+                                <img *ngIf="preview_banner" class="circle-photo me-3 mb-3"
+                                    style="height: 150px !important; width: 300px !important; border-radius: 8px;"
+                                    [src]="preview_banner" alt="Preview" />
+                                <span>{{ fileInfo_banner.name }}</span> <!-- File name -->
+
+                            </div>
+
+                            <!-- Section to display file details and remove option -->
+                            <div *ngIf="fileInfo_banner"
+                                class="m-0 p-0 d-flex justify-content-between align-items-center">
+                                <div class="m-0 p-0 d-flex align-items-center text-end">
+                                    <span style="color: #989898;">{{ showMegaByte(fileInfo_banner.size) }}
+                                        MB</span>
+                                    <!-- File size in MB -->
+                                    <span class="material-icons fs-5 ps-3" role="button" (click)="DeleteImageBanner()"
+                                        style="color: red;">
+                                        close
+                                    </span> <!-- Remove icon -->
+                                </div>
+                            </div>
+
+
+
+                        </div>
+
+
+                    </ng-container>
+
+                    <div class="col-8 d-flex flex-column mb-3">
+                        <label class="f-b mb-2" for="">หัวข้อประกาศ :</label>
+                        <input type="text" class="form-control rounded-3" placeholder="หัวข้อประกาศ :"
+                            [(ngModel)]="body.title_announcement" />
+                    </div>
+
+                    <div class="col-8 d-flex flex-column mb-3">
+                        <label class="f-b mb-2" for="">เนื้อหาประกาศ :</label>
+                        <textarea type="text" class="form-control rounded-3" placeholder="เนื้อหาประกาศ :"
+                            style="height: 200px;" [(ngModel)]="body.body_announcement"></textarea>
+                    </div>
+
+                    <!-- รูปภาพที่เกี่ยวข้องกับประกาศ -->
+                    <ng-container>
+
+                        <div class="col-8 d-flex flex-column mt-3">
+                            <label for="" class="f-b mb-2" style="color: #000">รูปภาพ</label>
+                            <div class="row">
+                                <div class="col p-0 d-flex align-items-center">
+                                    <ul>
+                                        <li class="f-b" style="color: #000">แนบไฟล์</li>
+                                    </ul>
+                                </div>
+                                <div class="col-2 p-0 d-flex align-items-center justify-content-end">
+                                    <label for="select-img" style="cursor: pointer">
+                                        <span class="material-icons plus-icon" for="select-img">
+                                            add
+                                        </span>
+                                    </label>
+                                </div>
+                            </div>
+                            <br />
+                            <!-- <input type="file" name="" id="" id="select-img" name="select-img" hidden multiple
+                                                (change)="uploadImages($any($event.target).files)" /> -->
+                            <input id="select-img" type="file" style="display: none" name="img_announce"
+                                accept="image/jpg, image/png, image/jpeg" (change)="SelectImageAnnouncement($event)" />
+
+                        </div>
+
+                        <div class="col-8 d-flex justify-content-between">
+
+                            <div *ngIf="fileInfo1" class="m-0 p-0 align-items-center"
+                                style="position: relative !important">
+                                <img *ngIf="preview1" class="circle-photo me-3 mb-3"
+                                    style="height: 150px !important; width: 300px !important; border-radius: 8px;"
+                                    [src]="preview1" alt="Preview" />
+                                <span>{{ fileInfo1.name }}</span> <!-- File name -->
+
+                            </div>
+
+                            <!-- Section to display file details and remove option -->
+                            <div *ngIf="fileInfo1" class="m-0 p-0 d-flex justify-content-between align-items-center">
+                                <div class="m-0 p-0 d-flex align-items-center text-end">
+                                    <span style="color: #989898;">{{ showMegaByte(fileInfo1.size) }} MB</span>
+                                    <!-- File size in MB -->
+                                    <span class="material-icons fs-5 ps-3" role="button"
+                                        (click)="DeleteImageAnnouncement()" style="color: red;">
+                                        close
+                                    </span> <!-- Remove icon -->
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </ng-container>
+
+                    <!-- <div class="col-xl-8 d-flex flex-column mt-3" style="height: 40px;">
+                            <label class="f-b">อัพโหลดเอกสารที่เกี่ยวข้อง</label>
+                            <div class="row">
+                                <div class="col p-0 d-flex align-items-center">
+                                    <ul>
+                                        <li>
+                                            <label for="" class="f-b pb-4" style="color: #000">แนบไฟล์</label>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            
+                            <div class="col-2 p-0 d-flex align-items-center justify-content-end">
+                                <label for="select-documents" style="cursor: pointer">
+                                    <div class="border-select-documents text-center">
+                                        <mat-icon role="button" class="fs-4 rounded-2"
+                                            style="color: #171717; background-color: #f2f2f2">
+                                            add
+                                        </mat-icon>
+                                    </div>
+                                </label>
+                                <input id="select-documents" type="file" style="display: none" name="file_contract"
+                                    accept="application/pdf" (change)="UploadFile($event)" />
+                            </div>
+                        </div> -->
+
+                        <!-- อัปโหลดเอกสาร -->
+                        <ng-container>
+
+                            <div class="col-8 d-flex flex-column mt-3">
+                                <label for="" class="f-b mb-2" style="color: #000">อัปโหลดเอกสารที่เกี่ยวข้อง</label>
+                                <div class="row">
+                                    <div class="col p-0 d-flex align-items-center">
+                                        <ul>
+                                            <li class="f-b" style="color: #000">แนบไฟล์</li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-2 p-0 d-flex align-items-center justify-content-end">
+                                        <label for="select-documents" style="cursor: pointer">
+                                            <span class="material-icons plus-icon" for="select-documents">
+                                                add
+                                            </span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <br />
+                                <!-- <input type="file" name="" id="" id="select-img" name="select-img" hidden multiple
+                                                    (change)="uploadImages($any($event.target).files)" /> -->
+                                                    <input id="select-documents" type="file" style="display: none" name="file_contract"
+                                                    accept="application/pdf" (change)="UploadFile($event)" />
+    
+                            </div>
+    
+                            <div class="col-8 d-flex justify-content-between">
+    
+                                <div *ngIf="fileInfo_pdf" class="m-0 p-0 align-items-center"
+                                    style="position: relative !important">
+                                    <img class="circle-photo me-3 mb-3"
+                                        style="height: 30px !important; width: 30px !important; border-radius: 8px;"
+                                        [src]="preview_file" alt="Preview" />
+                                    <span>{{ fileInfo_pdf.name }}</span> <!-- File name -->
+    
+                                </div>
+    
+                                <!-- Section to display file details and remove option -->
+                                <div *ngIf="fileInfo_pdf"
+                                    class="m-0 p-0 d-flex justify-content-between align-items-center">
+                                    <div class="m-0 p-0 d-flex align-items-center text-end">
+                                        <span style="color: #989898;">{{ showMegaByte(fileInfo_pdf.size) }}
+                                            MB</span>
+                                        <!-- File size in MB -->
+                                        <span class="material-icons fs-5 ps-3" role="button"
+                                            (click)="DeleteFileAnnouncement()" style="color: red;">
+                                            close
+                                        </span> <!-- Remove icon -->
+                                    </div>
+                                </div>
+    
+                            </div>
+
+                        </ng-container>
+
+                   
+
+
+                        <div class="row d-flex justify-content-center">
+
+                            <div class="col-xl-12 d-flex align-items-center mb-3">
+                                <label class="number-icon me-3">3</label>
+                                <label>เลือกผู้รับประกาศ</label>
+                            </div>
+                            
+
+                            <!-- <ng-container *ngIf="this.admin_data.role === 'admin' ">
+                                <div class="row mt-3">
+                                    <div class="col">
+                                        <label class="f-b mb-2">กลุ่มเป้าหมาย</label>
+                                        <ul class="nav nav-pills mb-4" id="pills-tab" role="tablist">
+                                            <li class="col nav-item" role="presentation">
+                                                <button ngDefaultControl class="nav-link w-100" id=""
+                                                    data-bs-toggle="pill" type="button" name="General"
+                                                    aria-selected="true" (click)="CheckAllMasterRenter()"
+                                                    [class.active]="target_type == 'A'" [(ngModel)]="ckecked_all">
+                                                    ประกาศทั้งหมด
+                                                </button>
+                                            </li>
+                                            <li class="col nav-item ps-2" role="presentation">
+                                                <button ngDefaultControl class="nav-link w-100" id=""
+                                                    data-bs-toggle="pill" type="button" name="Important"
+                                                    aria-selected="false" (click)="target_type = 'S'"
+                                                    [class.active]="target_type == 'S'" >
+                                                    ประกาศเฉพาะ 
+                                                </button>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </ng-container> -->
+
+                            <ng-container *ngIf="this.admin_data.role === 'super admin' ">
+                                <div class="row mt-3 d-flex justify-content-end">
+                                    <!-- เลือกสถานที่ -->
+                                    <div class="col-2 d-flex flex-column mb-3 align-bottom">
+                                        <label class="f-b mb-2" for="">เลือกสถานที่</label>
+                                        <select class="form-select rounded-3" [(ngModel)]="this.admin_data.location"
+                                            (change)="GetMasterBuilding(); GetMasterRenterList()">
+                                            <option selected disabled hidden value="">เลือก</option>
+                                            <option *ngFor="let i of location_list" [value]="i.id">
+                                                {{ i.location_name }}
+                                            </option>
+                                        </select>
+                                    </div>
+
+                                    <!-- เลือกอาคาร -->
+                                    <div class="col-2 d-flex flex-column mb-3 align-bottom">
+                                        <label class="f-b mb-2" for="">เลือกอาคาร</label>
+                                        <select class="form-select rounded-3" [(ngModel)]="this.building_id"
+                                            (change)="GetMasterRenterList()">
+                                            <option [value]="0">เลือกทั้งหมด</option>
+                                            <option *ngFor="let i of building_list" [value]="i.id">
+                                                {{ i.building_name }}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </ng-container>
+
+
+
+
+                            <ng-container>
+
+                                <ng-container *ngIf="this.admin_data.role === 'admin' ">
+                                    <div class="row mt-3 d-flex justify-content-center">
+                                        <!-- <div class="col-2 d-flex flex-column mb-3 align-bottom">
+                                            <label class="f-b mb-2" for="">เลือกสถานที่</label>
+                                            <select class="form-select rounded-3" [(ngModel)]="this.admin_data.location" (change)="GetMasterBuilding()" (change)="GetMasterRenterList()">
+                                                <option selected disabled hidden value="">เลือก</option>
+                                                <option *ngFor="let i of location_list" [value]="i.id">
+                                                    {{ i.location_name }}
+                                                </option>
+                                            </select>
+                                        </div> -->
+
+                                        <div class="col-8 justify-content-end">
+                                            <div class="col-3 d-flex flex-column mb-3 align-bottom">
+                                                <label class="f-b mb-2" for="">เลือกอาคาร</label>
+                                                <select class="form-select rounded-3" [(ngModel)]="this.building_id"
+                                                    (change)="GetMasterRenterList()">
+                                                    <option [value]="0">เลือกทั้งหมด</option>
+                                                    <option *ngFor="let i of building_list" [value]="i.id">
+                                                        {{ i.building_name }}
+                                                    </option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <!-- <div class="col-2 d-flex flex-column mb-3 align-bottom">
+                                            <label class="f-b mb-2" for="">เลือกอาคาร</label>
+                                            <select class="form-select rounded-3" [(ngModel)]="this.building_id"
+                                                (change)="GetMasterRenterList()">
+                                                <option [value]="0">เลือกทั้งหมด</option>
+                                                <option *ngFor="let i of building_list" [value]="i.id">
+                                                    {{ i.building_name }}
+                                                </option>
+                                            </select>
+                                        </div> -->
+                                    </div>
+                                </ng-container>
+
+                                <div class="row d-flex justify-content-center">
+                                    <div class="col-8 d-flex justify-content-between">
+
+                                        <table class="table body-table table-responsive table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th><input [(ngModel)]="ckecked_all" type="checkbox"
+                                                            (click)="CheckAllMasterRenter()"
+                                                            style="cursor: pointer;"><span
+                                                            class="ms-2 ">เลือกทั้งหมด</span></th>
+                                                    <th>ชื่อผู้เช่า</th>
+                                                    <th>อาคาร</th>
+                                                    <th>เลขที่ห้อง</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody *ngIf="master_renter_list.length > 0; else NoData">
+                                                <tr *ngFor="let renter of master_renter_list">
+                                                    <td><input [(ngModel)]="renter.checked" type="checkbox"
+                                                            (click)="HandleMasterRenter(renter)"
+                                                            style="cursor: pointer;" /></td>
+                                                    <td>{{renter.full_name}}</td>
+                                                    <td>{{renter.building.building_name}}</td>
+                                                    <td>{{renter.room.room_number}}</td>
+                                                </tr>
+
+                                            </tbody>
+
+
+                                        </table>
+
+                                    </div>
+
+                                </div>
+                                <ng-template #NoData>
+                                    <div class="row">
+                                        <div class="col text-center d-flex justify-content-center">
+                                            ไม่พบข้อมูลผู้เช่า</div>
+                                    </div>
+                                </ng-template>
+
+
+
+                            </ng-container>
+
+
+
+
+                            <div class="row d-flex justify-content-center mt-5">
+                                <div class="col-6 ">
+                                    <div class="">
+                                        <button class="btn btn-submited"
+                                            (click)="SubmitCreateAnnouncement()">ส่งประกาศ</button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+
+                        </div>
+                </div>
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+

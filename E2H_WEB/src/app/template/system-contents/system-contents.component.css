@@ -1,0 +1,390 @@
+/* Custom CSS for sidenav */
+/* 
+#006666 เขียว
+#7A7A7A เทา
+#212529 เมนูนี้
+#FF96FD ชมพู
+#D477D2 ชมพู hover
+*/
+
+/* New sidebar */
+
+.content-side {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow-y: scroll;
+  height: 100%;
+}
+
+.side-color {
+  background-color: #ffffff !important;
+}
+
+.logo-l {
+  width: 100px;
+}
+
+.logo-s {
+  width: 100%;
+}
+.accordion {
+  font-size: 18px !important;
+  padding: 0 !important;
+}
+
+.accordion-button {
+  font-size: 18px;
+  padding: 10px 5px 10px 5px !important;
+  background-color: #a93824b2 !important;
+  box-shadow: none !important;
+  color: #ffffff !important;
+  border-radius: 0 !important;
+}
+
+.accordion-item {
+  border: none !important;
+  border-radius: 0 !important;
+}
+
+.accordion-body {
+  padding: 0 !important;
+  background-color: #a93824b2 !important;
+}
+
+.accordion-item h2 {
+  margin: 0 !important;
+}
+
+.accordion-button:after {
+  background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23ffffff'><path fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/></svg>") !important;
+}
+
+.accordion-collapse {
+  border-radius: 0px !important;
+}
+.button-icon {
+  font-size: 16px;
+  padding: 15px !important;
+  background-color: #ffffff !important;
+  box-shadow: none !important;
+  color: #303030 !important;
+  width: 100%;
+  border: none;
+  border-radius: 0;
+}
+
+.button-icon:hover {
+  color: #006666 !important;
+}
+
+.button-icon:active {
+  color: #24449b !important;
+}
+.active-menu {
+  background-color: #24449b33 !important;
+  height: 48px !important;
+  width: 48px !important;
+  border-radius: 10px !important ;
+  filter: brightness(0) saturate(100%) invert(51%) sepia(40%) saturate(308%) hue-rotate(132deg) brightness(99%) contrast(91%) !important;
+}
+
+
+
+.active-menu :hover {
+  filter: brightness(0) saturate(100%) invert(51%) sepia(40%) saturate(308%) hue-rotate(132deg) brightness(99%) contrast(91%) !important;
+}
+
+.active-menu-text {
+  font-weight: 500 !important;
+  color: #006666 !important;
+}
+
+/* content */
+.breadcrum-text {
+  color: #cb543c;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.circle-photo {
+  height: 50px;
+  width: 50px;
+  border: 3px solid #fba1c1;
+  border-radius: 50% !important;
+}
+
+.circle-photo-border {
+  position: relative;
+  height: 46px;
+  width: 46px;
+  border: 3px solid #fba1c1;
+  border-radius: 50% !important;
+}
+.content-data {
+  height: 90vh;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+/* .dropdown-box {
+  background-color: rgba(255, 255, 255, 1);
+  width: 400px;
+  height: 305px;
+  position: absolute;
+  border-radius: 8px;
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+  margin-top: 350px;
+  margin-right: 0px;
+  z-index: 1000;
+} */
+
+.notification-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  border-bottom: 1px solid #f0f0f0;
+  
+  h3 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 500;
+  }
+  
+  .mark-all-read {
+    background: none;
+    border: none;
+    color: #2196f3;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 500;
+    
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+.notification-list {
+  flex: 1;
+  overflow-y: auto;
+  max-height: 300px;
+}
+
+.notification-content {
+  flex: 1;
+}
+
+.notification-title {
+  font-weight: 500;
+  font-size: 14px;
+  margin-bottom: 4px;
+}
+
+.notification-message {
+  font-size: 16px
+}
+
+.notification-system {
+  position: relative;
+}
+
+/* ปุ่มไอคอนแจ้งเตือน */
+.btn-icon-view {
+  background: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.btn-icon-view:hover {
+  background: #f0f0f0;
+  transform: scale(1.05);
+}
+
+/* แบดจ์จำนวนการแจ้งเตือนที่ยังไม่ได้อ่าน */
+.notification-badge {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background-color: #f44336;
+  color: white;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  font-size: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+}
+
+/* กล่องแสดงการแจ้งเตือน */
+.dropdown-box {
+  position: absolute;
+  top: 55px;
+  right: 25;
+  width: 320px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+  overflow: hidden;
+}
+
+/* ส่วนหัวของการแจ้งเตือน */
+.notification-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  border-bottom: 1px solid #e8e8e8;
+  background-color: #f8f9fa;
+}
+
+.notification-header h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 500;
+  color: #333;
+}
+
+.mark-all-read {
+  background: none;
+  border: none;
+  color: #1976d2;
+  font-size: 14px;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+
+.mark-all-read:hover {
+  background-color: rgba(25, 118, 210, 0.08);
+}
+
+/* รายการแจ้งเตือน */
+.notification-list {
+  max-height: 360px;
+  overflow-y: auto;
+}
+
+.notification-item {
+  display: flex;
+  padding: 12px 16px;
+  border-bottom: 1px solid #f0f0f0;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.notification-item:hover {
+  background-color: #f5f5f5;
+}
+
+.notification-item.unread {
+  background-color: #e8f4fd;
+}
+
+.notification-item.unread:hover {
+  background-color: #d1e9fc;
+}
+
+/* ไอคอนแจ้งเตือน */
+.notification-icon {
+  margin-right: 12px;
+  display: flex;
+  align-items: flex-start;
+}
+
+.notification-icon mat-icon {
+  width: 24px;
+  height: 24px;
+  font-size: 24px;
+}
+
+/* สีไอคอนตามประเภทการแจ้งเตือน */
+.notification-type-repair .notification-icon mat-icon {
+  color: #ff9800;
+}
+
+.notification-type-bill .notification-icon mat-icon {
+  color: #4caf50;
+}
+
+.notification-type-announcement .notification-icon mat-icon {
+  color: #2196f3;
+}
+.notification-type-calendar .notification-icon mat-icon {
+  color: #006666;
+}
+
+/* เนื้อหาแจ้งเตือน */
+.notification-content {
+  flex: 1;
+}
+
+.notification-message {
+  color: #333;
+  font-size: 14px;
+  margin-bottom: 6px;
+  line-height: 1.4;
+}
+
+.notification-time {
+  color: #999;
+  font-size: 12px;
+}
+
+/* กรณีไม่มีการแจ้งเตือน */
+.empty-notifications {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 32px 16px;
+  color: #999;
+  font-size: 14px;
+}
+
+/* ส่วนท้ายของการแจ้งเตือน */
+.notification-footer {
+  padding: 10px 16px;
+  text-align: center;
+  border-top: 1px solid #e8e8e8;
+  background-color: #f8f9fa;
+}
+
+.notification-footer a {
+  color: #1976d2;
+  font-size: 14px;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.notification-footer a:hover {
+  text-decoration: underline;
+}
+
+/* สไตล์สำหรับ scrollbar */
+.notification-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.notification-list::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.notification-list::-webkit-scrollbar-thumb {
+  background: #bbb;
+  border-radius: 3px;
+}
+
+.notification-list::-webkit-scrollbar-thumb:hover {
+  background: #999;
+}

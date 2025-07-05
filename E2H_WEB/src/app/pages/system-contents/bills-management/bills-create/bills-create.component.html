@@ -1,0 +1,519 @@
+<div class="row mb-5 bg-tab d-flex align-items-center sticky-top">
+  <img class="bg-img p-0 m-0" src="assets/images/bg_head_dialog.png" alt="" />
+  <div class="col mt-3 ms-3 d-flex justify-content-between">
+    <h1 *ngIf="this.mode == 'edit'" class="fs-2">แก้ไข</h1>
+    <h1 *ngIf="this.mode === 'create'" class="fs-2">สร้างรายการแจ้งหนี้</h1>
+    <span class="material-icons" role="button" (click)="closeDialog()"> close </span>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col">
+    <div class="card">
+      <div class="card-body">
+
+        <div class="row d-flex justify-content-center">
+
+          <div class="col-xl-12 d-flex align-items-center mb-3">
+            <label class="number-icon me-3">1</label>
+            <label>เลือกประเภทบิล</label>
+          </div>
+
+          
+          <div class="col-8">
+            <label class="f-b mb-2" for="">เลือกประเภทบิล</label>
+            <select class="form-select rounded-3" [(ngModel)]="body_bill_type.bill_type_id">
+              <option selected disabled hidden value="">กรุณาเลือกประเภทบิล</option>
+              <option *ngFor="let i of master_bill_type" [value]="i.id">
+                {{ i.type_name }}
+              </option>
+            </select>
+          </div>
+
+          <div class="col-xl-12 d-flex align-items-center mb-3">
+            <label class="number-icon me-3">2</label>
+            <label>ผู้รับบิล</label>
+          </div>
+
+          <div class="col-3">
+            <label class="f-b mb-2" for="">อาคาร</label>
+            <ng-container *ngIf="this.mode === 'create' ">
+              <select class="form-select rounded-3" [(ngModel)]="building_id" (change)="GetUnavaliableRoomWithRenter()">
+                <!-- กำหนด option แรกเป็น placeholder โดยใช้ value เป็นค่าว่าง -->
+                <option value="" disabled>กรุณาเลือกประเภทอาคาร</option>
+                <option *ngFor="let i of building_list" [value]="i.id">
+                  {{ i.building_name }}
+                </option>
+              </select>
+            </ng-container>
+           
+
+            <ng-container *ngIf="this.mode === 'edit' ">
+              <ng-container *ngIf="body_bill_type?.Renter?.Room">
+                <select  class="form-select rounded-3" [(ngModel)]="body_bill_type.Renter.Room.building_id" (change)="GetUnavaliableRoomWithRenter()">
+                  <option value="" disabled>กรุณาเลือกประเภทอาคาร</option>
+                  <option *ngFor="let i of building_list" [value]="i.id">
+                    {{ i.building_name }}
+                  </option>
+                </select>
+              </ng-container>
+              
+            </ng-container>
+            
+          </div>
+
+
+          <div class="col-3">
+            <label class="f-b mb-2" for="">ห้อง</label>
+            <ng-container *ngIf="this.mode === 'create' ">
+              <select class="form-select rounded-3" [(ngModel)]="room_id"  (ngModelChange)="GetRenterByRoomID($event)">
+                <option selected disabled hidden value="">กรุณาเลือกห้อง</option>
+                <option *ngFor="let i of room_with_renter_list" [value]="i.id">
+                  {{ i.room_number }}
+                </option>
+              </select>
+            </ng-container>
+
+            <ng-container *ngIf="this.mode === 'edit' ">
+              <ng-container *ngIf="body_bill_type?.Renter?.Room">
+                <select class="form-select rounded-3" [(ngModel)]="body_bill_type.Renter.Room.id"  (ngModelChange)="GetRenterByRoomID($event)">
+                  <option selected disabled hidden value="">กรุณาเลือกห้อง</option>
+                  <option *ngFor="let i of room_with_renter_list" [value]="i.id">
+                    {{ i.room_number }}
+                  </option>
+                </select>
+              </ng-container>
+             
+            </ng-container>
+            
+          </div>
+
+          <div class="col-3">
+            <label class="f-b mb-2" for="">ผู้รับบิล</label>
+            <input type="text" class="form-control rounded-3" placeholder="ผู้รับบิล" [(ngModel)]="renterFullName"
+              readonly>
+          </div>
+
+
+
+          <ng-container *ngIf="body_bill_type.bill_type_id == 1 ">
+
+
+            <div class="col-xl-12 d-flex align-items-center my-3">
+              <label class="number-icon me-3">3</label>
+              <label>รายละเอียดบิล</label>
+            </div>
+
+            <div class="col-8 mt-1">
+
+              <ng-container *ngIf="this.mode === 'create' ">
+                <div class="col">
+                  <label class="f-b mb-2" for="">ค่าห้อง</label>
+                  <input type="text" class="form-control rounded-3" placeholder="ค่าเช่าต่อเดือน"
+                    [(ngModel)]="details_price.monthly_rental_price" readonly>
+                </div>
+  
+                <div class="col">
+                  <label class="f-b my-2" for="">ค่าขยะ</label>
+                  <input type="text" class="form-control rounded-3" placeholder="ค่าขยะ"
+                    [(ngModel)]="details_price.garbage_price" readonly>
+                </div>
+              </ng-container>
+
+              <ng-container *ngIf="this.mode === 'edit' ">
+                <div class="col">
+                  <label class="f-b mb-2" for="">ค่าห้อง</label>
+                  <input type="text" class="form-control rounded-3" placeholder="ค่าเช่าต่อเดือน"
+                    [(ngModel)]="body_bill_type.monthly_rental_price" readonly>
+                </div>
+  
+                <div class="col">
+                  <label class="f-b my-2" for="">ค่าขยะ</label>
+                  <input type="text" class="form-control rounded-3" placeholder="ค่าขยะ"
+                    [(ngModel)]="body_bill_type.garbage_price" readonly>
+                </div>
+              </ng-container>
+              
+
+              <div class="col d-flex justify-content-between">
+                <div class="col-5">
+                  <label class="f-b my-2" for="">บิลของเดือน</label>
+                  <select class="form-select rounded-3" [(ngModel)]="body_bill_type.month">
+                    <option selected disabled hidden value="">กรุณาเลือกเดือนที่ต้องการออกบิล</option>
+                    <option *ngFor="let i of months" [value]="i.value">
+                      {{ i.name }}
+                    </option>
+                  </select>
+                </div>
+
+                <div class="col-5">
+                  <label class="f-b my-2" for="">ปี</label>
+                  <input type="text" class="form-control rounded-3" placeholder="ปี" [(ngModel)]="body_bill_type.year">
+                </div>
+              </div>
+
+              <div class="col-xl col-lg">
+                <label class="f-b my-2" for="">วันครบกำหนดชำระ</label>
+                <div class="input-group border-1 w-100">
+                  <input onkeydown="return false;" matInput [matDatepicker]="picker" class="form-control" style="
+                          position: relative;
+                          border-top-left-radius: 8px;
+                          border-bottom-left-radius: 8px;
+                        " placeholder="วัน/เดือน/ปี" ngDefaultControl [(ngModel)]="body_bill_type.due_date" />
+                  <mat-datepicker-toggle style="height: 40px" matSuffix [for]="picker"
+                    class="mat-datepicker-toggle"></mat-datepicker-toggle>
+                  <mat-datepicker #picker class="mat-datepicker"></mat-datepicker>
+
+                </div>
+              </div>
+            </div>
+
+
+
+            <div class="row d-flex justify-content-center mt-5">
+              <div class="col-6 ">
+                <div class="">
+                  <button *ngIf="this.mode === 'create'" class="btn btn-submited" (click)="SubmitRentalBill()">ออกบิลค่าเช่า</button>
+                  <button *ngIf="this.mode === 'edit'" class="btn btn-submited" (click)="UpdateRentalBill()">อัพเดตบิลค่าเช่า</button>
+                </div>
+              </div>
+            </div>
+
+
+
+
+
+          </ng-container>
+
+
+          <ng-container *ngIf="body_bill_type.bill_type_id == 5 ">
+
+            <div class="col-xl-12 d-flex align-items-center my-3">
+              <label class="number-icon me-3">3</label>
+              <label>รายละเอียดบิล</label>
+            </div>
+
+            <div class="col-8 mt-1">
+              <!-- <div class="col">
+                  <label class="f-b mb-2" for="">รายการค่าปรับ</label>
+                  <textarea class="form-control rounded-3" placeholder="รายการค่าปรับ" name="" id="" [(ngModel)]="body_bill_type.detail_bill"></textarea>
+                </div> -->
+
+              <div class="col-xl-12 d-flex align-items-center mb-3">
+                <!-- <label class="number-icon me-3">2</label> -->
+                <label class="f-b">รายการค่าปรับ</label>
+              </div>
+
+              <ng-container *ngFor="let fine of fines; let i = index; let last = last">
+                <div class="row pt-2">
+                  <div class="col">
+
+                    <div class="row">
+
+
+
+                      <div class="col-5">
+                        <label for="" class="mb-2 f-b">รายละเอียดค่าปรับ</label>
+                        <input type="text" class="form-control rounded-3" placeholder="รายละเอียดค่าปรับ" name="description{{i}}"
+                           [(ngModel)]="fine.description" />
+                      </div>
+
+                      <div class="col-5">
+                        <label for="" class="mb-2 f-b">จำนวนเงิน</label>
+                        <input type="number" class="form-control rounded-3" placeholder="จำนวนเงิน" name="amount{{i}}"
+                           [(ngModel)]="fine.amount" />
+                      </div>
+
+
+                      <div class="col-2 d-flex align-items-end">
+                        <button *ngIf="!last" class="btn add-remove-btn" (click)="removeFine(i)">
+                          <span class="material-icons"> remove </span>
+                        </button>
+                        <ng-container class="m-0 p-0" *ngIf="last">
+                          <button class="btn add-remove-btn" (click)="removeFine(i)">
+                            <span class="material-icons"> remove </span>
+                          </button>
+                          <button class="btn add-remove-btn" (click)="addFine()">
+                            <span class="material-icons"> add </span>
+                          </button>
+                        </ng-container>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+              </ng-container>
+
+
+              <!-- <div *ngFor="let fine of fines; let i = index">
+                  <div class="fine-item">
+                    <input class="form-control rounded-3" type="text" [(ngModel)]="fine.description" placeholder="รายละเอียดค่าปรับ" name="description{{i}}" />
+                    <input class="form-control rounded-3" type="number" [(ngModel)]="fine.amount" placeholder="จำนวนเงิน" name="amount{{i}}" />
+                    <button type="button" (click)="removeFine(i)">❌</button>
+                  </div>
+                </div>
+                
+                <button type="button" (click)="addFine()">➕ เพิ่มค่าปรับ</button> -->
+
+              <!-- ปุ่มส่งข้อมูล -->
+              <!-- <button type="button" (click)="submitForm()">บันทึกค่าปรับ</button> -->
+
+              <div class="col">
+                <label class="f-b my-2">รวมทั้งหมด</label>
+                <input type="text" class="form-control rounded-3" placeholder="รวมทั้งหมด" [value]="totalAmount"
+                  readonly>
+              </div>
+
+              <div class="col-xl col-lg">
+                <label class="f-b my-2" for="">วันครบกำหนดชำระ</label>
+                <div class="input-group border-1 w-100">
+                  <input onkeydown="return false;" matInput [matDatepicker]="picker" class="form-control" style="
+                        position: relative;
+                        border-top-left-radius: 8px;
+                        border-bottom-left-radius: 8px;
+                      " placeholder="วัน/เดือน/ปี" ngDefaultControl [(ngModel)]="body_bill_type.due_date" />
+                  <mat-datepicker-toggle style="height: 40px" matSuffix [for]="picker"
+                    class="mat-datepicker-toggle"></mat-datepicker-toggle>
+                  <mat-datepicker #picker class="mat-datepicker"></mat-datepicker>
+
+                </div>
+              </div>
+            </div>
+
+            <div class="row d-flex justify-content-center mt-5">
+              <div class="col-6 ">
+                <div class="">
+                  <button *ngIf="this.mode === 'create'" class="btn btn-submited" (click)="SubmitFinesBill()">ออกบิลค่าปรับ</button>
+                  <button *ngIf="this.mode === 'edit'" class="btn btn-submited" (click)="UpdateFinesBill()">อัพเดตบิลค่าปรับ</button>
+                </div>
+              </div>
+            </div>
+
+          </ng-container>
+
+          <ng-container *ngIf="body_bill_type.bill_type_id == 6 ">
+
+            <div class="col-xl-12 d-flex align-items-center my-3">
+              <label class="number-icon me-3">3</label>
+              <label>รายละเอียดบิล</label>
+            </div>
+
+            <div class="col-8 mt-1">
+
+              <div class="col-xl-12 d-flex align-items-center mb-3">
+                <label class="f-b">รายการที่ซ่อม</label>
+              </div>
+
+              <ng-container *ngFor="let fine of fines; let i = index; let last = last">
+                <div class="row pt-2">
+                  <div class="col">
+
+                    <div class="row">
+
+
+
+                      <div class="col-5">
+                        <label for="" class="mb-2 f-b">รายละเอียดที่ซ่อม</label>
+                        <input type="text" class="form-control rounded-3" placeholder="รายละเอียดที่ซ่อม" name="description{{i}}"
+                           [(ngModel)]="fine.description" />
+                      </div>
+
+                      <div class="col-5">
+                        <label for="" class="mb-2 f-b">จำนวนเงิน</label>
+                        <input type="number" class="form-control rounded-3" placeholder="จำนวนเงิน" name="amount{{i}}"
+                           [(ngModel)]="fine.amount" />
+                      </div>
+
+
+                      <div class="col-2 d-flex align-items-end">
+                        <button *ngIf="!last" class="btn add-remove-btn" (click)="removeFine(i)">
+                          <span class="material-icons"> remove </span>
+                        </button>
+                        <ng-container class="m-0 p-0" *ngIf="last">
+                          <button class="btn add-remove-btn" (click)="removeFine(i)">
+                            <span class="material-icons"> remove </span>
+                          </button>
+                          <button class="btn add-remove-btn" (click)="addFine()">
+                            <span class="material-icons"> add </span>
+                          </button>
+                        </ng-container>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+              </ng-container>
+             
+              <div class="col">
+                <label class="f-b my-2">รวมทั้งหมด</label>
+                <input type="text" class="form-control rounded-3" placeholder="รวมทั้งหมด" [value]="totalAmount"
+                  readonly>
+              </div>
+
+              <div class="col-xl col-lg">
+                <label class="f-b my-2" for="">วันครบกำหนดชำระ</label>
+                <div class="input-group border-1 w-100">
+                  <input onkeydown="return false;" matInput [matDatepicker]="picker" class="form-control" style="
+                        position: relative;
+                        border-top-left-radius: 8px;
+                        border-bottom-left-radius: 8px;
+                      " placeholder="วัน/เดือน/ปี" ngDefaultControl [(ngModel)]="body_bill_type.due_date" />
+                  <mat-datepicker-toggle style="height: 40px" matSuffix [for]="picker"
+                    class="mat-datepicker-toggle"></mat-datepicker-toggle>
+                  <mat-datepicker #picker class="mat-datepicker"></mat-datepicker>
+
+                </div>
+              </div>
+            </div>
+
+            <div class="row d-flex justify-content-center mt-5">
+              <div class="col-6 ">
+                <div class="">
+                  <button *ngIf="this.mode === 'create'" class="btn btn-submited" (click)="SubmitRepairAcBill()">ออกบิลค่าซ่อมแอร์</button>
+                  <button *ngIf="this.mode === 'edit'" class="btn btn-submited" (click)="UpdateRepairAcBill()">ออกบิลค่าซ่อมแอร์</button>
+                </div>
+              </div>
+            </div>
+
+          </ng-container>
+
+          <ng-container *ngIf="body_bill_type.bill_type_id == 7 ">
+
+            <div class="col-xl-12 d-flex align-items-center my-3">
+              <label class="number-icon me-3">3</label>
+              <label>รายละเอียดบิล</label>
+            </div>
+
+            <div class="col-8 mt-1">
+              <div class="col">
+                <label class="f-b mb-2" for="">ค่าล้างแอร์</label>
+                <input type="text" class="form-control rounded-3" placeholder="ค่าล้างแอร์"
+                  [(ngModel)]="body_bill_type.wash_airconditioner_price" >
+              </div>
+              <div class="col">
+                <label class="f-b my-2" for="">รวมทั้งสิ้น</label>
+                <input type="text" class="form-control rounded-3" placeholder="รวมทั้งสิ้น"
+                  [(ngModel)]="body_bill_type.wash_airconditioner_price" >
+              </div>
+              <div class="col-xl col-lg">
+                <label class="f-b my-2" for="">วันครบกำหนดชำระ</label>
+                <div class="input-group border-1 w-100">
+                  <input onkeydown="return false;" matInput [matDatepicker]="picker" class="form-control" style="
+                        position: relative;
+                        border-top-left-radius: 8px;
+                        border-bottom-left-radius: 8px;
+                      " placeholder="วัน/เดือน/ปี" ngDefaultControl [(ngModel)]="body_bill_type.due_date" />
+                  <mat-datepicker-toggle style="height: 40px" matSuffix [for]="picker"
+                    class="mat-datepicker-toggle"></mat-datepicker-toggle>
+                  <mat-datepicker #picker class="mat-datepicker"></mat-datepicker>
+  
+                </div>
+              </div>
+            </div>
+
+          
+
+            <div class="row d-flex justify-content-center mt-5">
+              <div class="col-6 ">
+                <div class="">
+                  <button *ngIf="this.mode === 'create'" class="btn btn-submited" (click)="SubmitWashAcBill()">ออกบิลค่าล้างแอร์</button>
+                  <button *ngIf="this.mode === 'edit'" class="btn btn-submited" (click)="UpdateWashAcBill()">อัพเดตบิลค่าล้างแอร์</button>
+                </div>
+              </div>
+            </div>
+            
+
+          </ng-container>
+
+          <ng-container *ngIf="body_bill_type.bill_type_id == 8 ">
+
+            <div class="col-xl-12 d-flex align-items-center my-3">
+              <label class="number-icon me-3">3</label>
+              <label>รายละเอียดบิล</label>
+            </div>
+
+            <div class="col-8 mt-1">
+
+              <!-- <div class="col-xl-12 d-flex align-items-center mb-3">
+                <label class="f-b">รายการ</label>
+              </div> -->
+
+              <ng-container *ngFor="let fine of fines; let i = index; let last = last">
+                <div class="row pt-2">
+                  <div class="col">
+
+                    <div class="row">
+
+
+
+                      <div class="col-5">
+                        <label for="" class="mb-2 f-b">รายการ</label>
+                        <input type="text" class="form-control rounded-3" placeholder="รายการ" name="description{{i}}"
+                           [(ngModel)]="fine.description" />
+                      </div>
+
+                      <div class="col-5">
+                        <label for="" class="mb-2 f-b">จำนวนเงิน</label>
+                        <input type="number" class="form-control rounded-3" placeholder="จำนวนเงิน" name="amount{{i}}"
+                           [(ngModel)]="fine.amount" />
+                      </div>
+
+
+                      <div class="col-2 d-flex align-items-end">
+                        <button *ngIf="!last" class="btn add-remove-btn" (click)="removeFine(i)">
+                          <span class="material-icons"> remove </span>
+                        </button>
+                        <ng-container class="m-0 p-0" *ngIf="last">
+                          <button class="btn add-remove-btn" (click)="removeFine(i)">
+                            <span class="material-icons"> remove </span>
+                          </button>
+                          <button class="btn add-remove-btn" (click)="addFine()">
+                            <span class="material-icons"> add </span>
+                          </button>
+                        </ng-container>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+              </ng-container>
+             
+              <div class="col">
+                <label class="f-b my-2">รวมทั้งหมด</label>
+                <input type="text" class="form-control rounded-3" placeholder="รวมทั้งหมด" [value]="totalAmount"
+                  readonly>
+              </div>
+
+              <div class="col-xl col-lg">
+                <label class="f-b my-2" for="">วันครบกำหนดชำระ</label>
+                <div class="input-group border-1 w-100">
+                  <input onkeydown="return false;" matInput [matDatepicker]="picker" class="form-control" style="
+                        position: relative;
+                        border-top-left-radius: 8px;
+                        border-bottom-left-radius: 8px;
+                      " placeholder="วัน/เดือน/ปี" ngDefaultControl [(ngModel)]="body_bill_type.due_date" />
+                  <mat-datepicker-toggle style="height: 40px" matSuffix [for]="picker"
+                    class="mat-datepicker-toggle"></mat-datepicker-toggle>
+                  <mat-datepicker #picker class="mat-datepicker"></mat-datepicker>
+
+                </div>
+              </div>
+            </div>
+
+            <div class="row d-flex justify-content-center mt-5">
+              <div class="col-6 ">
+                <div class="">
+                  <button *ngIf="this.mode === 'create' " class="btn btn-submited" (click)="SubmitOtherBill()">ออกบิล</button>
+                  <button *ngIf="this.mode === 'edit' " class="btn btn-submited" (click)="UpdateOtherBill()">อัพเดตบิล</button>
+                </div>
+              </div>
+            </div>
+
+          </ng-container>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

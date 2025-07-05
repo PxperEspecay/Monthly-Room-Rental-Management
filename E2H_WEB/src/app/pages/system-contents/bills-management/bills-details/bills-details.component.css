@@ -1,0 +1,127 @@
+
+  .receipt-container {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 30px;
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .header {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+  
+  .header h1 {
+    font-size: 24px;
+    color: #333;
+    margin: 0;
+  }
+  
+  .sub-header {
+    font-size: 14px;
+    color: #666;
+    margin-top: 5px;
+  }
+  
+  .section {
+    margin-bottom: 20px;
+  }
+  
+  .section h2 {
+    font-size: 18px;
+    color: #555;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 5px;
+    margin-bottom: 15px;
+  }
+  
+  .section p {
+    font-size: 16px;
+    color: #333;
+    margin: 5px 0;
+  }
+  
+  .details-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .details-table td {
+    font-size: 16px;
+    padding: 8px 0;
+  }
+  
+  .details-table .total-row {
+    font-weight: bold;
+    border-top: 1px solid #ddd;
+  }
+  
+  .highlight {
+    color: #d9534f;
+  }
+  
+  .status {
+    text-align: center;
+    padding: 10px;
+    border-radius: 5px;
+    font-weight: bold;
+    margin-top: 10px;
+  }
+  
+  .status.unpaid {
+    background-color: rgba(255, 245, 245, 1);
+    color: rgba(235, 87, 87, 1);
+  }
+  
+  .status.paid {
+    background: #d4edda;
+    color: #155724;
+  }
+
+  .status.late {
+    background-color: rgba(255, 246, 230, 1);
+    color: rgba(255, 168, 0, 1);
+  }
+  
+  .actions {
+    text-align: center;
+    margin-top: 20px;
+  }
+  
+  .print-button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .print-button:hover {
+    background-color: #0056b3;
+  }
+
+  @media print {
+    
+    body * {
+      visibility: hidden; /* ซ่อนทุกอย่าง */
+    }
+    .receipt-container, .receipt-container * {
+      visibility: visible; /* แสดงเฉพาะใบเสร็จ */
+    }
+    .receipt-container {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      padding: 20px;
+      max-width: 600px;
+    }
+
+  }
+  

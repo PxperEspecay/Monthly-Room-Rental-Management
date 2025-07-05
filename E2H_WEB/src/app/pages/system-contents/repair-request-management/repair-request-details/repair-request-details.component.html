@@ -1,0 +1,315 @@
+<div class="row">
+    <div class="col mt-2 d-flex">
+        <button class="p-0 btn-icon-view shadow-sm" (click)="BackTo()">
+            <img src="assets/system_icons/back.png" alt="" />
+        </button>
+
+        <div class="col-xl-6 col-lg-4 col-md-4 col-4 mt-2 ms-3">
+            <p class="head-title">รายละเอียดแจ้งซ่อม</p>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col">
+        <div class="card" style="border: none;">
+            <div class="card-body">
+
+                <div class="row">
+                    <div class="col d-flex align-items-center">
+                        <span class="ms-3 status-aog" style="background-color: rgba(0, 87, 87, 1); color: rgba(255, 255, 255, 1); font-size: 20px; font-weight: 500;
+                        border: 1px solid rgba(0, 102, 102, 1);
+                        padding: 5px;
+                        border-radius: 6px;">
+                            <img *ngIf="data_RepairRequestDetails.type_repair_id === 3"
+                                src="assets/system_icons/icon-repair-air-conditioner.png" alt="" style="width: 38px;">
+                            <img *ngIf="data_RepairRequestDetails.type_repair_id === 1"
+                                src="assets/system_icons/icon-repair-electricity.png" alt="" style="width: 38px;">
+                            <img *ngIf="data_RepairRequestDetails.type_repair_id === 2"
+                                src="assets/system_icons/icon-repair-plumbing.png" alt="" style="width: 38px;">
+                            <img *ngIf="data_RepairRequestDetails.type_repair_id === 4"
+                                src="assets/system_icons/icon-repair-other.png" alt="" style="width: 38px;">
+                            <span *ngIf="data_RepairRequestDetails.type_repair_id === 1" class="ms-2"
+                                style="font-size: 18px;">{{'งานไฟฟ้า'}}</span>
+                            <span *ngIf="data_RepairRequestDetails.type_repair_id === 2" class="ms-2"
+                                style="font-size: 18px;">{{'งานประปา'}}</span>
+                            <span *ngIf="data_RepairRequestDetails.type_repair_id === 3" class="ms-2"
+                                style="font-size: 18px;">{{'งานเครื่องปรับอากาศ'}}</span>
+                            <span *ngIf="data_RepairRequestDetails.type_repair_id === 4" class="ms-2"
+                                style="font-size: 18px;">{{'งานอื่นๆ'}}</span>
+                        </span>
+                    </div>
+                    <div class="col d-flex align-items-center justify-content-end">
+                        <!-- <span *ngIf="status == 'waiting_to_check'" class="status-aog">รอตรวจสอบ</span>
+                        <span *ngIf="status == 'pending'" class="status-bids">กำลังดำเนินการ</span>
+                        <span *ngIf="status == 'waiting_to_check'" class="status-aog">รอตรวจสอบคำร้อง</span> -->
+                        <span *ngIf="status == 'waiting_to_check'" class="status-aog">รอตรวจสอบคำร้อง</span>
+                        <span *ngIf="status == 'acknowledged'" class="status-aog">รอนัดหมาย</span>
+                        <span *ngIf="status == 'scheduled'" class="status-confirm">รอตรวจสอบนัดหมาย</span>
+                        <span *ngIf="status == 'pending'" class="status-bids">รอดำเนินการ</span>
+                        <span *ngIf="status == 'in_progress'" class="status-in_progress">กำลังดำเนินการ</span>
+                        <span *ngIf="status == 'completed'" class="status-final">ดำเนินการเสร็จสิ้น</span>
+                    </div>
+                </div>
+
+                <div class="divider"></div>
+
+                <ng-container>
+
+                    <div class="row">
+                        <div class="col">
+                            <div class="card"
+                                style="background-color: rgba(243, 243, 243, 1); border-radius: 8px; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);">
+                                <div class="card-body">
+
+                                    <div class="row">
+                                        <div class="col d-flex">
+                                            <p style="color: rgba(0, 102, 102, 1); font-size: 20px; font-weight: 600;">
+                                                หัวข้อ : </p>
+                                            <p class="ms-1" style="font-size: 20px;">
+                                                {{data_RepairRequestDetails.issue_title}}</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-2">
+                                            <p style="color: rgba(0, 102, 102, 1); font-size: 20px; font-weight: 600;">
+                                                รายละเอียด </p>
+                                        </div>
+                                        <!-- <div class="col">
+                                            <p class="ms-1" style="font-size: 20px;">{{data_RepairRequestDetails.issue_description}}</p>
+                                        </div> -->
+                                    </div>
+                                    <div class="row">
+                                        <!-- <div class="col-2">
+                                            <p style="color: rgba(0, 102, 102, 1); font-size: 20px; font-weight: 600;">รายละเอียด  </p>
+                                        </div> -->
+                                        <div class="col">
+                                            <p class="ms-1" style="font-size: 20px;">
+                                                {{data_RepairRequestDetails.issue_description}}</p>
+                                        </div>
+                                    </div>
+
+                                    <ng-container class="" *ngFor="let item of photo_list">
+                                        <img [src]="item" alt=""
+                                            style="height: 150px; width: 150px; margin: 7.5px; cursor: pointer; margin-bottom: 25px;"
+                                            (click)="openImage(item)" />
+                                    </ng-container>
+
+                                    <!-- Popup Modal -->
+                                    <div class="modal" *ngIf="selectedImage" (click)="closeImage()">
+                                        <div class="modal-content" (click)="$event.stopPropagation()">
+                                            <img [src]="selectedImage" alt=""
+                                                style="max-width: 100%; max-height: 100%;" />
+
+                                        </div>
+                                        <button class="close-btn" (click)="closeImage()">&#x2715;</button>
+
+                                    </div>
+
+                                    <div class="divider2"></div>
+
+                                    <div class="row mt-3">
+                                        <div class="col d-flex">
+                                            <p style="color: rgba(0, 102, 102, 1); font-size: 20px; font-weight: 600;">
+                                                สถานที่ :</p>
+                                            <p class="ms-1" style="font-size: 20px;">
+                                                {{data_RepairRequestDetails?.Renter?.building_name}}</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="row mt">
+                                        <div class="col d-flex">
+                                            <p style="color: rgba(0, 102, 102, 1); font-size: 20px; font-weight: 600;">
+                                                ชั้น :</p>
+                                            <p class="ms-1" style="font-size: 20px;">
+                                                {{data_RepairRequestDetails?.Renter?.floor}}</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="row mt">
+                                        <div class="col d-flex">
+                                            <p style="color: rgba(0, 102, 102, 1); font-size: 20px; font-weight: 600;">
+                                                ห้อง/บ้านเลขที่ : </p>
+                                            <p class="ms-1" style="font-size: 20px;">
+                                                {{data_RepairRequestDetails?.Renter?.room_number}}</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="row mt">
+                                        <div class="col d-flex">
+                                            <p style="color: rgba(0, 102, 102, 1); font-size: 20px; font-weight: 600;">
+                                                ผู้แจ้ง : </p>
+                                            <p class="ms-1" style="font-size: 20px;">
+                                                {{data_RepairRequestDetails?.Renter?.prefix}}{{data_RepairRequestDetails?.Renter?.first_name}}
+                                                {{data_RepairRequestDetails?.Renter?.last_name}}</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="row mt">
+                                        <div class="col d-flex">
+                                            <p style="color: rgba(0, 102, 102, 1); font-size: 20px; font-weight: 600;">
+                                                วันเวลาที่แจ้ง : </p>
+                                            <p class="ms-1" style="font-size: 20px;">
+                                                {{this.data_RepairRequestDetails.formattedDate}} ,
+                                                {{this.data_RepairRequestDetails.formattedTime}}</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="row mt">
+                                        <div class="col d-flex">
+                                            <p style="color: rgba(0, 102, 102, 1); font-size: 20px; font-weight: 600;">
+                                                เบอร์ติดต่อกลับ : </p>
+                                            <p class="ms-1" style="font-size: 20px;">
+                                                {{this.data_RepairRequestDetails.callback_phone}}</p>
+                                        </div>
+                                    </div>
+
+
+
+
+
+
+                                    <ng-container *ngIf="status === 'scheduled'">
+                                        <div class="row">
+                                            <div class="col p-0 m-0">
+                                                <h3><span></span></h3>
+                                            </div>
+                                        </div>
+
+                                        <div class="row mt">
+                                            <div class="col d-flex">
+                                                <p
+                                                    style="color: rgba(0, 102, 102, 1); font-size: 20px; font-weight: 600;">
+                                                    วันเวลาที่ต้องการนัดหมายซ่อมแซม : </p>
+                                                <p class="ms-1" style="font-size: 20px;">
+                                                    {{ this.data_RepairRequestDetails?.RepairSchedule?.selected_date ?? '' }} ,
+                                                    {{'ช่วง'}}{{this.data_RepairRequestDetails.RepairSchedule.selected_time_period}}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </ng-container>
+
+                                    <ng-container
+                                        *ngIf="status === 'scheduled' && this.data_RepairRequestDetails.RepairSchedule.rescheduled_by_renter == true">
+                                        <div class="row">
+                                            <div class="col p-0 m-0">
+                                                <h3><span></span></h3>
+                                            </div>
+                                        </div>
+
+                                        <div class="row mt">
+                                            <div class="col d-flex">
+                                                <p
+                                                    style="color: rgba(0, 102, 102, 1); font-size: 20px; font-weight: 600;">
+                                                    วันเวลาที่ต้องการนัดหมายซ่อมแซมใหม่ : </p>
+                                                <p class="ms-1" style="font-size: 20px;">
+                                                    {{this.data_RepairRequestDetails.RepairSchedule.requested_new_date}}
+                                                    ,
+                                                    {{'ช่วง'}}{{this.data_RepairRequestDetails.RepairSchedule.requested_new_time_period}}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </ng-container>
+
+                                    <ng-container *ngIf="status === 'pending'">
+                                        <div class="row">
+                                            <div class="col p-0 m-0">
+                                                <h3><span></span></h3>
+                                            </div>
+                                        </div>
+
+                                        <div class="row mt">
+                                            <div class="col d-flex">
+                                                <p
+                                                    style="color: rgba(0, 102, 102, 1); font-size: 20px; font-weight: 600;">
+                                                    วันเวลาที่ต้องการให้เข้าซ่อมแซม : </p>
+                                                <p *ngIf="this.data_RepairRequestDetails.RepairSchedule.rescheduled_by_renter == false" class="ms-1" style="font-size: 20px;">
+                                                    {{ this.data_RepairRequestDetails?.RepairSchedule?.selected_date ?? '' }} ,
+                                                    {{'ช่วง'}}{{this.data_RepairRequestDetails.RepairSchedule.selected_time_period}}
+                                                </p>
+                                                <p *ngIf="this.data_RepairRequestDetails.RepairSchedule.rescheduled_by_renter == true" class="ms-1" style="font-size: 20px;">
+                                                    {{this.data_RepairRequestDetails.RepairSchedule.requested_new_date}} ,
+                                                    {{'ช่วง'}}{{this.data_RepairRequestDetails.RepairSchedule.requested_new_time_period}}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </ng-container>
+
+
+
+
+
+
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </ng-container>
+
+                <div class="row my-3">
+                    <div class="col-8"></div>
+                    <div class="col-4 d-flex justify-content-end">
+                        <button *ngIf="status === 'waiting_to_check'" class="btn btn-submited"
+                            (click)="AcknowledgedRequest()">ยืนยันการตรวจสอบ</button>
+
+                        <button *ngIf="status === 'scheduled'" class="btn btn-danger"
+                            (click)="RejectedScheduled()">ปฎิเสธนัดหมาย</button>
+                        <button *ngIf="status === 'scheduled'" class="btn btn-submited ms-2"
+                            (click)="ApprovedScheduledRequest()">ยืนยันนัดหมาย</button>
+
+
+                    </div>
+                    <div class="col-9"></div>
+
+                </div>
+                <ng-container>
+                    <div class="row my-3">
+                        <div class="col-9"></div>
+
+                        <!-- กรณียังไม่รับเรื่อง -->
+                        <div class="col-3 d-flex justify-content-end align-items-center"
+                            *ngIf="this.data_RepairRequestDetails.status == 'pending'">
+
+                            <!-- Dropdown เลือกสถานะ -->
+                            <select class="form-select me-2" [(ngModel)]="selectedStatus" style="width: 160px;">
+                                <option [ngValue]="null" disabled selected>เลือกสถานะ</option>
+                                <option *ngFor="let status of statusOptions" [value]="status.value">{{ status.label }}
+                                </option>
+                            </select>
+
+                            <!-- ปุ่มรับเรื่อง -->
+                            <button class="btn btn-submited" [disabled]="!selectedStatus"
+                                (click)="UpdateStatusRequestInProgress()">
+                                ยืนยัน
+                            </button>
+                        </div>
+
+                        <div class="col-3 d-flex justify-content-end align-items-center"
+                            *ngIf="this.data_RepairRequestDetails.status == 'in_progress'">
+
+                            <!-- Dropdown เลือกสถานะ -->
+                            <select class="form-select me-2" [(ngModel)]="selectedStatus" style="width: 160px;">
+                                <option [ngValue]="null" disabled selected>เลือกสถานะ</option>
+                                <option *ngFor="let status of statusOptions2" [value]="status.value">{{ status.label }}
+                                </option>
+                            </select>
+
+                            <!-- ปุ่มรับเรื่อง -->
+                            <button class="btn btn-submited" [disabled]="!selectedStatus"
+                                (click)="UpdateStatusRequestCompleted()">
+                                ยืนยัน
+                            </button>
+                        </div>
+
+
+                    </div>
+                </ng-container>
+
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,265 @@
+.chart-container {
+    width: 90%;
+    max-width: 350px;
+    margin: auto;
+    padding: 20px;
+  }
+  
+  canvas {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px #ccc;
+  }
+
+  .chart-wrapper {
+    width: 100%;
+    max-width: 350px;
+    height: 350px;
+    margin: auto;
+  }
+
+  .card-header {
+    background-color: #f8f9fa;
+}
+
+.card-body {
+    background-color: #ffffff;
+}
+
+.renter-info img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+/* Collapse */
+.header-topic {
+    font-size: 31px;
+    font-weight: 700;
+    color: #0C2B4B;
+}
+
+.subheader {
+    font-size: 18px;
+    font-weight: 500;
+    color: #1F2F74
+}
+
+.smallheader {
+    font-size: 14px;
+    font-weight: 400;
+    color: #1F2F74
+}
+
+.warning {
+    font-size: 14px;
+    font-weight: 400;
+    color: #FF0000
+}
+
+.detailGray {
+    color: #7A7A7A;
+    font-weight: 300;
+    font-size: 14px;
+    ;
+}
+
+.dashed-underline {
+    text-decoration: none;
+    background-image: linear-gradient(to right, black 50%, rgba(255, 255, 255, 0) 50%);
+    background-size: 6px 1px;
+    background-repeat: repeat-x;
+    background-position: bottom;
+    padding-bottom: 2px;
+    opacity: 0.5;
+}
+
+#accordionAgreement .accordion-button {
+    color: #1F2F74;
+    background-color: #F3F3F3;
+    border-radius: 10px;
+}
+
+#accordionAgreement .accordion-button:not(.collapsed) {
+    color: #1F2F74;
+    background-color: #F3F3F3;
+    border-radius: 10px 10px 0px 0px;
+    border-bottom: 1px solid #0C2B4B;
+    background: var(--Background-card, #F3F3F3);
+    box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.15);
+}
+
+#accordionAgreement .accordion-body {
+    background-color: #F3F3F3;
+}
+
+#accordionAgreement .accordion-button:not(.collapsed)::after {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%230C2B4B'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
+}
+
+
+#accordionAgreement .accordion-button::after {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%230C2B4B'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
+}
+
+.accordion-body {
+    padding: 15px 5px 5px 10px;
+    box-shadow: 0 4px 2px -2px rgba(0, 0, 0, 0.15);
+    /* border-radius: 10px; */
+}
+
+.accordion-item {
+    border: none !important;
+    box-shadow: 0 4px 2px -2px rgba(0, 0, 0, 0.15);
+    border-radius: 10px;
+    /* border-radius: 10px; */
+}
+
+.accordion-collapse {
+    transition: height 0.3s ease-out;
+}
+
+
+/* Collapse end */
+
+.card-header {
+    background-color: #F3F3F3;
+    height: 70px;
+}
+
+.profile-image {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.select-filter {
+    border: 1px solid #EDEEF1;
+    border-radius: 8px;
+    color: #092139;
+    padding: 0px 8px;
+    background-color: #fff;
+    cursor: pointer;
+}
+
+.select-filter .item-filter .text {
+    padding: 12px 16px;
+}
+
+.select-filter .item-filter .under {
+    transition: all 0.2s ease-in-out;
+    height: 3px;
+    border-radius: 8px 8px 0px 0px;
+    background-color: #006666;
+    opacity: 0;
+}
+
+.select-filter .item-filter.active .under {
+
+    opacity: 1;
+}
+
+.select-filter .item-filter:hover>.under {
+    opacity: 1;
+}
+
+.select-filter .item-filter-sort {
+    transition: all 0.2s ease-in-out;
+    padding: 8px 16px;
+    color: #C0C0C0;
+}
+
+.select-filter .item-filter-sort:hover {
+    color: #7a7a7a;
+}
+
+input.nosubmit {
+    border: 1px solid rgba(9, 33, 57, 1);
+    width: 105%;
+    padding: 9px 4px 9px 40px;
+    /* background: transparent url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3E%3Cpath d='M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z'%3E%3C/path%3E%3C/svg%3E") no-repeat 13px center; */
+    background: transparent url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3E%3Cpath d='M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z'%3E%3C/path%3E%3C/svg%3E") no-repeat 13px center;
+}
+
+input.nosubmit::placeholder {
+    color: rgba(9, 33, 57, 0.2);
+}
+
+/* Filter Dropbox */
+.dropdown-filter {
+    background-color: rgba(255, 255, 255, 1);
+    width: 425px;
+    height: 254px;
+    position: absolute;
+    border-radius: 8px;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+    margin-top: 5px;
+    /* margin-right: 500px !important; */
+    margin-left: -350px !important;
+    z-index: 1000;
+}
+
+.dropdown-box {
+    position: absolute;
+    top: 80%;
+    /* อยู่ใต้ปุ่ม */
+    left: -150px;
+    width: 420px;
+    background-color: rgb(214, 214, 214);
+    border-radius: 8px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    z-index: 100;
+}
+
+/* ทดสอบ */
+
+.modern-card {
+    border-radius: 20px;
+    color: #fff;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.modern-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+}
+
+.modern-card .card-body {
+    padding: 1.5rem;
+}
+
+.modern-card-title {
+    font-weight: 600;
+    font-size: 16px;
+    opacity: 0.9;
+}
+
+.modern-card-value {
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.icon-container img {
+    width: 50px;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+}
+
+.bg-gradient-1 {
+    background: linear-gradient(135deg, #00c6ff, #0072ff);
+}
+
+.bg-gradient-2 {
+    background: linear-gradient(135deg, #43e97b, #38f9d7);
+}
+
+.bg-gradient-3 {
+    background: linear-gradient(135deg, #f7971e, #ffd200);
+}
+
+canvas {
+    background-color: #f9f9f9;
+    border-radius: 8px;
+  }

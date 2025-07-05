@@ -1,0 +1,100 @@
+<div class="row align-items-center">
+    <div class="col-xl-6 col-lg-4 col-md-4 col-4 m-0 p-3 d-flex">
+
+        <button class="p-0 btn-icon-view shadow-sm" (click)="BackTo()">
+            <img src="assets/system_icons/back.png" alt="" />
+        </button>
+
+        <p class="head-title ms-3 mt-1">รายชื่อห้องพัก</p>
+    </div>
+    <div class="col-xl-6 col-lg-8 col-md-8 col-8">
+        <div class="row justify-content-end p-0 m-0">
+            <div class="col d-flex align-items-center justify-content-end p-0 m-0">
+
+
+
+                <button class="me-3 btn-add-something" (click)="openRoomsDetail(null, '0')">
+                    <img class="me-2" src="assets/system_icons/add-building.png"
+                        style="height: 25px;"><span>เพิ่มห้องพัก</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row card p-0 m-0 border-0" style="background-color: #f9f8fe !important">
+    <div class="col body-table card-body border-0">
+        <ng-container *ngIf="this.rooms_list.length > 0; else NoData">
+            <table class="table body-table table-responsive table-hover">
+                <thead>
+                    <tr class="align-middle text-center">
+                        <th class="border-0" scope="col" style="border-radius: 10px 0px 0px 0px;">เลขที่</th>
+                        <th class="border-0" scope="col">ชั้น</th>
+                        <th class="border-0" scope="col">สถานะ</th>
+                        <th class="border-0" scope="col">ค่าเช่าต่อเดือน</th>
+                        <th class="border-0" scope="col">ค่ามัดจำ</th>
+                        <th class="border-0" scope="col">ค่าขยะ</th>
+                        <th class="border-0" scope="col" style="border-radius: 0px 10px 0px 0px;">จัดการ</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="text-center align-middle" *ngFor="let i of this.rooms_list | paginate : { itemsPerPage: itemsPerPage, currentPage: page } let order = index">
+                        <td class="border-0">{{ i.room_number }}</td>
+                        <td class="border-0">{{ i.floor }}</td>
+                        <td class="border-0">
+                            <span class="status-disabled" *ngIf="i.status_room == 'N'">{{'ไม่ว่าง'}}</span>
+                            <span class="status-avaliable" *ngIf="i.status_room == 'Y'">{{'ห้องว่าง'}}</span>
+                        </td>
+                        <td class="border-0">{{ i.monthly_rent_amount }}</td>
+                        <td class="border-0">{{ i.rental_deposit }}</td>
+                        <td class="border-0">{{ i.garbage_amount }}</td>
+                        <td class="border-0">
+                            <div class="row justify-content-center">
+                                <div class="dropdown col-xl-2 col-lg-2 col-md-2 col-2">
+                                    <button style="background-color: transparent !important"
+                                        class="p-0 m-0 me-2 ms-2 btn-icon-view" type="button" id="dropdownMenuButton1"
+                                        data-bs-toggle="dropdown" aria-expanded="false">
+                                        <mat-icon role="button" class="fs-4">more_vert</mat-icon>
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton1">
+                                        <li class="border-bottom d-flex">
+                                            <a class="dropdown-item d-flex justify-content-between align-items-center"
+                                                role="button" (click)="openRoomsDetail(i.id, '1')">
+                                                แก้ไข
+                                                <img style="width: 20px; height: 20px" src="assets/system_icons/icon-edit.png"
+                                                    alt="" />
+                                            </a>
+                                        </li>
+                                        <li class="border-bottom d-flex">
+                                            <a class="dropdown-item d-flex justify-content-between align-items-center"
+                                                role="button" (click)="deleteCurrentRoom(i.id)">
+                                                ลบ
+                                                <img style="width: 20px; height: 20px" src="assets/system_icons/icon_delete.png"
+                                                    alt="" />
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </ng-container>
+    </div>
+    <ng-template #NoData>
+        <div class="text-center d-flex justify-content-center">ไม่พบข้อมูล</div>
+    </ng-template>
+</div>
+
+<ng-container>
+    <div class="row mt-5">
+        <div class="col-md-12 d-flex justify-content-center flex-wrap">
+            <span></span>
+            <pagination-controls class="text-center" (pageChange)="page = $event" previousLabel="" nextLabel=""
+                [responsive]="true">
+            </pagination-controls>
+            <span class="ms-2"> </span>
+        </div>
+    </div>
+</ng-container>

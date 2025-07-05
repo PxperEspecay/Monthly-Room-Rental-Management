@@ -1,0 +1,164 @@
+<div class="row">
+    <div class="col mt-2 d-flex">
+      <button class="p-0 btn-icon-view shadow-sm" (click)="BackTo()">
+        <img src="assets/system_icons/back.png" alt="" />
+      </button>
+
+      <div class="col-xl-6 col-lg-4 col-md-4 col-4 mt-2 ms-3">
+        <p class="head-title">รายละเอียดบิล</p>
+      </div>
+  </div>
+</div>
+
+<!-- บิลค่าเช่า -->
+<ng-container *ngIf="bill_details.bill_type_id === 1">
+  <div class="row">
+    <div class="col">
+      <div class="receipt-container">
+        <div class="header">
+          <h1>สรุปบิล{{bill_details.BillType.type_name}}</h1>
+          <p class="sub-header">สำหรับเดือน {{ bill_details.month }} {{ bill_details.year }}</p>
+          <p class="sub-header">บ้านเลขที่ {{bill_details.Renter.Room.room_number}}</p>
+        </div>
+        <div class="section">
+          <h2>ข้อมูลผู้เช่า</h2>
+          <p><strong>ชื่อ:</strong> {{ bill_details.Renter.prefix }}{{ bill_details.Renter.first_name }} {{
+            bill_details.Renter.last_name }}</p>
+          <p><strong>ห้อง:</strong> {{bill_details.Renter.Room.room_number}}</p>
+        </div>
+        <div class="section">
+          <h2>รายละเอียดค่าใช้จ่าย</h2>
+          <p>ค่าเช่ารายเดือน: {{ bill_details.monthly_rental_price }} บาท</p>
+          <p>ค่าขยะ: {{ bill_details.garbage_price }} บาท</p>
+          <p><strong>รวมทั้งสิ้น:</strong> {{ bill_details.total_amount }} บาท</p>
+        </div>
+        <div class="section">
+          <h2>สถานะการชำระเงิน</h2>
+          <p><strong>วันครบกำหนดชำระ:</strong> {{ bill_details.due_date }}</p>
+          <div *ngIf="bill_details.payment_status == 'late'" class="status" [ngClass]="bill_details.payment_status">{{
+            'ชำระล่าช้า' }}</div>
+          <div *ngIf="bill_details.payment_status == 'paid'" class="status" [ngClass]="bill_details.payment_status">{{
+            'ชำระแล้ว' }}</div>
+          <div *ngIf="bill_details.payment_status == 'unpaid'" class="status" [ngClass]="bill_details.payment_status">{{
+            'ค้างชำระ' }}</div>
+        </div>
+        <!-- <div class="actions">
+          <button class="print-button" (click)="printReceipt()">ปริ้นท์ใบเสร็จ</button>
+        </div> -->
+        <div *ngIf="bill_details.payment_status == 'paid' || bill_details.payment_status == 'late'" class="section">
+          <div class="row">
+            <div class="col">
+              <h2>หลักฐานการชำระเงิน</h2>
+                <div class="d-flex justify-content-center">
+                  <img class="w-75" [src]="bill_details.img_slip" alt="">
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-container>
+
+<!-- บิลค่าปรับ และ บิลค่าซ่อมแอร์ และบิลรายจ่ายอื่นๆ-->
+<ng-container *ngIf="bill_details.bill_type_id === 5 || bill_details.bill_type_id === 6 || bill_details.bill_type_id === 8">
+  <div class="row">
+    <div class="col">
+      <div class="receipt-container">
+        <div class="header">
+          <h1>สรุปบิล{{bill_details.BillType.type_name}}</h1>
+          <p class="sub-header">บ้านเลขที่ {{bill_details.Renter.Room.room_number}}</p>
+        </div>
+        <div class="section">
+          <h2>ข้อมูลผู้เช่า</h2>
+          <p><strong>ชื่อ:</strong> {{ bill_details.Renter.prefix }}{{ bill_details.Renter.first_name }} {{
+            bill_details.Renter.last_name }}</p>
+          <p><strong>ห้อง:</strong> {{bill_details.Renter.Room.room_number}}</p>
+        </div>
+        <div class="section">
+          <h2>รายละเอียดค่าใช้จ่าย</h2>
+          
+
+          <div *ngFor="let fine of fines">
+            <p>{{ fine.description }} : {{ fine.amount }} บาท</p>
+          </div>
+          
+
+          <p><strong>รวมทั้งสิ้น:</strong> {{ bill_details.total_amount }} บาท</p>
+        </div>
+        <div class="section">
+          <h2>สถานะการชำระเงิน</h2>
+          <p><strong>วันครบกำหนดชำระ:</strong> {{ bill_details.due_date }}</p>
+          <div *ngIf="bill_details.payment_status == 'late'" class="status" [ngClass]="bill_details.payment_status">{{
+            'ชำระล่าช้า' }}</div>
+          <div *ngIf="bill_details.payment_status == 'paid'" class="status" [ngClass]="bill_details.payment_status">{{
+            'ชำระแล้ว' }}</div>
+          <div *ngIf="bill_details.payment_status == 'unpaid'" class="status" [ngClass]="bill_details.payment_status">{{
+            'ค้างชำระ' }}</div>
+        </div>
+        <!-- <div class="actions">
+          <button class="print-button" (click)="printReceipt()">ปริ้นท์ใบเสร็จ</button>
+        </div> -->
+        <div *ngIf="bill_details.payment_status == 'paid' || bill_details.payment_status == 'late'" class="section">
+          <div class="row">
+            <div class="col">
+              <h2>หลักฐานการชำระเงิน</h2>
+                <div class="d-flex justify-content-center">
+                  <img class="w-75" [src]="bill_details.img_slip" alt="">
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-container>
+
+<!-- บิลค่าล้างแอร์ -->
+<ng-container *ngIf="bill_details.bill_type_id === 7">
+  <div class="row">
+    <div class="col">
+      <div class="receipt-container">
+        <div class="header">
+          <h1>สรุปบิล{{bill_details.BillType.type_name}}</h1>
+          <p class="sub-header">บ้านเลขที่ {{bill_details.Renter.Room.room_number}}</p>
+        </div>
+        <div class="section">
+          <h2>ข้อมูลผู้เช่า</h2>
+          <p><strong>ชื่อ:</strong> {{ bill_details.Renter.prefix }}{{ bill_details.Renter.first_name }} {{
+            bill_details.Renter.last_name }}</p>
+          <p><strong>ห้อง:</strong> {{bill_details.Renter.Room.room_number}}</p>
+        </div>
+        <div class="section">
+          <h2>รายละเอียดค่าใช้จ่าย</h2>
+          <p>ค่าล้างแอร์: {{ bill_details.wash_airconditioner_price }} บาท</p>
+          <p><strong>รวมทั้งสิ้น:</strong> {{ bill_details.total_amount }} บาท</p>
+        </div>
+        <div class="section">
+          <h2>สถานะการชำระเงิน</h2>
+          <p><strong>วันครบกำหนดชำระ:</strong> {{ bill_details.due_date }}</p>
+          <div *ngIf="bill_details.payment_status == 'late'" class="status" [ngClass]="bill_details.payment_status">{{
+            'ชำระล่าช้า' }}</div>
+          <div *ngIf="bill_details.payment_status == 'paid'" class="status" [ngClass]="bill_details.payment_status">{{
+            'ชำระแล้ว' }}</div>
+          <div *ngIf="bill_details.payment_status == 'unpaid'" class="status" [ngClass]="bill_details.payment_status">{{
+            'ค้างชำระ' }}</div>
+        </div>
+        <!-- <div class="actions">
+          <button class="print-button" (click)="printReceipt()">ปริ้นท์ใบเสร็จ</button>
+        </div> -->
+        <div *ngIf="bill_details.payment_status == 'paid' || bill_details.payment_status == 'late'" class="section">
+          <div class="row">
+            <div class="col">
+              <h2>หลักฐานการชำระเงิน</h2>
+                <div class="d-flex justify-content-center">
+                  <img class="w-75" [src]="bill_details.img_slip" alt="">
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-container>
+

@@ -1,0 +1,162 @@
+<div class="row h-100">
+
+
+  <!-- Sidebar -->
+  <div class="content-side side-color  col-xl-1 col-lg-2 col-md-2 col-2 p-1">
+
+    <div>
+      <div class="row">
+        <div class="col p-0 text-center">
+          <img [ngClass]="isBar ? 'logo-l' : 'logo-s'" src="assets/images/logoBig.jpg" alt="" />
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="accordion m-0 p-0" id="accordionMenu">
+        <ng-container *ngFor="let menu of menu_list; let i = index">
+          <div class="accordion-item text-center mb-3">
+            <label (click)="toPath(menu.home_menu_id)" class="m-0 p-0">
+              <button role="button" type="button"
+                class="btn button-icon d-flex flex-column justify-content-center align-items-center"
+                data-bs-toggle="collapse" [attr.data-bs-target]="'#collapse' + i" *ngIf="!isBar">
+                
+                <span role="button"
+                  [ngClass]="{ 'active-menu': menu_id == menu.home_menu_id }"
+                  class="p-0 m-0 d-flex justify-content-center align-items-center">
+                  <img src="{{ menu.path_img }}" alt="" />
+                </span>
+                <br />
+                <label
+                  [ngClass]="{ 'active-menu-text': menu_id == menu.home_menu_id }"
+                  class="m-0 p-0" style="font-size: 18px">
+                  {{ menu.home_menu_name }}
+                </label>
+              </button>
+            </label>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+    
+
+    <div class="row">
+      <span class="text-center" style="font-size: 10px;">
+        {{ version }}
+      </span>
+    </div>
+
+  </div>
+
+  <!-- Content -->
+  <div class="col-xl-11 col-lg-10 col-md-10 col-10 p-0">
+
+    <div class="row" style="height: 70px; border-bottom: 1px solid #e6e6fa;">
+      <div class="col ps-5 d-flex align-items-center">
+        <!-- <ng-container *ngFor="
+                  let breadcrumb of breadcrumb | async;
+                  let last = last;
+                  let f = first
+                ">
+                <span  class="font-title" *ngIf="f">
+                  <span class="breadcrum-text"> {{ breadcrumb.label }}</span>
+                  <span *ngIf="!last" class="pe-2 ps-2 color-b"></span> 
+                </span>
+              </ng-container> -->
+      </div>
+      <ng-container *ngIf="admin_data">
+        <div class="col-xl-3 col-lg-4 col-md-5 col-6 d-flex align-items-center justify-content-end me-3">
+          <div class="col-xl-2 m-0 p-0 d-flex align-items-center justify-content-end">
+            <img style="width: 40px !important; height: 40px !important" class="circle-photo" src="{{
+                      admin_data.profile_img == null
+                        ? '/assets/images/1page.png'
+                        : admin_data.profile_img
+                    }}" alt="" (click)="openProfile(admin_data.id)" role="button" />
+          </div>
+          <div class="ms-3 text-start col-xl-6 col-lg-6 col-md-8 col-sm-11 col-12" (click)="openProfile(admin_data.id)"
+            role="button">
+            <span>
+              <span style="color: #000000" role="button">{{ this.fullname }}</span>
+            </span><br />
+
+            <span style="color: #989898" role="button">{{ this.role_admin }}</span>
+
+          </div>
+
+          <!-- ปุ่มแจ้งเตือน -->
+          <button class="p-0 btn-icon-view shadow-sm mx-3" (click)="toggleDropdown()">
+            <img src="assets/menu_icons/icon-bell.png" alt="" style="width: 35px;" />
+            <span *ngIf="notifications?.unread_total > 0" class="notification-badge">
+              {{ notifications?.unread_total }}
+            </span>
+          </button>
+
+          <!-- Dropdown แสดงรายการแจ้งเตือน -->
+          <div *ngIf="isDropdownOpen" class="dropdown-box">
+            <div class="notification-header">
+              <h3>การแจ้งเตือน</h3>
+              <button *ngIf="notifications?.unread_total > 0" class="mark-all-read" (click)="markAllAsRead()">
+                อ่านทั้งหมด
+              </button>
+            </div>
+
+            <div class="notification-list">
+              <ng-container
+                *ngIf="notifications?.notifications && notifications.notifications.length > 0; else noNotifications">
+                <div *ngFor="let item of notifications.notifications" class="notification-item"
+                [ngClass]="{
+                  'unread': !item.is_read,
+                  'notification-type-repair': isRepairNotification(item.message),
+                  'notification-type-bill': item.message.includes('บิล') || item.message.includes('ค่าเช่า'),
+                  'notification-type-announcement': item.message.includes('แจ้งเรื่อง'),
+                  'notification-type-calendar': item.message.includes('นัดหมาย')
+                }"
+                  (click)="ReadNotification(item)">
+                  <div class="notification-icon">
+                    <mat-icon>{{ getNotificationIcon(item.message) }}</mat-icon>
+                  </div>
+                  <div class="notification-content">
+                    <div class="notification-message">{{ item.message }}</div>
+                    <div class="notification-time">{{ getTimeAgo(item.create_date) }}</div>
+                  </div>
+                </div>
+              </ng-container>
+
+              <ng-template #noNotifications>
+                <div class="empty-notifications">
+                  <p>ไม่มีการแจ้งเตือน</p>
+                </div>
+              </ng-template>
+            </div>
+
+            <div class="notification-footer">
+              <a (click)="viewAllNotifications()">ดูทั้งหมด</a>
+            </div>
+          </div>
+
+          <button class="p-0 btn-icon-view shadow-sm mx-3" (click)="OpenLogout()">
+            <img src="assets/menu_icons/logout.png" alt="" />
+          </button>
+        </div>
+      </ng-container>
+
+
+
+    </div>
+
+    <!-- Page -->
+    <div class="row content-data">
+      <div class="col-12 ps-2"> <!-- *ngIf="permission.is_read && show" -->
+        <router-outlet></router-outlet>
+      </div>
+
+      <!-- *ngIf="!permission.is_read && show" -->
+      <!-- <div class="col-12 ps-2 mt-3 text-center" style="font-size: 20px" >
+              คุณไม่มีสิทธิ์ใช้งาน
+            </div> -->
+    </div>
+  </div>
+
+
+
+</div>

@@ -1,0 +1,413 @@
+<div class="row align-items-center">
+    <div class="col-xl-6 col-lg-4 col-md-4 col-4 m-0 p-3">
+        <p class="head-title">การจัดการผู้เช่า</p>
+    </div>
+    <div class="col-xl-6 col-lg-8 col-md-8 col-8">
+        <div class="row justify-content-end p-0 m-0">
+            <div class="col d-flex align-items-center justify-content-end p-0 m-0">
+
+              
+
+
+
+                <button class="me-3 btn-add-something" (click)="CreateNewRenter()">
+                    <img class="me-2" src="assets/system_icons/icon_add.png"
+                        style="height: 25px;"><span>เพิ่มผู้เช่าใหม่</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-container *ngIf="this.admin_data.role === 'super admin' ">
+    <div class="row">
+        <div class="col-2 d-flex flex-column mb-3 align-bottom">
+            <label class="f-b mb-2" for="">เลือกสถานที่</label>
+            <select class="form-select rounded-3" [(ngModel)]="this.admin_data.location" (change)="GetMasterBuilding()" (change)="GetRenterList()">
+                <option selected disabled hidden value="">เลือก</option>
+                <option *ngFor="let i of location_list" [value]="i.id">
+                    {{ i.location_name }}
+                </option>
+            </select>
+        </div>
+    
+        <div class="col-2 d-flex flex-column mb-3 align-bottom">
+            <label class="f-b mb-2" for="">เลือกอาคาร</label>
+            <select class="form-select rounded-3" [(ngModel)]="this.building_id" (change)="GetRenterList()">
+                <option [value]="0">เลือกทั้งหมด</option>
+                <option *ngFor="let i of building_list" [value]="i.id">
+                    {{ i.building_name }}
+                </option>
+            </select>
+        </div>
+    </div>
+</ng-container>
+<ng-container *ngIf="this.admin_data.role === 'admin' ">
+    <div class="row">
+        <div class="col-2 d-flex flex-column mb-3 align-bottom">
+            <label class="f-b mb-2" for="">เลือกอาคาร</label>
+            <select class="form-select rounded-3" [(ngModel)]="this.building_id" (change)="GetRenterList()">
+                <option [value]="0">เลือกทั้งหมด</option>
+                <option *ngFor="let i of building_list" [value]="i.id">
+                    {{ i.building_name }}
+                </option>
+            </select>
+        </div>
+    </div>
+</ng-container>
+
+<div class="row">
+    <div class="col-3">
+      <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+        
+        <!-- ผู้เช่าปัจจุบัน -->
+        <li class="col nav-item" style="min-width: 120px" role="presentation">
+          <button 
+            class="nav-link rounded-pill" 
+            [ngClass]="listTab == 1 ? 'active' : ''" 
+            (click)="listTab = 1"
+            type="button" role="tab" aria-selected="true">
+            ผู้เช่าปัจจุบัน
+          </button>
+        </li>
+  
+        <!-- ผู้เช่าในอดีต -->
+        <li class="col nav-item" style="min-width: 120px" role="presentation">
+          <button 
+            class="nav-link rounded-pill" 
+            [ngClass]="listTab == 2 ? 'active' : ''" 
+            (click)="listTab = 2"
+            type="button" role="tab" aria-selected="false">
+            ผู้เช่าในอดีต
+          </button>
+        </li>
+  
+      </ul>
+    </div>
+  </div>
+
+
+<ng-container *ngIf="mode == 'card'">
+    
+    <div *ngIf="listTab === 1" class="row p-0 m-0 pb-4">
+        <ng-container *ngIf="renter_list?.length > 0; else NoData">
+            <ng-container *ngFor="
+              let i of renter_list
+                | paginate : { itemsPerPage: itemsPerPage, currentPage: page };
+              let index = index">
+                <!-- menu Card -->
+                <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12 pt-4">
+                    <div class="card border-0 shadow-sm">
+                        <div class="card-body">
+                            <div class="row border-bottom border-light border-2">
+                                <div
+                                    class="col-xl-1 col-lg-2 col-md-2 col-2 d-flex justify-content-center flex-column title-card-gray">
+                                    <div [class.square-status-Disabled]="i.remaining_contract <= 0"
+                                        [class.square-status-Active]="i.remaining_contract > 30"
+                                        [class.square-status-Warning]="i.remaining_contract <= 30"
+                                        [class.square-status-Alert]="i.remaining_contract <= 10 && i.remaining_contract != 0">
+                                        <label *ngIf="i.remaining_contract > 0"
+                                            class="square-status-text">เหลือสัญญา</label>
+                                        <label *ngIf="i.remaining_contract <= 0"
+                                            class="square-status-text">หมดสัญญา</label>
+                                        <label *ngIf="i.remaining_contract > 0">{{i.remaining_contract}} วัน</label>
+                                        <!-- <label *ngIf="i.remaining_contract <= 0">{{i.remaining_contract}}หมดสัญญา</label> -->
+                                    </div>
+                                    <div class="pt-3 pb-3">
+                                        <div class="circle-container"></div>
+                                        <div class="dashed-line ms-2"></div>
+                                        <div class="square-container"></div>
+                                    </div>
+                                </div>
+                                <div class="col pt-3">
+                                    <div class="row d-flex flex-column title-card-gray">
+                                        <div class="col"><label>วันที่เริ่มสัญญา</label></div>
+                                        <div class="col">
+                                            <h4 class="text-card-data">
+                                                {{
+                                                i.start_contract == null ||
+                                                i.start_contract == "Invalid date"
+                                                ? "-"
+                                                : i.start_contract
+                                                }}
+                                            </h4>
+                                        </div>
+                                    </div>
+                                    <div class="row d-flex flex-column title-card-gray">
+                                        <div class="col"><label>วันหมดสัญญา</label></div>
+                                        <div class="col">
+                                            <h4 class="text-card-data">
+                                                {{
+                                                i.end_contract == null ||
+                                                i.end_contract == "Invalid date"
+                                                ? "-"
+                                                : i.end_contract
+                                                }}
+                                            </h4>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row pt-3 d-flex flex-row border-bottom border-light border-2 title-card-gray">
+                                <div class="col">
+                                    <div class="col"><label>อาคาร</label></div>
+                                    <div class="col text-height">
+                                        <h4 class="text-card-data">{{ i.building.building_name }}</h4>
+                                    </div>
+                                    <div class="col"><label>ห้อง</label></div>
+                                    <div class="col text-height">
+                                        <h4 class="text-card-data">{{ i.room.room_number }}</h4>
+                                    </div>
+                                </div>
+
+                                <div class="col">
+                                    <div class="col"><label>ชั้น</label></div>
+                                    <div class="col text-height">
+                                        <h4 class="text-card-data">{{ i.room.floor }}</h4>
+                                    </div>
+                                    <div class="col"><label>ประเภท</label></div>
+                                    <div class="col text-height">
+                                        <h4 *ngIf="i.role.role_name == 'renter'" class="text-card-data">ผู้เช่าหลัก</h4>
+                                        <h4 *ngIf="i.role.role_name == 'co-renter'" class="text-card-data">ผู้เช่าร่วม</h4>
+                                    </div>
+                                </div>
+
+
+
+
+                            </div>
+
+                            <div class="row pt-4 pb-2">
+                                <div
+                                    class="col-xl-3 col-lg-3 col-md-3 col-3 m-0 p-0 d-flex align-items-center justify-content-center">
+                                    <img *ngIf="i.gender == 'M'" class="circle-photo"
+                                        [src]="i.img_profile == '' || i.img_profile == null ? 'assets/system_icons/icon_avatar_men.png' : i.img_profile"
+                                        alt="" />
+                                    <img *ngIf="i.gender == 'F'" class="circle-photo"
+                                        [src]="i.img_profile == '' || i.img_profile == null ? 'assets/system_icons/icon_avatar_women.png' : i.img_profile"
+                                        alt="" />
+                                    
+                                </div>
+                                <div class="col-xl-7 col-lg-7 col-md-7 col-7 ps-3 pe-0">
+                                    <label for="" class="text-card-data">
+                                        <span class="name_in_card">{{ i.first_name }} {{i.last_name}}</span>
+                                    </label>
+
+                                </div>
+
+                                <div class="dropdown col-xl-2 col-lg-2 col-md-2 col-2">
+                                    <button class="p-0 m-0 me-2 ms-2 btn-icon-view" type="button"
+                                        id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="true">
+                                        <mat-icon role="button">more_vert</mat-icon>
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton1">
+
+                                        <li class="border-bottom d-flex" (click)="DetailsRenter(i.id)">
+                                            <a class="dropdown-item d-flex justify-content-between align-items-center"
+                                                role="button">
+                                                ข้อมูลเพิ่มเติม
+                                                <img src="assets/system_icons/icon_details.png" alt=""
+                                                    style="width: 20px;" />
+                                            </a>
+                                        </li>
+
+                                        <li class="d-flex" (click)="DeleteRenter(i.id,i.room.id)">
+                                            <a class="dropdown-item d-flex justify-content-between align-items-center"
+                                                role="button">
+                                                ลบ
+                                                <img src="assets/system_icons/icon_delete.png" alt=""
+                                                    style="width: 20px;" />
+                                            </a>
+                                        </li>
+
+                                    </ul>
+                                </div>
+
+
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </ng-container>
+        </ng-container>
+        <ng-template #NoData>
+            <div class="text-center d-flex justify-content-center">ไม่พบข้อมูล</div>
+        </ng-template>
+        <ng-container *ngIf="this.admin_data.role === 'super admin' && renter_list.length < 0">
+            <div class="text-center d-flex justify-content-center">กรุณาเลือกสถานที่</div>
+          </ng-container>
+    </div>
+
+    <div *ngIf="listTab === 2" class="row p-0 m-0 pb-4">
+        <ng-container *ngIf="history_renter_list?.length > 0; else NoData">
+            <ng-container *ngFor="
+              let i of history_renter_list
+                | paginate : { itemsPerPage: itemsPerPage, currentPage: page };
+              let index = index">
+                <!-- menu Card -->
+                <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12 pt-4">
+                    <div class="card border-0 shadow-sm">
+                        <div class="card-body">
+                            <div class="row border-bottom border-light border-2">
+                                <div class="col-xl-1 col-lg-2 col-md-2 col-2 d-flex justify-content-center flex-column title-card-gray">
+                                    <div [ngClass]="{
+                                        'square-status-Disabled': i.remaining_contract <= 0,
+                                        'square-status-Alert': i.remaining_contract <= 10 && i.remaining_contract > 0,
+                                        'square-status-Warning': i.remaining_contract <= 30 && i.remaining_contract > 10,
+                                        'square-status-Active': i.remaining_contract > 30
+                                      }">
+                                        <label *ngIf="i.remaining_contract > 0" class="square-status-text">
+                                            เหลือสัญญา
+                                          </label>
+                                          <label *ngIf="i.remaining_contract <= 0" class="square-status-text">
+                                            หมดสัญญา
+                                          </label>
+                                          <label *ngIf="i.remaining_contract > 0">
+                                            {{ i.remaining_contract }} วัน
+                                          </label>
+                                        <!-- <label *ngIf="i.remaining_contract <= 0">{{i.remaining_contract}}หมดสัญญา</label> -->
+                                    </div>
+                                    <div class="pt-3 pb-3">
+                                        <div class="circle-container"></div>
+                                        <div class="dashed-line ms-2"></div>
+                                        <div class="square-container"></div>
+                                    </div>
+                                </div>
+                                <div class="col pt-3">
+                                    <div class="row d-flex flex-column title-card-gray">
+                                        <div class="col"><label>วันที่เริ่มสัญญา</label></div>
+                                        <div class="col">
+                                            <h4 class="text-card-data">
+                                                {{
+                                                i.start_contract == null ||
+                                                i.start_contract == "Invalid date"
+                                                ? "-"
+                                                : i.start_contract
+                                                }}
+                                            </h4>
+                                        </div>
+                                    </div>
+                                    <div class="row d-flex flex-column title-card-gray">
+                                        <div class="col"><label>วันหมดสัญญา</label></div>
+                                        <div class="col">
+                                            <h4 class="text-card-data">
+                                                {{
+                                                i.end_contract == null ||
+                                                i.end_contract == "Invalid date"
+                                                ? "-"
+                                                : i.end_contract
+                                                }}
+                                            </h4>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row pt-3 d-flex flex-row border-bottom border-light border-2 title-card-gray">
+                                <div class="col">
+                                    <div class="col"><label>อาคาร</label></div>
+                                    <div class="col text-height">
+                                        <h4 class="text-card-data">{{ i.building.building_name }}</h4>
+                                    </div>
+                                    <div class="col"><label>ห้อง</label></div>
+                                    <div class="col text-height">
+                                        <h4 class="text-card-data">{{ i.room.room_number }}</h4>
+                                    </div>
+                                </div>
+
+                                <div class="col">
+                                    <div class="col"><label>ชั้น</label></div>
+                                    <div class="col text-height">
+                                        <h4 class="text-card-data">{{ i.room.floor }}</h4>
+                                    </div>
+                                    <div class="col"><label>ประเภท</label></div>
+                                    <div class="col text-height">
+                                        <h4 *ngIf="i.role.role_name == 'renter'" class="text-card-data">ผู้เช่าหลัก</h4>
+                                        <h4 *ngIf="i.role.role_name == 'co-renter'" class="text-card-data">ผู้เช่าร่วม</h4>
+                                    </div>
+                                </div>
+
+
+
+
+                            </div>
+
+                            <div class="row pt-4 pb-2">
+                                <div
+                                    class="col-xl-3 col-lg-3 col-md-3 col-3 m-0 p-0 d-flex align-items-center justify-content-center">
+                                    <img *ngIf="i.gender == 'M'" class="circle-photo"
+                                        [src]="i.img_profile == '' || i.img_profile == null ? 'assets/system_icons/icon_avatar_men.png' : i.img_profile"
+                                        alt="" />
+                                    <img *ngIf="i.gender == 'F'" class="circle-photo"
+                                        [src]="i.img_profile == '' || i.img_profile == null ? 'assets/system_icons/icon_avatar_women.png' : i.img_profile"
+                                        alt="" />
+                                    
+                                </div>
+                                <div class="col-xl-7 col-lg-7 col-md-7 col-7 ps-3 pe-0">
+                                    <label for="" class="text-card-data">
+                                        <span class="name_in_card">{{ i.first_name }} {{i.last_name}}</span>
+                                    </label>
+
+                                </div>
+
+                                <div class="dropdown col-xl-2 col-lg-2 col-md-2 col-2">
+                                    <button class="p-0 m-0 me-2 ms-2 btn-icon-view" type="button"
+                                        id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="true">
+                                        <mat-icon role="button">more_vert</mat-icon>
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton1">
+
+                                        <li class="border-bottom d-flex" (click)="DetailsRenter(i.id)">
+                                            <a class="dropdown-item d-flex justify-content-between align-items-center"
+                                                role="button">
+                                                ข้อมูลเพิ่มเติม
+                                                <img src="assets/system_icons/icon_details.png" alt=""
+                                                    style="width: 20px;" />
+                                            </a>
+                                        </li>
+
+                                        <li class="d-flex" (click)="DeleteRenter(i.id,i.room.id)">
+                                            <a class="dropdown-item d-flex justify-content-between align-items-center"
+                                                role="button">
+                                                ลบ
+                                                <img src="assets/system_icons/icon_delete.png" alt=""
+                                                    style="width: 20px;" />
+                                            </a>
+                                        </li>
+
+                                    </ul>
+                                </div>
+
+
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </ng-container>
+        </ng-container>
+        <ng-template #NoData>
+            <div class="text-center d-flex justify-content-center">ไม่พบข้อมูล</div>
+        </ng-template>
+        <ng-container *ngIf="this.admin_data.role === 'super admin' && history_renter_list.length < 0">
+            <div class="text-center d-flex justify-content-center">กรุณาเลือกสถานที่</div>
+          </ng-container>
+    </div>
+</ng-container>
+
+
+<ng-container>
+    <div class="row mt-5">
+        <div class="col-md-12 d-flex justify-content-center flex-wrap">
+            <span></span>
+            <pagination-controls class="text-center" (pageChange)="page = $event" previousLabel="" nextLabel=""
+                [responsive]="true">
+            </pagination-controls>
+            <span class="ms-2"> </span>
+        </div>
+    </div>
+</ng-container>

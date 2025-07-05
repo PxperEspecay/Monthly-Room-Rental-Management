@@ -1,0 +1,632 @@
+<ng-container *ngIf="this.check_action === 'read'">
+
+    <div class="row">
+        <div class="col mt-2 d-flex">
+            <button class="p-0 btn-icon-view shadow-sm" (click)="BackTo()">
+                <img src="assets/system_icons/back.png" alt="" />
+            </button>
+
+            <div class="col-xl-6 col-lg-4 col-md-4 col-4 mt-2 ms-3">
+                <p class="head-title">ข้อมูลผู้เช่าโดยละเอียด</p>
+            </div>
+
+
+        </div>
+        <div class="col-xl-6 col-lg-8 col-md-8 col-8 my-3">
+            <div class="row justify-content-end p-0 m-0">
+                <div class="col d-flex align-items-center justify-content-end p-0 m-0">
+
+
+
+                    <button class="me-3 btn-add-something" (click)="EditMode('edit')">
+                        <img class="me-2" src="assets/system_icons/icon-edit-white2.png"
+                            style="height: 25px;"><span>แก้ไขข้อมูล</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <div class="card" style="border-radius: 16px;">
+                <div class="card-body">
+
+                    <div class="row">
+                        <div class="col-3" style="border-right: 1px solid #dddcdc;">
+                            <div class="profile-sidebar">
+                                <img *ngIf="renter_data.gender == 'F'"
+                                    src="{{renter_data.img_profile == null || renter_data.img_profile == '' ? 'assets/system_icons/icon_avatar_women.png' : renter_data.img_profile}}"
+                                    alt="Richard Hendricks" class="profile-image">
+                                <img *ngIf="renter_data.gender == 'M'"
+                                    src="{{renter_data.img_profile == null || renter_data.img_profile == '' ? 'assets/system_icons/icon_avatar_men.png' : renter_data.img_profile}}"
+                                    alt="Richard Hendricks" class="profile-image">
+
+                                <h2 class="profile-name">{{renter_data.prefix}}{{renter_data.first_name}}
+                                    {{renter_data.last_name}}</h2>
+                                <h2 class="profile-name">อาคาร : <span
+                                        class="data-details">{{renter_data.building.building_name}}</span></h2>
+                                <h2 class="profile-name">ห้องเช่า : <span
+                                        class="data-details">{{renter_data.room.room_number}}</span></h2>
+                                <h2 *ngIf="renter_data.role.role_name == 'renter'" class="profile-name">ประเภท : <span
+                                        class="data-details">ผู้เช่าหลัก</span></h2>
+                                <h2 *ngIf="renter_data.role.role_name == 'co-renter'" class="profile-name">ประเภท :
+                                    <span class="data-details">ผู้เช่าร่วม</span>
+                                </h2>
+                            </div>
+                        </div>
+                        <div class="col-9">
+                            <div class="profile-content">
+
+                                <div class="row"
+                                    style="background-color: #eee; border-top-left-radius: 16px; border-top-right-radius: 16px; padding: 8px 16px;">
+                                    <h6 style="margin: 0; line-height: 1.5;">ข้อมูลส่วนตัว</h6>
+                                </div>
+
+
+                                <div class="row mt-3" style="border-bottom: 1px solid #eee;">
+                                    <div class="col">
+                                        <p class="head-line">รหัสประจำตัวประชาชน</p>
+                                        <p class="data-details ms-1">{{renter_data.identity_card_number}}</p>
+                                    </div>
+                                    <div class="col">
+                                        <p class="head-line">ชื่อ</p>
+                                        <p class="data-details ms-1">{{renter_data.prefix}}{{renter_data.first_name}}
+                                            {{renter_data.last_name}} <span
+                                                *ngIf="renter_data.nick_name">({{renter_data.nick_name}})</span></p>
+                                    </div>
+                                    <div class="col">
+                                        <p class="head-line">อายุ</p>
+                                        <p class="data-details ms-1">{{renter_data.age}}</p>
+                                    </div>
+                                    <div class="col">
+                                        <p class="head-line">วันเดือนปีเกิด</p>
+                                        <p class="data-details ms-1">{{this.display_birth_date}}</p>
+                                    </div>
+                                </div>
+
+                                <div class="row mt-3"
+                                    style="background-color: #eee; border-top-left-radius: 16px; border-top-right-radius: 16px; padding: 8px 16px;">
+                                    <h6 style="margin: 0; line-height: 1.5;">การติดต่อ</h6>
+                                </div>
+
+                                <div class="row mt-3" style="border-bottom: 1px solid #eee;">
+                                    <div class="col">
+                                        <p class="head-line">อีเมล</p>
+                                        <p class="data-details ms-1">{{renter_data.email}}</p>
+                                    </div>
+                                    <div class="col">
+                                        <p class="head-line">เบอร์โทรศัพท์</p>
+                                        <p class="data-details ms-1">{{renter_data.phone_number}}</p>
+                                    </div>
+                                </div>
+
+                                <div class="row mt-3"
+                                    style="background-color: #eee; border-top-left-radius: 16px; border-top-right-radius: 16px; padding: 8px 16px;">
+                                    <h6 style="margin: 0; line-height: 1.5;">ที่อยู่ตามบัตรประชาชน</h6>
+                                </div>
+
+                                <div class="row mt-3" style="border-bottom: 1px solid #eee;">
+                                    <div class="col">
+                                        <p class="head-line">บ้านเลขที่</p>
+                                        <p class="data-details ms-1">{{renter_data.address}}</p>
+                                    </div>
+                                    <div class="col">
+                                        <p class="head-line">หมู่</p>
+                                        <p class="data-details ms-1">{{renter_data.address_moo}}</p>
+                                    </div>
+                                    <div class="col">
+                                        <p class="head-line">ตำบล</p>
+                                        <p class="data-details ms-1">{{renter_data.sub_district}}</p>
+                                    </div>
+                                    <div class="col">
+                                        <p class="head-line">อำเภอ</p>
+                                        <p class="data-details ms-1">{{renter_data.district}}</p>
+                                    </div>
+                                    <div class="col">
+                                        <p class="head-line">จังหวัด</p>
+                                        <p class="data-details ms-1">{{renter_data.province}}</p>
+                                    </div>
+                                    <div class="col">
+                                        <p class="head-line">รหัสไปรษณีย์</p>
+                                        <p class="data-details ms-1">{{renter_data.zip_code}}</p>
+                                    </div>
+                                </div>
+
+                                <div class="row mt-3"
+                                    style="background-color: #eee; border-top-left-radius: 16px; border-top-right-radius: 16px; padding: 8px 16px;">
+                                    <h6 style="margin: 0; line-height: 1.5;">ผู้ติดต่อฉุกเฉิน</h6>
+                                </div>
+
+                                <div class="row mt-3" style="border-bottom: 1px solid #eee;">
+                                    <div class="col">
+                                        <p class="head-line">ชื่อ</p>
+                                        <p class="data-details ms-1">
+                                            {{renter_data.emergency_prefix}}{{renter_data.emergency_first_name}}
+                                            {{renter_data.emergency_last_name}}</p>
+                                    </div>
+                                    <div class="col">
+                                        <p class="head-line">เบอร์โทรศัพท์</p>
+                                        <p class="data-details ms-1">{{renter_data.emergency_phone_number}}</p>
+                                    </div>
+                                    <div class="col">
+                                        <p class="head-line">ความสัมพันธ์</p>
+                                        <p class="data-details ms-1">{{renter_data.emergency_relationship}}</p>
+                                    </div>
+                                </div>
+
+                                <div class="row mt-3"
+                                    style="background-color: #eee; border-top-left-radius: 16px; border-top-right-radius: 16px; padding: 8px 16px;">
+                                    <h6 style="margin: 0; line-height: 1.5;">สัญญาเช่า</h6>
+                                </div>
+
+                                <div class="row mt-3" style="border-bottom: 1px solid #eee;">
+                                    <div class="col">
+                                        <p class="head-line">วันที่เริ่มสัญญา</p>
+                                        <p class="data-details ms-1">
+                                            {{this.display_start_contract}}
+                                            </p>
+                                    </div>
+                                    <div class="col">
+                                        <p class="head-line">วันที่สิ้นสุดสัญญา</p>
+                                        <p class="data-details ms-1">{{this.display_end_contract}}</p>
+                                    </div>
+                                    <div class="col">
+                                        <p class="head-line">ระยะเวลาคงเหลือ</p>
+                                        <p class="data-details ms-1">{{renter_data.remaining_contract}} วัน</p>
+                                    </div>
+                                </div>
+
+
+                                <div class="row mt-3">
+                                    <div class="col d-flex justify-content-between">
+                                        <div class="m-0 p-0 align-items-center" style="position: relative !important">
+                                            <a [href]="this.renter_data.file_contract" target="_blank"><img
+                                                    class="circle-photo me-3 mb-3"
+                                                    style="height: 75px !important; width: 75px !important; border-radius: 8px;"
+                                                    src="assets/system_icons/icon_pdf.png" alt="Preview" /></a>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+
+
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-container>
+
+<ng-container *ngIf="this.check_action === 'edit'">
+    <div class="row">
+        <div class="col mt-2 d-flex">
+            <button class="p-0 btn-icon-view shadow-sm" (click)="BackTo()">
+                <img src="assets/system_icons/back.png" alt="" />
+            </button>
+
+            <div class="col-xl-6 col-lg-4 col-md-4 col-4 mt-2 ms-3">
+                <p class="head-title">แก้ไขข้อมูลผู้เช่า</p>
+            </div>
+
+
+        </div>
+        <div class="col-xl-6 col-lg-8 col-md-8 col-8 my-3">
+            <div class="row justify-content-end p-0 m-0">
+                <div class="col d-flex align-items-center justify-content-end p-0 m-0">
+
+
+
+                    <button class="me-3 btn-add-something" (click)="EditMode('read')">
+                        <img class="me-2" src="assets/system_icons/icon-edit-white2.png"
+                            style="height: 25px;"><span>แก้ไขข้อมูล</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <div class="card" style="border-radius: 16px;">
+                <div class="card-body">
+
+                    <div class="row">
+                        <div class="col-3" style="border-right: 1px solid #dddcdc;">
+                            <div class="profile-sidebar">
+                                <img *ngIf="renter_data.gender == 'F'"
+                                    src="{{renter_data.img_profile == null || renter_data.img_profile == '' ? 'assets/system_icons/icon_avatar_women.png' : renter_data.img_profile}}"
+                                    alt="Richard Hendricks" class="profile-image">
+                                <img *ngIf="renter_data.gender == 'M'"
+                                    src="{{renter_data.img_profile == null || renter_data.img_profile == '' ? 'assets/system_icons/icon_avatar_men.png' : renter_data.img_profile}}"
+                                    alt="Richard Hendricks" class="profile-image">
+
+                                <h2 class="profile-name">{{renter_data.prefix}}{{renter_data.first_name}}
+                                    {{renter_data.last_name}}</h2>
+                                <!-- <h2 class="profile-name">อาคาร : <span
+                                        class="data-details">{{renter_data.building.building_name}}</span></h2>
+                                <h2 class="profile-name">ห้องเช่า : <span
+                                        class="data-details">{{renter_data.room.room_number}}</span></h2>
+                                <h2 *ngIf="renter_data.role.role_name == 'renter'" class="profile-name">ประเภท : <span
+                                        class="data-details">ผู้เช่าหลัก</span></h2>
+                                <h2 *ngIf="renter_data.role.role_name == 'co-renter'" class="profile-name">ประเภท :
+                                    <span class="data-details">ผู้เช่าร่วม</span>
+                                </h2> -->
+
+                                <div class="row">
+                                    <div class="col d-flex flex-column mb-3 align-bottom">
+                                        <label class="f-b mb-2" for="">ประเภทผู้เช่า</label>
+                                        <select class="form-select rounded-3" [(ngModel)]="this.renter_data.role_id" (change)="GetMasterAvaliableRoom()">
+                                            <option selected disabled hidden value="">เลือก</option>
+                                            <option *ngFor="let i of role_list" [value]="i.id">
+                                                {{ i.role_name }}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                
+                                <div class="row">
+                                    <div class="col d-flex flex-column mb-3 align-bottom">
+                                        <label class="f-b mb-2" for="">เลือกอาคาร</label>
+                                        <select class="form-select rounded-3" [(ngModel)]="this.renter_data.building_id" (change)="GetMasterAvaliableRoom()">
+                                            <option selected disabled hidden value="">เลือก</option>
+                                            <option *ngFor="let i of building_list" [value]="i.id">
+                                                {{ i.building_name }}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col d-flex flex-column mb-3 align-bottom">
+                                        <label class="f-b mb-2" for="">เลือกห้องว่าง</label>
+                                        <select class="form-select rounded-3" [(ngModel)]="this.renter_data.room_id" (change)="UpdateStatusRoom()">
+                                            <option selected disabled hidden value="">เลือก</option>
+                                            <option *ngFor="let i of avaliable_room_list" [value]="i.id">
+                                                {{ i.room_number }}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="col-9">
+                            <div class="profile-content">
+
+                                <div class="row"
+                                    style="background-color: #eee; border-top-left-radius: 16px; border-top-right-radius: 16px; padding: 8px 16px;">
+                                    <h6 style="margin: 0; line-height: 1.5;">ข้อมูลส่วนตัว</h6>
+                                </div>
+
+
+                                <div class="row mt-3" style="border-bottom: 1px solid #eee;">
+                                    <div class="col-3 mb-3">
+                                        <p class="head-line">รหัสประจำตัวประชาชน</p>
+                                        <input [(ngModel)]="renter_data.identity_card_number"
+                                            class="form-control data-details ms-1">
+                                    </div>
+                                    <div class="col">
+                                        <p class="head-line">
+                                            คำนำหน้า&nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;ชื่อ&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;นามสกุล&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ชื่อเล่น
+                                        </p>
+                                        <!-- <p class="data-details ms-1">{{renter_data.prefix}}{{renter_data.first_name}}
+                                            {{renter_data.last_name}}
+                                            <span *ngIf="renter_data.nick_name">({{renter_data.nick_name}})</span>
+                                        </p> -->
+                                        <div class="d-flex">
+                                            <input [(ngModel)]="renter_data.prefix"
+                                                class="form-control data-details ms-1 w-25">
+                                            <input [(ngModel)]="renter_data.first_name"
+                                                class="form-control data-details ms-1 w-50">
+                                            <input [(ngModel)]="renter_data.last_name"
+                                                class="form-control data-details ms-1 w-50">
+                                            <input [(ngModel)]="renter_data.nick_name"
+                                                class="form-control data-details ms-1 w-25">
+                                        </div>
+
+                                    </div>
+                                    <div class="col-1">
+                                        <p class="head-line">อายุ</p>
+                                        <!-- <p class="data-details ms-1">{{renter_data.age}}</p> -->
+                                        <input [(ngModel)]="renter_data.age" class="form-control data-details ms-1">
+                                    </div>
+                                    <div class="col mb-4">
+                                        <label class="head-line" for="">วันเดือนปีเกิด </label>
+                                        <div class="input-group border-1 w-100">
+                                            <input onkeydown="return false;" matInput [matDatepicker]="picker" class="form-control"
+                                                style="
+                                              position: relative;
+                                              border-top-left-radius: 8px;
+                                              border-bottom-left-radius: 8px;
+                                            " placeholder="วัน/เดือน/ปี" ngDefaultControl [(ngModel)]="renter_data.birth_date"/>
+                                            <mat-datepicker-toggle style="height: 40px" matSuffix [for]="picker" 
+                                                class="mat-datepicker-toggle"></mat-datepicker-toggle>
+                                            <mat-datepicker #picker class="mat-datepicker"></mat-datepicker>
+            
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row mt-3"
+                                    style="background-color: #eee; border-top-left-radius: 16px; border-top-right-radius: 16px; padding: 8px 16px;">
+                                    <h6 style="margin: 0; line-height: 1.5;">การติดต่อ</h6>
+                                </div>
+
+                                <div class="row mt-3" style="border-bottom: 1px solid #eee;">
+                                    <div class="col mb-3">
+                                        <p class="head-line">อีเมล</p>
+                                        <!-- <p class="data-details ms-1">{{renter_data.email}}</p> -->
+                                        <input [(ngModel)]="renter_data.email"
+                                            class="form-control data-details ms-1 w-75">
+
+                                    </div>
+                                    <div class="col">
+                                        <p class="head-line">เบอร์โทรศัพท์</p>
+                                        <!-- <p class="data-details ms-1">{{renter_data.phone_number}}</p> -->
+                                        <input [(ngModel)]="renter_data.phone_number"
+                                            class="form-control data-details ms-1 w-75">
+                                    </div>
+                                </div>
+
+                                <div class="row mt-3"
+                                    style="background-color: #eee; border-top-left-radius: 16px; border-top-right-radius: 16px; padding: 8px 16px;">
+                                    <h6 style="margin: 0; line-height: 1.5;">ที่อยู่ตามบัตรประชาชน</h6>
+                                </div>
+
+                                <div class="row my-3" style="border-bottom: 1px solid #eee;">
+                                    <div class="col mb-3">
+                                        <p class="head-line">บ้านเลขที่</p>
+                                        <!-- <p class="data-details ms-1">{{renter_data.address}}</p> -->
+                                        <input [(ngModel)]="renter_data.address"
+                                            class="form-control data-details ms-1 w-75">
+                                    </div>
+                                    <div class="col">
+                                        <p class="head-line">หมู่</p>
+                                        <!-- <p class="data-details ms-1">{{renter_data.address_moo}}</p> -->
+                                        <input [(ngModel)]="renter_data.address_moo"
+                                            class="form-control data-details ms-1 w-75">
+
+                                    </div>
+                                    <div class="col">
+                                        <p class="head-line">ตำบล</p>
+                                        <!-- <p class="data-details ms-1">{{renter_data.sub_district}}</p> -->
+                                        <input [(ngModel)]="renter_data.sub_district"
+                                            class="form-control data-details ms-1 w-75">
+                                    </div>
+                                    <div class="col">
+                                        <p class="head-line">อำเภอ</p>
+                                        <!-- <p class="data-details ms-1">{{renter_data.district}}</p> -->
+                                        <input [(ngModel)]="renter_data.district"
+                                            class="form-control data-details ms-1 w-75">
+                                    </div>
+                                    <div class="col">
+                                        <p class="head-line">จังหวัด</p>
+                                        <!-- <p class="data-details ms-1">{{renter_data.province}}</p> -->
+                                        <input [(ngModel)]="renter_data.province"
+                                            class="form-control data-details ms-1 w-75">
+                                    </div>
+                                    <div class="col">
+                                        <p class="head-line">รหัสไปรษณีย์</p>
+                                        <!-- <p class="data-details ms-1">{{renter_data.zip_code}}</p> -->
+                                        <input [(ngModel)]="renter_data.zip_code"
+                                            class="form-control data-details ms-1 w-75">
+                                    </div>
+                                </div>
+
+                                <div class="row mt-3"
+                                    style="background-color: #eee; border-top-left-radius: 16px; border-top-right-radius: 16px; padding: 8px 16px;">
+                                    <h6 style="margin: 0; line-height: 1.5;">ผู้ติดต่อฉุกเฉิน</h6>
+                                </div>
+
+                                <div class="row mt-3" style="border-bottom: 1px solid #eee;">
+                                    <div class="col mb-3">
+                                        <p class="head-line">
+                                            คำนำหน้า&nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;ชื่อ&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;นามสกุล
+                                        </p>
+                                        <!-- <p class="data-details ms-1">
+                                            {{renter_data.emergency_prefix}}{{renter_data.emergency_first_name}}
+                                            {{renter_data.emergency_last_name}}</p> -->
+                                        <div class="d-flex">
+                                            <input [(ngModel)]="renter_data.emergency_prefix"
+                                                class="form-control data-details ms-1 w-25">
+                                            <input [(ngModel)]="renter_data.emergency_first_name"
+                                                class="form-control data-details ms-1 w-50">
+                                            <input [(ngModel)]="renter_data.emergency_last_name"
+                                                class="form-control data-details ms-1 w-50">
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <p class="head-line">เบอร์โทรศัพท์</p>
+                                        <!-- <p class="data-details ms-1">{{renter_data.emergency_phone_number}}</p> -->
+                                        <input [(ngModel)]="renter_data.emergency_phone_number"
+                                            class="form-control data-details ms-1 w-50">
+                                    </div>
+                                    <div class="col">
+                                        <p class="head-line">ความสัมพันธ์</p>
+                                        <!-- <p class="data-details ms-1">{{renter_data.emergency_relationship}}</p> -->
+                                        <input [(ngModel)]="renter_data.emergency_relationship"
+                                            class="form-control data-details ms-1 w-50">
+                                    </div>
+                                </div>
+
+                                <div class="row mt-3"
+                                    style="background-color: #eee; border-top-left-radius: 16px; border-top-right-radius: 16px; padding: 8px 16px;">
+                                    <h6 style="margin: 0; line-height: 1.5;">สัญญาเช่า</h6>
+                                </div>
+
+                                <div class="row mt-3 d-flex">
+                                    <div class="col mb-4">
+                                        <label class="head-line" for="">วันที่เริ่มสัญญา </label>
+                                        <div class="input-group border-1 w-75">
+                                            <input onkeydown="return false;" matInput [matDatepicker]="picker_start_contract"
+                                                class="form-control" style="
+                                              position: relative;
+                                              border-top-left-radius: 8px;
+                                              border-bottom-left-radius: 8px;
+                                            " placeholder="วัน/เดือน/ปี" ngDefaultControl [(ngModel)]="renter_data.start_contract" />
+                                            <mat-datepicker-toggle style="height: 40px" matSuffix [for]="picker_start_contract"
+                                                class="mat-datepicker-toggle"></mat-datepicker-toggle>
+                                            <mat-datepicker #picker_start_contract class="mat-datepicker"></mat-datepicker>
+        
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <label class="head-line" for="">วันที่หมดสัญญา </label>
+                                        <div class="input-group border-1 w-75">
+                                            <input onkeydown="return false;" matInput [matDatepicker]="picker_end_contract"
+                                                class="form-control" style="
+                                              position: relative;
+                                              border-top-left-radius: 8px;
+                                              border-bottom-left-radius: 8px;
+                                            " placeholder="วัน/เดือน/ปี" ngDefaultControl [(ngModel)]="renter_data.end_contract" />
+                                            <mat-datepicker-toggle style="height: 40px" matSuffix [for]="picker_end_contract"
+                                                class="mat-datepicker-toggle"></mat-datepicker-toggle>
+                                            <mat-datepicker #picker_end_contract class="mat-datepicker"></mat-datepicker>
+        
+                                        </div>
+                                    </div>
+                                   
+                                    
+                                </div>
+
+                                <div class="row mt-3" style="border-bottom: 1px solid #eee;">
+                                    <div class="col mb-3">
+                                        <p class="head-line">ระยะเวลาคงเหลือ</p>
+                                        <input [(ngModel)]="renter_data.remaining_contract"
+                                            class="form-control data-details w-50" disabled="">
+                                    </div>
+                                    <div class="col">
+                                        <p class="head-line">วันครบกำหนดชำระ</p>
+                                        <input [(ngModel)]="renter_data.billing_day"
+                                            class="form-control data-details w-50">
+                                    </div>
+                                </div>
+
+
+                                <!-- <div class="row mt-3">
+                                    <div class="col d-flex justify-content-between">
+                                        <div class="m-0 p-0 align-items-center" style="position: relative !important">
+                                            <a [href]="this.renter_data.file_contract" target="_blank"><img
+                                                    class="circle-photo me-3 mb-3"
+                                                    style="height: 75px !important; width: 75px !important; border-radius: 8px;"
+                                                    src="assets/system_icons/icon_pdf.png" alt="Preview" /></a>
+
+                                        </div>
+                                    </div>
+                                </div> -->
+
+                                <!-- เอกสารสัญญา -->
+                                <ng-container>
+
+                                    <div class="row">
+                                        <div class="col-12 d-flex flex-column mt-3">
+                                            <label for="" class="f-b mb-2" style="color: #000">เอกสารสัญญา</label>
+                                            <div class="row">
+                                                <div class="col p-0 d-flex align-items-center">
+                                                    <ul>
+                                                        <li class="f-b" style="color: #000">แนบไฟล์</li>
+                                                    </ul>
+                                                </div>
+                                                <div class="col-2 p-0 d-flex align-items-center justify-content-end">
+                                                    <label for="select-FileContract" style="cursor: pointer">
+                                                        <span class="material-icons plus-icon" for="select-FileContract">
+                                                            add
+                                                        </span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <br />
+                                            <!-- <input type="file" name="" id="" id="select-FileContract" name="select-FileContract" hidden multiple
+                                        (change)="uploadImages($any($event.target).files)" /> -->
+                                        <input id="select-FileContract" type="file" style="display: none" name="file_contract"
+                                        accept="application/pdf,image/jpg,image/png,image/jpeg"
+                                        (change)="SelectFileContract($event)" />
+                                    
+
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col d-flex justify-content-between">
+
+                                            <div *ngIf="fileInfo1" class="m-0 p-0 align-items-center" style="position: relative !important">
+                                                <!-- ถ้าเป็น PDF ให้แสดงไอคอน -->
+                                                <ng-container *ngIf="fileInfo1.type === 'application/pdf'; else imagePreview">
+                                                  <img
+                                                    class="circle-photo me-3 mb-3"
+                                                    style="height: 75px; width: 75px; border-radius: 8px;"
+                                                    src="assets/system_icons/icon_pdf.png"
+                                                    alt="PDF Icon"
+                                                  />
+                                                </ng-container>
+                                              
+                                                <!-- ถ้าเป็นรูปภาพ -->
+                                                <ng-template #imagePreview>
+                                                  <img *ngIf="preview1"
+                                                    class="circle-photo me-3 mb-3"
+                                                    style="height: 150px; width: 300px; border-radius: 8px;"
+                                                    [src]="preview1"
+                                                    alt="Preview"
+                                                  />
+                                                </ng-template>
+                                              
+                                                <span>{{ fileInfo1.name }}</span>
+                                              </div>
+                                              
+
+                                            <!-- Section to display file details and remove option -->
+                                            <div *ngIf="fileInfo1"
+                                                class="m-0 p-0 d-flex justify-content-between align-items-center">
+                                                <div class="m-0 p-0 d-flex align-items-center text-end">
+                                                    <span style="color: #989898;">{{ showMegaByte(fileInfo1.size) }}
+                                                        MB</span>
+                                                    <!-- File size in MB -->
+                                                    <span class="material-icons fs-5 ps-3" role="button"
+                                                        (click)="DeleteFileContract()" style="color: red;">
+                                                        close
+                                                    </span> <!-- Remove icon -->
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    
+
+                                </ng-container>
+
+
+
+
+
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col text-end my-3">
+                <button class="col-xl-2 col-lg-2 col-md-2 col-2 btn btn-cancel me-2" mat-button color="primary">
+                    ยกเลิก
+                </button>
+                <button class="col-xl-2 col-lg-2 col-md-2 col-2 btn btn-submit ms-2" mat-button color="primary" (click)="EditRenterDetail()">
+                    บันทึก
+                </button>
+            </div>
+        </div>
+
+    </div>
+</ng-container>

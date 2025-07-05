@@ -1,0 +1,17 @@
+.circle-photo {
+    height: 46px;
+    width: 46px;
+    border: 3px solid #006666;
+    border-radius: 50% !important;
+  }
+  
+  .circle-photo-border {
+    position: relative;
+    height: 46px;
+    width: 46px;
+    border: 3px solid #006666;
+    border-radius: 50% !important;
+  }
+  
+
+  

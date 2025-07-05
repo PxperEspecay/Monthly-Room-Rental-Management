@@ -1,0 +1,113 @@
+<div class="row mb-5 bg-tab d-flex align-items-center sticky-top">
+    <img class="bg-img p-0 m-0" src="assets/images/bg_head_dialog.png" alt="" />
+    <div class="col mt-3 ms-3 d-flex justify-content-between">
+      <h1 class="fs-2">แก้ไข</h1>
+      <span class="material-icons" role="button" (click)="closeDialog()"> close </span>
+    </div>
+</div>
+
+<div class="row d-flex justify-content-between m-0 p-0">
+    <div class="col">
+
+        <div class="card" style="border-radius: 16px; border-color: #019393;">
+            <div class="card-body p-5">
+
+                <div class="row p-0">
+                    <div class="col-12">
+                       
+                        <div class="row">
+                            <div class="col-xl-12 d-flex align-items-center mb-3">
+                                <label class="number-icon me-3">1</label>
+                                <label>รายละเอียดอาคาร</label>
+                            </div>
+                            <div class="col-6 mb-3">
+                                <label for="" class="mb-2 f-b">ชื่ออาคาร</label>
+                                <input type="text" class="form-control rounded-3" placeholder="ชื่ออาคาร" name="name"
+                                    ngDefaultControl [(ngModel)]="building_details.building_name"/>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-6 mb-3">
+                                <label for="" class="mb-2 f-b">จำนวนชั้นทั้งหมด</label>
+                                <input type="text" class="form-control rounded-3" placeholder="จำนวนชั้นทั้งหมด" name="name"
+                                    ngDefaultControl [(ngModel)]="building_details.floor"/>
+                            </div>
+                        </div>
+
+                        <!-- รูปภาพที่ 1 -->
+                        <ng-container>
+
+                            <div class="row">
+                                <div class="col-12 d-flex flex-column mt-3">
+                                    <label for="" class="f-b mb-2" style="color: #000">รูปภาพ</label>
+                                    <div class="row">
+                                        <div class="col p-0 d-flex align-items-center">
+                                            <ul>
+                                                <li class="f-b" style="color: #000">แนบไฟล์</li>
+                                            </ul>
+                                        </div>
+                                        <div class="col-2 p-0 d-flex align-items-center justify-content-end">
+                                            <label for="select-img" style="cursor: pointer">
+                                                <span class="material-icons plus-icon" for="select-img">
+                                                    add
+                                                </span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <br />
+                                    <!-- <input type="file" name="" id="" id="select-img" name="select-img" hidden multiple
+                                        (change)="uploadImages($any($event.target).files)" /> -->
+                                    <input id="select-img" type="file" style="display: none" name="img_building"
+                                        accept="image/jpg, image/png, image/jpeg" (change)="SelectImageCommu1($event)" />
+    
+                                </div>
+                            </div>
+    
+                            <div class="row">
+                                <div class="col d-flex justify-content-between">
+                                    <div *ngIf="preview1 || building_details.img_building" class="m-0 p-0 align-items-center" style="position: relative !important">
+                                        <img class="circle-photo me-3 mb-3"
+                                            style="height: 150px !important; width: 300px !important; border-radius: 8px;"
+                                            [src]="preview1 ? preview1 : building_details.img_building" alt="Preview" />
+                                        <span *ngIf="fileInfo1">{{ fileInfo1.name }}</span>
+                                    </div>
+                        
+                                    <div *ngIf="fileInfo1 || building_details.img_building" class="m-0 p-0 d-flex justify-content-between align-items-center">
+                                        <div class="m-0 p-0 d-flex align-items-center text-end">
+                                            <span *ngIf="fileInfo1" style="color: #989898;">{{ showMegaByte(fileInfo1.size) }} MB</span>
+                                            <span class="material-icons fs-5 ps-3" role="button" (click)="DeleteImageCommu1()"
+                                                style="color: red;">
+                                                close
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+    
+
+                        </ng-container>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+<div class="row">
+    <div class="col text-end my-3">
+        <button class="col-xl-2 col-lg-2 col-md-2 col-2 btn btn-cancel me-2" mat-button color="primary" (click)="closeDialog()">
+            ยกเลิก
+        </button>
+        <button class="col-xl-2 col-lg-2 col-md-2 col-2 btn btn-submit ms-2" mat-button color="primary" (click)="SubmitEditBuildingDetails()">
+            บันทึก
+        </button>
+    </div>
+</div>
+    
+

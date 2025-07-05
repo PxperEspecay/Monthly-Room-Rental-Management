@@ -1,0 +1,90 @@
+
+<div class="row mb-5 bg-tab d-flex align-items-center sticky-top">
+    <img class="bg-img p-0 m-0" src="assets/images/bg_head_dialog.png" alt="" />
+    <div class="col mt-3 ms-3 d-flex justify-content-between">
+      <h1 *ngIf="this.mode == 1" class="fs-2">แก้ไข</h1>
+      <h1 *ngIf="this.mode == 0" class="fs-2">เพิ่มห้องพัก</h1>
+      <span class="material-icons" role="button" (click)="closeDialog()"> close </span>
+    </div>
+</div>
+
+<div class="row d-flex justify-content-between m-0 p-0">
+    <div class="col">
+
+        <div class="card" style="border-radius: 16px; border-color: #019393;">
+            <div class="card-body p-5">
+
+                <div class="row p-0">
+                    <div class="col-12">
+                       
+                        <div class="row">
+                            <div class="col-xl-12 d-flex align-items-center mb-3">
+                                <label class="number-icon me-3">1</label>
+                                <label>ข้อมูลห้องพัก</label>
+                            </div>
+                            <div class="col-6 mb-3">
+                                <label for="" class="mb-2 f-b">ชื่อห้อง/บ้านเลขที่</label>
+                                <input type="text" class="form-control rounded-3" placeholder="ชื่อห้อง/บ้านเลขที่" name="name"
+                                    ngDefaultControl  [(ngModel)]="this.body_room.room_number"   />
+                            </div>
+                            <div class="col-6 mb-3">
+                                <label for="" class="mb-2 f-b">ชั้นที่</label>
+                                <input type="text" class="form-control rounded-3" placeholder="ชั้นที่" name="name"
+                                    ngDefaultControl [(ngModel)]="this.body_room.floor"/>
+                            </div>
+                            <div class="col-6 mb-3">
+                                <label for="" class="mb-2 f-b">ค่ามัดจำ</label>
+                                <input type="text" class="form-control rounded-3" placeholder="ค่ามัดจำ" name="name"
+                                    ngDefaultControl [(ngModel)]="this.body_room.rental_deposit"/>
+                            </div>
+                            <div class="col-6 mb-3">
+                                <label for="" class="mb-2 f-b">ค่าเช่าต่อเดือน</label>
+                                <input type="text" class="form-control rounded-3" placeholder="ค่าเช่าต่อเดือน" name="name"
+                                    ngDefaultControl [(ngModel)]="this.body_room.monthly_rent_amount"/>
+                            </div>
+                            <div class="col-6 mb-3">
+                                <label for="" class="mb-2 f-b">ค่าขยะ</label>
+                                <input type="text" class="form-control rounded-3" placeholder="ค่าขยะ" name="name"
+                                    ngDefaultControl [(ngModel)]="this.body_room.garbage_amount"/>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<ng-container *ngIf="this.mode == 1">
+    <div class="row">
+        <div class="col text-end my-3">
+            <button class="col-xl-2 col-lg-2 col-md-2 col-2 btn btn-cancel me-2" mat-button color="primary" (click)="closeDialog()">
+                ยกเลิก1
+            </button>
+            <button class="col-xl-2 col-lg-2 col-md-2 col-2 btn btn-submit ms-2" mat-button color="primary" (click)="SubmitUpdateRoomDetails()">
+                บันทึก1
+            </button>
+        </div>
+    </div>
+</ng-container>
+
+<ng-container *ngIf="this.mode == 0">
+    <div class="row">
+        <div class="col text-end my-3">
+            <button class="col-xl-2 col-lg-2 col-md-2 col-2 btn btn-cancel me-2" mat-button color="primary" (click)="closeDialog()">
+                ยกเลิก0
+            </button>
+            <button class="col-xl-2 col-lg-2 col-md-2 col-2 btn btn-submit ms-2" mat-button color="primary" (click)="SubmitAddNewRoom()">
+                บันทึก0
+            </button>
+        </div>
+    </div>
+</ng-container>
+
+    
+
+

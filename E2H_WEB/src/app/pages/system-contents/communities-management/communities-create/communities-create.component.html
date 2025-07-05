@@ -1,0 +1,363 @@
+<div class="row">
+    <div class="col mt-2 d-flex">
+        <button class="p-0 btn-icon-view shadow-sm" (click)="BackTo()">
+            <img src="assets/system_icons/back.png" alt="" />
+        </button>
+
+        <div class="col-xl-6 col-lg-4 col-md-4 col-4 mt-2 ms-3">
+            <p class="head-title">เพิ่มชุมชนใหม่</p>
+        </div>
+    </div>
+</div>
+
+<div class="row d-flex justify-content-between m-0 p-0">
+    <div class="col">
+
+        <div class="card" style="border-radius: 16px;">
+            <div class="card-body p-5">
+
+                <div class="row p-0">
+                    <div class="col-12">
+
+                        <div class="row">
+                            <div class="col-xl-12 d-flex align-items-center mb-3">
+                                <label class="number-icon me-3">1</label>
+                                <label>รายละเอียดสถานที่</label>
+                            </div>
+                            <div class="col-6 mb-3">
+                                <label for="" class="mb-2 f-b">ชื่อชุมชน TH*</label>
+                                <input type="text" class="form-control rounded-3" placeholder="ชื่อชุมชน ( ไทย )"
+                                    name="name" ngDefaultControl [(ngModel)]="body_CreateNewCommu.community_name_th" />
+                            </div>
+                            <div class="col-6 mb-3">
+                                <label for="" class="mb-2 f-b">ชื่อชุมชน EN*</label>
+                                <input type="text" class="form-control rounded-3" placeholder="ชื่อชุมชน ( อังกฤษ )"
+                                    name="name" ngDefaultControl [(ngModel)]="body_CreateNewCommu.community_name_en" />
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-12 mb-3">
+                                <label for="" class="mb-2 f-b">อธิบายเพิ่มเติม</label>
+                                <textarea type="text" class="form-control rounded-3" placeholder="รายละเอียด"
+                                    name="name" ngDefaultControl
+                                    [(ngModel)]="body_CreateNewCommu.description"></textarea>
+                            </div>
+                        </div>
+
+                        <!-- <div class="row">
+                            <div class="col-6 mb-3">
+                                <label for="" class="mb-2 f-b">จำนวนชั้นทั้งหมด</label>
+                                <input type="text" class="form-control rounded-3" placeholder="จำนวนชั้น" name="name"
+                                    ngDefaultControl />
+                            </div>
+                            <div class="col-6 mb-3">
+                                <label for="" class="mb-2 f-b">จำนวนห้องทั้งหมด EN*</label>
+                                <input type="text" class="form-control rounded-3" placeholder="จำนวนห้องทั้งหมด" name="name"
+                                    ngDefaultControl />
+                            </div>
+                        </div> -->
+
+                        <div class="row">
+                            <div class="col-xl-12 d-flex align-items-center mb-3">
+                                <label class="number-icon me-3">2</label>
+                                <label>สถานที่ตั้ง</label>
+                            </div>
+                            <div class="col-3 mb-3">
+                                <label for="" class="mb-2 f-b">เลขที่</label>
+                                <input type="text" class="form-control rounded-3" placeholder="เลขที่" name="name"
+                                    ngDefaultControl [(ngModel)]="body_CreateNewCommu.address" />
+                            </div>
+                            <div class="col-3 mb-3">
+                                <label for="" class="mb-2 f-b">หมู่</label>
+                                <input type="text" class="form-control rounded-3" placeholder="หมู่" name="name"
+                                    ngDefaultControl [(ngModel)]="body_CreateNewCommu.address_moo" />
+                            </div>
+                            <div class="col-3 mb-3">
+                                <label for="" class="mb-2 f-b">ถนน</label>
+                                <input type="text" class="form-control rounded-3" placeholder="ถนน" name="name"
+                                    ngDefaultControl [(ngModel)]="body_CreateNewCommu.street" />
+                            </div>
+                            <div class="col-3 mb-3">
+                                <label for="" class="mb-2 f-b">ตำบล</label>
+                                <input type="text" class="form-control rounded-3" placeholder="ตำบล" name="name"
+                                    ngDefaultControl [(ngModel)]="body_CreateNewCommu.sub_district" />
+                            </div>
+                            <div class="col-3 mb-3">
+                                <label for="" class="mb-2 f-b">แขวง/เขต/อำเภอ</label>
+                                <input type="text" class="form-control rounded-3" placeholder="แขวง/เขต/อำเภอ"
+                                    name="name" ngDefaultControl [(ngModel)]="body_CreateNewCommu.district" />
+                            </div>
+                            <div class="col-3 mb-3">
+                                <label for="" class="mb-2 f-b">จังหวัด</label>
+                                <input type="text" class="form-control rounded-3" placeholder="จังหวัด" name="name"
+                                    ngDefaultControl [(ngModel)]="body_CreateNewCommu.province" />
+                            </div>
+                            <div class="col-3 mb-3">
+                                <label for="" class="mb-2 f-b">รหัสไปรษณีย์</label>
+                                <input type="text" class="form-control rounded-3" placeholder="รหัสไปรษณีย์" name="name"
+                                    ngDefaultControl [(ngModel)]="body_CreateNewCommu.zip_code" />
+                            </div>
+                            <div class="col-xl-3 d-flex flex-column mb-3">
+                                <label class="f-b mb-2" for="">เบอร์โทรสำนักงาน</label>
+                                <input type="text" class="form-control rounded-3" placeholder="เบอร์โทรสำนักงาน"
+                                    oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*?)\..*/g, '$1');"
+                                    maxlength="10" [(ngModel)]="body_CreateNewCommu.office_phone_number"/>
+                            </div>
+                        </div>
+
+                        <!-- รูปภาพที่ 1 -->
+                        <ng-container>
+
+                            <div class="row">
+                                <div class="col-12 d-flex flex-column mt-3">
+                                    <label for="" class="f-b mb-2" style="color: #000">รูปภาพ</label>
+                                    <div class="row">
+                                        <div class="col p-0 d-flex align-items-center">
+                                            <ul>
+                                                <li class="f-b" style="color: #000">แนบไฟล์ที่ 1</li>
+                                            </ul>
+                                        </div>
+                                        <div class="col-2 p-0 d-flex align-items-center justify-content-end">
+                                            <label for="select-img" style="cursor: pointer">
+                                                <span class="material-icons plus-icon" for="select-img">
+                                                    add
+                                                </span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <br />
+                                    <!-- <input type="file" name="" id="" id="select-img" name="select-img" hidden multiple
+                                        (change)="uploadImages($any($event.target).files)" /> -->
+                                    <input id="select-img" type="file" style="display: none" name="img_commu1"
+                                        accept="image/jpg, image/png, image/jpeg" (change)="SelectImageCommu1($event)" />
+    
+                                </div>
+                            </div>
+    
+                            <div class="row">
+                                <div class="col d-flex justify-content-between">
+    
+                                    <div *ngIf="fileInfo1" class="m-0 p-0 align-items-center" style="position: relative !important">
+                                        <img *ngIf="preview1" class="circle-photo me-3 mb-3"
+                                            style="height: 150px !important; width: 300px !important; border-radius: 8px;"
+                                            [src]="preview1" alt="Preview" />
+                                        <span>{{ fileInfo1.name }}</span> <!-- File name -->
+                                        
+                                    </div>
+    
+                                    <!-- Section to display file details and remove option -->
+                                    <div *ngIf="fileInfo1" class="m-0 p-0 d-flex justify-content-between align-items-center">
+                                        <div class="m-0 p-0 d-flex align-items-center text-end">
+                                            <span style="color: #989898;">{{ showMegaByte(fileInfo1.size) }} MB</span>
+                                            <!-- File size in MB -->
+                                            <span class="material-icons fs-5 ps-3" role="button" (click)="DeleteImageCommu1()"
+                                                style="color: red;">
+                                                close
+                                            </span> <!-- Remove icon -->
+                                        </div>
+                                    </div>
+                                       
+                                </div>
+                            </div>
+    
+
+                        </ng-container>
+
+                        <!-- รูปภาพที่ 2 -->
+                        <ng-container>
+
+                            <div class="row">
+                                <div class="col-12 d-flex flex-column mt-3">
+                                    <!-- <label for="" class="f-b mb-2" style="color: #000">รูปภาพ</label> -->
+                                    <div class="row">
+                                        <div class="col p-0 d-flex align-items-center">
+                                            <ul>
+                                                <li class="f-b" style="color: #000">แนบไฟล์ที่ 2</li>
+                                            </ul>
+                                        </div>
+                                        <div class="col-2 p-0 d-flex align-items-center justify-content-end">
+                                            <label for="select-img2" style="cursor: pointer">
+                                                <span class="material-icons plus-icon" for="select-img2">
+                                                    add
+                                                </span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <br />
+                                    <!-- <input type="file" name="" id="" id="select-img2" name="select-img2" hidden multiple
+                                        (change)="uploadImages($any($event.target).files)" /> -->
+                                    <input id="select-img2" type="file" style="display: none" name="img_commu2"
+                                        accept="image/jpg, image/png, image/jpeg" (change)="SelectImageCommu2($event)" />
+    
+                                </div>
+                            </div>
+    
+                            <div class="row">
+                                <div class="col d-flex justify-content-between">
+    
+                                    <div *ngIf="fileInfo2" class="m-0 p-0 align-items-center" style="position: relative !important">
+                                        <img *ngIf="preview2" class="circle-photo me-3 mb-3"
+                                            style="height: 150px !important; width: 300px !important; border-radius: 8px;"
+                                            [src]="preview2" alt="Preview" />
+                                        <span>{{ fileInfo2.name }}</span> <!-- File name -->
+                                        
+                                    </div>
+    
+                                    <!-- Section to display file details and remove option -->
+                                    <div *ngIf="fileInfo2" class="m-0 p-0 d-flex justify-content-between align-items-center">
+                                        <div class="m-0 p-0 d-flex align-items-center text-end">
+                                            <span style="color: #989898;">{{ showMegaByte(fileInfo2.size) }} MB</span>
+                                            <!-- File size in MB -->
+                                            <span class="material-icons fs-5 ps-3" role="button" (click)="DeleteImageCommu2()"
+                                                style="color: red;">
+                                                close
+                                            </span> <!-- Remove icon -->
+                                        </div>
+                                    </div>
+    
+                                    
+    
+                                </div>
+                            </div>
+    
+
+                        </ng-container>
+
+                        <!-- รูปภาพที่ 3 -->
+                        <ng-container>
+
+                            <div class="row">
+                                <div class="col-12 d-flex flex-column mt-3">
+                                    <!-- <label for="" class="f-b mb-2" style="color: #000">รูปภาพ</label> -->
+                                    <div class="row">
+                                        <div class="col p-0 d-flex align-items-center">
+                                            <ul>
+                                                <li class="f-b" style="color: #000">แนบไฟล์ที่ 3</li>
+                                            </ul>
+                                        </div>
+                                        <div class="col-2 p-0 d-flex align-items-center justify-content-end">
+                                            <label for="select-img3" style="cursor: pointer">
+                                                <span class="material-icons plus-icon" for="select-img3">
+                                                    add
+                                                </span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <br />
+                                    <!-- <input type="file" name="" id="" id="select-img3" name="select-img3" hidden multiple
+                                        (change)="uploadImages($any($event.target).files)" /> -->
+                                    <input id="select-img3" type="file" style="display: none" name="img_commu3"
+                                        accept="image/jpg, image/png, image/jpeg" (change)="SelectImageCommu3($event)" />
+    
+                                </div>
+                            </div>
+    
+                            <div class="row">
+                                <div class="col d-flex justify-content-between">
+    
+                                    <div *ngIf="fileInfo3" class="m-0 p-0 align-items-center" style="position: relative !important">
+                                        <img *ngIf="preview3" class="circle-photo me-3 mb-3"
+                                            style="height: 150px !important; width: 300px !important; border-radius: 8px;"
+                                            [src]="preview3" alt="Preview" />
+                                        <span>{{ fileInfo3.name }}</span> <!-- File name -->
+                                        
+                                    </div>
+    
+                                    <!-- Section to display file details and remove option -->
+                                    <div *ngIf="fileInfo3" class="m-0 p-0 d-flex justify-content-between align-items-center">
+                                        <div class="m-0 p-0 d-flex align-items-center text-end">
+                                            <span style="color: #989898;">{{ showMegaByte(fileInfo3.size) }} MB</span>
+                                            <!-- File size in MB -->
+                                            <span class="material-icons fs-5 ps-3" role="button" (click)="DeleteImageCommu3()"
+                                                style="color: red;">
+                                                close
+                                            </span> <!-- Remove icon -->
+                                        </div>
+                                    </div>
+    
+                                    
+    
+                                </div>
+                            </div>
+    
+
+                        </ng-container>
+
+                        
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- <div class="row">
+    <div class="col my-3">
+        <div class="card" style="border-radius: 16px;">
+            <div class="card-body p-5">
+                <ng-container *ngFor="let df of day_offs; let i = index; let last = last">
+                    <div class="row pt-2">
+                        <div class="col">
+
+                            <div class="row">
+
+                                <div class="col-xl-12 d-flex align-items-center mb-3">
+                                    <label class="number-icon me-3">2</label>
+                                    <label>ข้อมูลห้องพัก</label>
+                                </div>
+                                
+                                <div class="col-4">
+                                    <label for="" class="mb-2 f-b">เลขห้อง / บ้านเลขที่</label>
+                                    <input type="text" class="form-control rounded-3" placeholder="เลขห้อง / บ้านเลขที่"
+                                        name="name" ngDefaultControl [(ngModel)]="df.room_number" />
+                                </div>
+
+                                <div class="col-4">
+                                    <label for="" class="mb-2 f-b">ชั้นที่</label>
+                                    <input type="text" class="form-control rounded-3" placeholder="ชั้นที่"
+                                        name="name" ngDefaultControl [(ngModel)]="df.floor" />
+                                </div>
+                                
+                               
+                                <div class="col-2 d-flex align-items-end">
+                                    <button *ngIf="!last" class="btn add-remove-btn"
+                                        (click)="toggleButton(i, df.day_off_id)">
+                                        <span class="material-icons"> remove </span>
+                                    </button>
+                                    <ng-container class="m-0 p-0" *ngIf="last">
+                                        <button class="btn add-remove-btn" (click)="toggleButton(i, df.day_off_id)">
+                                            <span class="material-icons"> remove </span>
+                                        </button>
+                                        <button class="btn add-remove-btn" (click)="addNewDayOff()">
+                                            <span class="material-icons"> add </span>
+                                        </button>
+                                    </ng-container>
+                                </div>
+                            </div>
+
+                            
+
+
+                            
+                        </div>
+                    </div>
+                </ng-container>
+            </div>
+        </div>
+    </div>
+</div> -->
+
+<div class="row">
+    <div class="col text-end my-3">
+        <button class="col-xl-2 col-lg-2 col-md-2 col-2 btn btn-cancel me-2" mat-button color="primary">
+            ยกเลิก
+        </button>
+        <button class="col-xl-2 col-lg-2 col-md-2 col-2 btn btn-submit ms-2" mat-button color="primary"
+            (click)="CreateNewCommu()">
+            บันทึก
+        </button>
+    </div>
+</div>

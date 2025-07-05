@@ -1,0 +1,184 @@
+<div class="row align-items-center">
+    <div class="col-xl-6 col-lg-4 col-md-4 col-4 m-0 p-3">
+        <p class="head-title">จัดการชุมชนและอาคาร</p>
+    </div>
+    <div class="col-xl-6 col-lg-8 col-md-8 col-8">
+        <div class="row justify-content-end p-0 m-0">
+            <div class="col d-flex align-items-center justify-content-end p-0 m-0">
+
+
+
+                <button class="me-3 btn-add-something" (click)="CreateBuilding()">
+                    <img class="me-2" src="assets/system_icons/add-community.png"
+                        style="height: 25px;"><span>เพิ่มชุมชนใหม่</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="row p-0 m-0">
+    <ng-container *ngIf="data_community?.length > 0; else NoData">
+        <ng-container
+            *ngFor=" let item of data_community | paginate : { itemsPerPage: itemsPerPage, currentPage: page }; let index = index">
+
+            <!-- Card -->
+            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 pt-4 mb-5">
+                <div class="card border-0 shadow-sm" style="border-radius: 8px;">
+                    <div class="card-body">
+                        <div class="row d-flex justify-content-center">
+                            <div class="col-11 p-0 m-0 ">
+                                <div id="carouselExampleIndicators{{ index }}" class="carousel slide"
+                                    data-bs-ride="false" data-bs-interval="0">
+                                    <div class="carousel-indicators">
+                                        <button type="button"
+                                            [attr.data-bs-target]="'#carouselExampleIndicators' + index"
+                                            data-bs-slide-to="0" class="active" aria-current="true"
+                                            aria-label="Slide 1"></button>
+                                        <button type="button"
+                                            [attr.data-bs-target]="'#carouselExampleIndicators' + index"
+                                            data-bs-slide-to="1" aria-label="Slide 2"></button>
+                                        <button type="button"
+                                            [attr.data-bs-target]="'#carouselExampleIndicators' + index"
+                                            data-bs-slide-to="2" aria-label="Slide 3"></button>
+                                    </div>
+                                    <div class="carousel-inner">
+                                        <div class="carousel-item active">
+                                            <img src="{{item.img_commu1}}" class="d-block w-100" alt="...">
+                                        </div>
+                                        <div class="carousel-item">
+                                            <img src="{{item.img_commu2}}" class="d-block w-100" alt="...">
+                                        </div>
+                                        <div class="carousel-item">
+                                            <img src="{{item.img_commu3}}" class="d-block w-100" alt="...">
+                                        </div>
+                                    </div>
+                                    <button class="carousel-control-prev" type="button"
+                                        [attr.data-bs-target]="'#carouselExampleIndicators' + index"
+                                        data-bs-slide="prev">
+                                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                        <span class="visually-hidden">Previous</span>
+                                    </button>
+                                    <button class="carousel-control-next" type="button"
+                                        [attr.data-bs-target]="'#carouselExampleIndicators' + index"
+                                        data-bs-slide="next">
+                                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                        <span class="visually-hidden">Next</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row ps-3 d-flex justify-content-center flex-column">
+                            <div class="col mt-3">
+
+                                <img src="assets/system_icons/residential.png" alt="" style="width: 25px;">
+                                <span class="ms-2" style="font-size: 18px;">{{item.community_name_th}}</span>
+
+                            </div>
+                            <div class="col mt-3">
+
+                                <img src="assets/system_icons/address.png" alt="" style="width: 25px;">
+                                <span class="ms-2" style="font-size: 18px;">{{item.full_address}}</span>
+
+                            </div>
+                            <div class="col mt-3">
+
+                                <img src="assets/system_icons/place_name.png" alt="" style="width: 25px;">
+                                <span class="ms-2" style="font-size: 18px;">{{item.total_buildings}} อาคาร</span>
+
+                            </div>
+                            <div class="col mt-3">
+
+                                <img src="assets/system_icons/closed-door-with-border-silhouette.png" alt=""
+                                    style="width: 25px;">
+                                <span class="ms-2" style="font-size: 18px;">{{item.total_rooms}} ห้อง</span>
+
+                            </div>
+
+                            <div class="divider my-3"></div>
+
+                        </div>
+
+                        <div class="row">
+                            <div class="col d-flex justify-content-end p-0">
+
+                                <div class="dropdown col-xl-1 col-lg-1 col-md-1 col-1 d-flex justify-content-center">
+                                    <button style="background-color: transparent !important"
+                                        class="p-0 m-0 me-2 ms-2 dropdown-bg" type="button" id="dropdownMenuButton1"
+                                        data-bs-toggle="dropdown" aria-expanded="false">
+                                        <mat-icon role="button" class="fs-4">more_vert</mat-icon>
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton1">
+                                        <li class="border-bottom d-flex">
+                                            <a class="dropdown-item d-flex justify-content-between align-items-center"
+                                                role="button" (click)="BuildingAndRoomsDetails(item.id)">
+                                                อาคารและห้องพัก
+                                                <img style="width: 20px; height: 20px"
+                                                    src="assets/system_icons/residential.png" alt="" />
+                                            </a>
+                                        </li>
+                                        <li class="border-bottom d-flex">
+                                            <a class="dropdown-item d-flex justify-content-between align-items-center"
+                                                role="button" (click)="openCommunitiesDetail(item.id)">
+                                                แก้ไข
+                                                <img style="width: 20px; height: 20px"
+                                                    src="assets/system_icons/icon-edit.png" alt="" />
+
+                                            </a>
+                                        </li>
+                                        <li class="d-flex">
+                                            <a class="dropdown-item d-flex justify-content-between align-items-center"
+                                                role="button">
+                                                ลบ
+                                                <img style="width: 20px; height: 20px"
+                                                    src="assets/system_icons/icon_delete.png" alt="" />
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                            </div>
+                        </div>
+
+
+
+                        <!-- <div class="row">
+                            <div class="col text-end">
+                                
+                                <p style="color: #006666; font-size: 18px; font-weight: 500;" (click)="DetailsBuilding()" role="button" >อาคารและห้องพัก<span>>></span> </p>
+                            
+                            </div>
+                        </div> -->
+
+
+
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+    </ng-container>
+    <ng-template #NoData>
+        <div class="text-center d-flex justify-content-center">ไม่พบข้อมูล</div>
+    </ng-template>
+</div>
+
+
+
+
+
+
+
+
+<ng-container>
+    <div class="row mt-5">
+        <div class="col-md-12 d-flex justify-content-center flex-wrap">
+            <span></span>
+            <pagination-controls class="text-center" (pageChange)="page = $event" previousLabel="" nextLabel=""
+                [responsive]="true">
+            </pagination-controls>
+            <span class="ms-2"> </span>
+        </div>
+    </div>
+</ng-container>

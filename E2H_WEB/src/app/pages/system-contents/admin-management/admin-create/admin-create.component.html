@@ -1,0 +1,205 @@
+<div class="row">
+    <div class="col mt-2 d-flex">
+        <button class="p-0 btn-icon-view shadow-sm" (click)="BackTo()">
+            <img src="assets/system_icons/back.png" alt="" />
+        </button>
+
+        <div class="col-xl-6 col-lg-4 col-md-4 col-4 mt-2 ms-3">
+            <p class="head-title">เพิ่มผู้ดูแลระแบบ</p>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col">
+        <div class="card" style="border-radius: 16px;">
+            <div class="card-body p-5">
+                
+                <div class="row">
+                    <div class="col-xl-12 d-flex align-items-center mb-3">
+                        <label class="number-icon me-3">1</label>
+                        <label>ข้อมูลส่วนตัว</label>
+                    </div>
+                    <div class="col-xl-3 m-0 p-0 d-flex align-items-center justify-content-center"
+                        style="position: relative !important">
+                        <label for="select" class="d-flex justify-content-center p-0" role="button">
+                            <img class="circle-photo me-3 mb-3"
+                                style="height: 100px !important; width: 100px !important"
+                                src="{{preview == null || preview == ''? 'assets/system_icons/default-admin1.png' : preview}}"
+                                alt="" />
+
+                            <input id="select" type="file" style="display: none"
+                                accept="image/jpg, image/png, image/jpeg" (change)="SelectImage($event)"/>
+
+                        </label>
+                    </div>
+
+                    <div class="col-xl-9 d-flex flex-column mb-3">
+                        <label class="f-b mb-2" for="">อีเมล</label>
+                        <input type="text" class="form-control rounded-3" placeholder="อีเมล" [(ngModel)]="body.email"/>
+                    </div>
+
+                    <div class="col-xl-2 d-flex flex-column mb-3 align-bottom">
+                        <label class="f-b mb-2" for="">คำนำหน้าชื่อ</label>
+                        <select class="form-select rounded-3" [(ngModel)]="body.prefix">
+                            <option selected disabled hidden value="">เลือก</option>
+                            <option *ngFor="let i of prefix_name" [value]="i.prefix_name_th">
+                                {{ i.prefix_name_th }}
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="col-xl-5 d-flex flex-column mb-3">
+                        <label class="f-b mb-2" for="">ชื่อ</label>
+                        <input type="text" class="form-control rounded-3" placeholder="ชื่อ" [(ngModel)]="body.first_name"/>
+                    </div>
+
+                    <div class="col-xl-5 d-flex flex-column mb-3">
+                        <label class="f-b mb-2" for="">นามสกุล</label>
+                        <input type="text" class="form-control rounded-3" placeholder="นามสกุล" [(ngModel)]="body.last_name"/>
+                    </div>
+
+                    <div [ngClass]="user_code ? 'col-xl-4 d-flex flex-column mb-3' : 'col-xl-6 d-flex flex-column mb-3' ">
+                        <label class="f-b mb-2" for="">เลขประจำตัวประชาชน</label>
+                        <input type="text" class="form-control rounded-3" placeholder="เลขประจำตัวประชาชน"
+                            oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*?)\..*/g, '$1');"
+                            maxlength="13" [(ngModel)]="body.identity_card_number"/>
+                    </div>
+
+                    <div [ngClass]="user_code ? 'col-xl-4 d-flex flex-column mb-3' : 'col-xl-6 d-flex flex-column mb-3' ">
+                        <label class="f-b mb-2" for="">ชื่อเล่น</label>
+                        <input type="text" class="form-control rounded-3" placeholder="ชื่อเล่น" [(ngModel)]="body.nickname"/>
+                    </div>
+
+                    
+
+
+                    <div class="col-xl-4 d-flex flex-column mb-3">
+                        <label class="f-b mb-2" for="">เบอร์โทรศัพท์</label>
+                        <input type="text" class="form-control rounded-3" placeholder="เบอร์โทรศัพท์"
+                            oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*?)\..*/g, '$1');"
+                            maxlength="10" [(ngModel)]="body.phone_number"/>
+                    </div>
+
+                    <div class="col-xl-8 d-flex flex-column mb-3">
+                        <label class="f-b mb-2" for="">สถานที่่ดูแล</label>
+                        <select class="form-select rounded-3" [(ngModel)]="body.location">
+                            <option value="" disabled hidden>เลือก</option>
+                            <option *ngFor="let i of location_list" [value]="i.id">
+                                {{ i.location_name }}
+                            </option>
+                        </select>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col mt-3">
+        <div class="card" style="border-radius: 16px;">
+            <div class="card-body p-5">
+
+                <div class="row p-0 m-0">
+                    <div class="col-xl-12 d-flex align-items-center mb-3">
+                        <label class="number-icon me-3">2</label>
+                        <label>ที่อยู่ที่สามารถติดต่อได้</label>
+                    </div>
+                    <div class="col-xl-2 d-flex flex-column mb-3">
+                        <label class="f-b mb-2" for="">บ้านเลขที่</label>
+                        <input type="text" class="form-control rounded-3" placeholder="บ้านเลขที่" [(ngModel)]="body.address"/>
+                    </div>
+                    <div class="col-xl-2 d-flex flex-column mb-3">
+                        <label class="f-b mb-2" for="">หมู่</label>
+                        <input type="text" class="form-control rounded-3" placeholder="หมู่" [(ngModel)]="body.address_moo"/>
+                    </div>
+                    <div class="col-xl-4 d-flex flex-column mb-3">
+                        <label class="f-b mb-2" for="">ซอย,ถนน</label>
+                        <input type="text" class="form-control rounded-3" placeholder="ซอย,ถนน" [(ngModel)]="body.street"/>
+                    </div>
+                    
+
+                    <div class="col-xl-4 d-flex flex-column mb-3">
+                        <label class="f-b mb-2" for="">จังหวัด</label>
+                        <input type="text" class="form-control rounded-3" placeholder="จังหวัด" [(ngModel)]="body.province"/>
+                    </div>
+                    <div class="col-xl-4 d-flex flex-column mb-3">
+                        <label class="f-b mb-2" for="">อำเภอ</label>
+                        <input type="text" class="form-control rounded-3" placeholder="อำเภอ" [(ngModel)]="body.district"/>
+                    </div>
+                    <div class="col-xl-4 d-flex flex-column mb-3">
+                        <label class="f-b mb-2" for="">ตำบล</label>
+                        <input type="text" class="form-control rounded-3" placeholder="ตำบล" [(ngModel)]="body.sub_district"/>
+                    </div>
+                    <div class="col-xl-4 d-flex flex-column mb-3">
+                        <label class="f-b mb-2" for="">รหัสไปรษณีย์</label>
+                        <input type="text" class="form-control rounded-3" placeholder="รหัสไปรษณีย์"
+                            oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*?)\..*/g, '$1');"
+                            maxlength="6" [(ngModel)]="body.zip_code"/>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col mt-3">
+        <div class="card" style="border-radius: 16px;">
+            <div class="card-body p-5">
+
+                <div class="row p-0 m-0">
+                    <div class="col-xl-12 d-flex align-items-center mb-3">
+                        <label class="number-icon me-3">3</label>
+                        <label>สร้างบัญชีผู้ใช้งาน</label>
+                    </div>
+                    <div class="col-xl-4 d-flex flex-column mb-3">
+                        <label class="f-b mb-2" for="">ชื่อผู้ใช้งาน</label>
+                        <input type="text" class="form-control rounded-3" placeholder="ชื่อผู้ใช้งาน" [(ngModel)]="body.username"/>
+                    </div>
+
+                    <div class="col-xl-4 d-flex flex-column mb-3">
+                        <label class="f-b mb-2" for="">รหัสผ่าน</label>
+                        <input type="text" class="form-control rounded-3" placeholder="รหัสผ่าน" [(ngModel)]="this.password_check"/>
+                    </div>
+                    <div class="col-xl-4 d-flex flex-column mb-3">
+                        <label class="f-b mb-2" for="">ยืนยันรหัสผ่าน</label>
+                        <input type="text" class="form-control rounded-3" placeholder="ยืนยันรหัสผ่าน" [(ngModel)]="this.confirm_password"/>
+                    </div>
+                    <div *ngIf="!CheckPasswords()" class="text-danger">
+                        รหัสผ่านไม่ตรงกัน
+                      </div>
+                </div>
+
+                <!-- <div class="row p-0 m-0">
+                        <div class="col-xl-4 d-flex flex-column mb-3 align-bottom">
+                            <label class="f-b mb-2" for="">บทบาท</label>
+                            <select class="form-select rounded-3">
+                                <option selected disabled hidden value="">เลือก</option>
+                                <option *ngFor="let i of role" [value]="i.id">
+                                    {{ i.role_name }}
+                                </option>
+                            </select>
+                        </div>
+                </div> -->
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col text-end my-3">
+        <button class="col-xl-2 col-lg-2 col-md-2 col-2 btn btn-cancel me-2" mat-button color="primary" >
+            ยกเลิก
+        </button>
+        <button class="col-xl-2 col-lg-2 col-md-2 col-2 btn btn-submit ms-2" mat-button color="primary" (click)="CreateAdmin()">
+            บันทึก
+        </button>
+    </div>
+</div>
+    
+
+

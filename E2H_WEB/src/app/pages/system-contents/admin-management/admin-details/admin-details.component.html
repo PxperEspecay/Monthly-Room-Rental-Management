@@ -1,0 +1,286 @@
+<div class="row">
+    <div class="col mt-2 d-flex">
+        <button class="p-0 btn-icon-view shadow-sm" (click)="BackTo()" *ngIf="role && role.role == 'super admin'">
+            <img src="assets/system_icons/back.png" alt="" />
+        </button>
+
+        <div class="col-xl-6 col-lg-4 col-md-4 col-4 mt-2 ms-3">
+            <p class="head-title">ข้อมูลผู้ดูแลระบบ</p>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col mb-3">
+        <div class="card" style="border-radius: 16px;">
+            <div class="card-body p-5">
+
+                <div class="row">
+                    <div class="col text-end">
+                        <button class="me-3 btn-add-something" (click)="EditProfile('edit')"
+                            *ngIf="check_action == 'read'">
+                            <img class="me-2" src="assets/system_icons/icon_add.png"
+                                style="height: 25px;"><span>แก้ไขข้อมูล</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Read Profile Admin -->
+                <ng-container *ngIf="check_action == 'read' ">
+
+                    <div class="row">
+
+                        <div class="col-xl-12 m-0 p-0 d-flex align-items-center justify-content-center" style="position: relative !important">
+                            <img class="circle-photo me-3 mb-3"
+                                style="height: 200px !important; width: 200px !important; border-radius: 16px;"
+                                src="{{admin_details.full_profile_photo == null || admin_details.full_profile_photo == '' ? '/assets/images/1page.png' : admin_details.full_profile_photo}}"
+                                alt="" />
+                        </div>
+                        
+
+                        <div class="row">
+                            <div class="col-xl-6 d-flex flex-column mt-5 mb-3">
+                                <label class="f-b mb-2" for="">เลขประจำตัวประชาชน</label>
+                                <p>{{admin_details.identity_card_number}}</p>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xl-2 d-flex flex-column mb-3">
+                                <label class="f-b mb-2" for="">คำนำหน้าชื่อ</label>
+                                <p>{{admin_details.prefix}}</p>
+                            </div>
+
+                            <div class="col-xl-4 d-flex flex-column mb-3">
+                                <label class="f-b mb-2" for="">ชื่อ</label>
+                                <p>{{admin_details.first_name}}</p>
+                            </div>
+
+                            <div class="col-xl-4 d-flex flex-column mb-3">
+                                <label class="f-b mb-2" for="">นามสกุล</label>
+                                <p>{{admin_details.last_name}}</p>
+                            </div>
+                            <div class="col-xl-2 d-flex flex-column mb-3">
+                                <label class="f-b mb-2" for="">ชื่อเล่น</label>
+                                <p>{{admin_details.nickname}}</p>
+                            </div>
+                        </div>
+
+
+
+                        <div class="row">
+                            <div class="col-xl-4  d-flex flex-column mb-3">
+                                <label class="f-b mb-2" for="">เบอร์โทรศัพท์</label>
+                                <p>{{admin_details.phone_number}}</p>
+                            </div>
+
+                            <div class="col-xl-4  d-flex flex-column mb-3">
+                                <label class="f-b mb-2" for="">อีเมล</label>
+                                <p>{{admin_details.email}}</p>
+                            </div>
+
+                            <div class="col-xl-4  d-flex flex-column mb-3">
+                                <label class="f-b mb-2" for="">สถานที่ที่ดูแล</label>
+                                <p>{{admin_details.location}}</p>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xl-2 d-flex flex-column mb-3">
+                                <label class="f-b mb-2" for="">ที่อยู่</label>
+                                <p>{{admin_details.address}}</p>
+                            </div>
+                            <div class="col-xl-2 d-flex flex-column mb-3">
+                                <label class="f-b mb-2" for="">หมู่</label>
+                                <p>{{admin_details.address_moo}}</p>
+                            </div>
+                            <div class="col-xl-4 d-flex flex-column mb-3">
+                                <label class="f-b mb-2" for="">ถนน/ซอย</label>
+                                <p>{{admin_details.street}}</p>
+                            </div>
+
+
+                            <div class="col-xl-4 d-flex flex-column mb-3">
+                                <label class="f-b mb-2" for="">ตำบล</label>
+                                <p>{{admin_details.sub_district}}</p>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xl-4 d-flex flex-column mb-3">
+                                <label class="f-b mb-2" for="">อำเภอ</label>
+                                <p>{{admin_details.district}}</p>
+                            </div>
+
+                            <div class="col-xl-4 d-flex flex-column mb-3">
+                                <label class="f-b mb-2" for="">จังหวัด</label>
+                                <p>{{admin_details.province}}</p>
+                            </div>
+
+                            <div class="col-xl-4 d-flex flex-column ">
+                                <label class="f-b mb-2" for="">รหัสไปรษณี</label>
+                                <p>{{admin_details.zip_code}}</p>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </ng-container>
+
+                <!-- Edit Profile Admin -->
+                <ng-container *ngIf="check_action == 'edit' ">
+
+                    <div class="row">
+                        <div class="col text-end">
+                            <button class="me-3 btn-edit-something" (click)="EditProfile('read')"
+                                *ngIf="check_action == 'edit'">
+                                <img class="me-2" src="assets/system_icons/icon_add.png"
+                                    style="height: 25px;"><span>แก้ไขข้อมูล</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="row">
+
+                        
+                        
+
+                        <div class="col-xl-12 m-0 p-0 d-flex align-items-center justify-content-center"
+                            style="position: relative !important">
+                            <label for="select" class="d-flex justify-content-center p-0" role="button">
+                                <img class="circle-photo me-3 mb-3"
+                                style="height: 200px !important; width: 200px !important; border-radius: 16px;"
+                                src="{{admin_details.full_profile_photo == null || admin_details.full_profile_photo == '' ? '/assets/images/1page.png' : admin_details.full_profile_photo}}"
+                                alt="" />
+    
+                                <input id="select" type="file" style="display: none"
+                                    accept="image/jpg, image/png, image/jpeg" (change)="SelectImage2($event)"/>
+    
+                            </label>
+                        </div>
+
+                        <div class="col-xl-12 m-0 p-0 d-flex align-items-center justify-content-center" style="position: relative !important">
+                            <img class="circle-photo me-3 mb-3"
+                                 style="height: 200px !important; width: 200px !important; border-radius: 16px;"
+                                 src="{{ preview || (admin_details.profile_photo == null || admin_details.profile_photo == '' ? '/assets/images/1page.png' : admin_details.profile_photo) }}"
+                                 alt="Preview" />
+                        </div>
+                        
+
+                        <div class="row">
+                            <div class="col-xl-6 d-flex flex-column mt-5 mb-3">
+                                <label class="f-b mb-2" for="">เลขประจำตัวประชาชน</label>
+                                <input type="text" class="form-control rounded-3" placeholder="เลขประจำตัวประชาชน"
+                                    oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*?)\..*/g, '$1');"
+                                    maxlength="13" [(ngModel)]="admin_details.identity_card_number" />
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xl-2 d-flex flex-column mb-3">
+                                <label class="f-b mb-2" for="">คำนำหน้าชื่อ</label>
+                                <input type="text" class="form-control rounded-3" placeholder="คำนำหน้าชื่อ"
+                                    [(ngModel)]="admin_details.prefix" />
+                            </div>
+
+                            <div class="col-xl-4 d-flex flex-column mb-3">
+                                <label class="f-b mb-2" for="">ชื่อ</label>
+                                <input type="text" class="form-control rounded-3" placeholder="ชื่อ"
+                                    [(ngModel)]="admin_details.first_name" />
+                            </div>
+
+                            <div class="col-xl-4 d-flex flex-column mb-3">
+                                <label class="f-b mb-2" for="">นามสกุล</label>
+                                <input type="text" class="form-control rounded-3" placeholder="นามสกุล"
+                                    [(ngModel)]="admin_details.last_name" />
+                            </div>
+                            <div class="col-xl-2 d-flex flex-column mb-3">
+                                <label class="f-b mb-2" for="">ชื่อเล่น</label>
+                                <input type="text" class="form-control rounded-3" placeholder="ชื่อเล่น"
+                                    [(ngModel)]="admin_details.nickname" />
+                            </div>
+                        </div>
+
+
+
+                        <div class="row">
+                            <div class="col-xl-4  d-flex flex-column mb-3">
+                                <label class="f-b mb-2" for="">เบอร์โทรศัพท์</label>
+                                <input type="text" class="form-control rounded-3" placeholder="เบอร์โทรศัพท์"
+                                    [(ngModel)]="admin_details.phone_number" />
+                            </div>
+
+                            <div class="col-xl-4  d-flex flex-column mb-3">
+                                <label class="f-b mb-2" for="">อีเมล</label>
+                                <input type="text" class="form-control rounded-3" placeholder="อีเมล"
+                                    [(ngModel)]="admin_details.email" />
+                            </div>
+
+                            <div class="col-xl-4  d-flex flex-column mb-3">
+                                <label class="f-b mb-2" for="">สถานที่ที่ดูแล</label>
+                                <select [(ngModel)]="admin_details.location" class="form-select rounded-3">
+                                    <option *ngFor="let i of location" [value]="i.id">
+                                        {{ i.name_th }}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xl-2 d-flex flex-column mb-3">
+                                <label class="f-b mb-2" for="">ที่อยู่</label>
+                                <input type="text" class="form-control rounded-3" placeholder="ที่อยู่" [(ngModel)]="admin_details.address"/>
+                            </div>
+                            <div class="col-xl-2 d-flex flex-column mb-3">
+                                <label class="f-b mb-2" for="">หมู่</label>
+                                <input type="text" class="form-control rounded-3" placeholder="หมู่" [(ngModel)]="admin_details.address_moo"/>
+                            </div>
+                            <div class="col-xl-4 d-flex flex-column mb-3">
+                                <label class="f-b mb-2" for="">ถนน/ซอย</label>
+                                <input type="text" class="form-control rounded-3" placeholder="ถนน/ซอย" [(ngModel)]="admin_details.street"/>
+                            </div>
+
+
+                            <div class="col-xl-4 d-flex flex-column mb-3">
+                                <label class="f-b mb-2" for="">ตำบล</label>
+                                <input type="text" class="form-control rounded-3" placeholder="ตำบล" [(ngModel)]="admin_details.sub_district"/>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xl-4 d-flex flex-column mb-3">
+                                <label class="f-b mb-2" for="">อำเภอ</label>
+                                <input type="text" class="form-control rounded-3" placeholder="อำเภอ" [(ngModel)]="admin_details.district"/>
+                            </div>
+
+                            <div class="col-xl-4 d-flex flex-column mb-3">
+                                <label class="f-b mb-2" for="">จังหวัด</label>
+                                <input type="text" class="form-control rounded-3" placeholder="จังหวัด" [(ngModel)]="admin_details.province"/>
+                            </div>
+
+                            <div class="col-xl-4 d-flex flex-column mb-3">
+                                <label class="f-b mb-2" for="">รหัสไปรษณีย์</label>
+                                <input type="text" class="form-control rounded-3" placeholder="รหัสไปรษณีย์" [(ngModel)]="admin_details.zip_code"/>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+                        <div class="col text-end my-3">
+                            <button class="col-xl-2 col-lg-2 col-md-2 col-2 btn btn-cancel me-2" mat-button color="primary">
+                                ยกเลิก
+                            </button>
+                            <button class="col-xl-2 col-lg-2 col-md-2 col-2 btn btn-submit ms-2" mat-button color="primary" (click)="SubmitEdit2()">
+                                บันทึก
+                            </button>
+                        </div>
+                    </div>
+
+                </ng-container>
+
+            </div>
+        </div>
+    </div>
+</div>
+

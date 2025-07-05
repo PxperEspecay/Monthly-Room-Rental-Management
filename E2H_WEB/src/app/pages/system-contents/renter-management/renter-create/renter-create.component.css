@@ -1,0 +1,51 @@
+.nav-item .nav-link {
+    border: 1px #f2f2f2 solid;
+    background-color: #ffffff !important;
+    height: 58px;
+    border-radius: 10px;
+    color: black;
+}
+
+.nav-item .active {
+    border: double 2px transparent;
+    background-image: linear-gradient(#ffffff, #ffffff),radial-gradient(circle at top, #006666, #006666);
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
+}
+.active {
+    color: #006666 !important;
+}
+.input-group> :not(:first-child):not(.dropdown-menu):not(.valid-tooltip):not(.valid-feedback):not(.invalid-tooltip):not(.invalid-feedback) {
+    border-radius: 0px 8px 8px 0px !important;
+}
+
+/* ปรับแต่งลักษณะของปุ่มวิทยุ */
+.form-check-input[type="radio"] {
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    /* background-color: #e0e0e0; สีพื้นหลังเมื่อยังไม่ถูกเลือก */
+    border: 2px solid #ccc;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.form-check-input[type="radio"]:checked {
+    background-color: #499191; /* สีเมื่อถูกเลือก */
+    border-color: #006666; /* สีขอบเมื่อถูกเลือก */
+}
+
+.form-check-input[type="radio"]:focus {
+    outline: none;
+    box-shadow: 0 0 2px 2px #499191 /* เพิ่มเงาเมื่ออยู่ในสถานะโฟกัส */
+}
+
+.plus-icon {
+    background-color: #F3F3F7;
+    border: none;
+    border-radius: 5px;
+}
+
+
+

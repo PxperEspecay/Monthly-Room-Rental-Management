@@ -1,0 +1,260 @@
+<div class="row align-items-center">
+    <div class="col-xl-6 col-lg-4 col-md-4 col-4 m-0 p-3">
+        <p class="head-title">ภาพรวมกระดานข้อมูล</p>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col">
+        <!-- Super Admin -->
+<ng-container *ngIf="admin_data.role === 'super admin'">
+    <div class="row">
+      <!-- ✅ เลือกสถานที่ -->
+      <div class="col-3 d-flex flex-column mb-3 align-bottom">
+        <label class="f-b mb-2">เลือกสถานที่</label>
+        <select
+          class="form-select rounded-3"
+          [(ngModel)]="admin_data.location"
+          (change)="onLocationChange()"
+        >
+          <option [value]="0">เลือกทั้งหมด</option>
+          <option selected disabled hidden value="">เลือก</option>
+          <option *ngFor="let i of location_list" [value]="i.id">
+            {{ i.location_name }}
+          </option>
+        </select>
+      </div>
+  
+      <!-- ✅ เลือกอาคาร -->
+      <div class="col-3 d-flex flex-column mb-3 align-bottom">
+        <label class="f-b mb-2">เลือกอาคาร</label>
+        <select
+          class="form-select rounded-3"
+          [(ngModel)]="building_id"
+          (change)="onBuildingChange()"
+        >
+          <option [value]="0">เลือกทั้งหมด</option>
+          <option *ngFor="let i of building_list" [value]="i.id">
+            {{ i.building_name }}
+          </option>
+        </select>
+      </div>
+    </div>
+  </ng-container>
+  
+  <!-- Admin -->
+  <ng-container *ngIf="admin_data.role === 'admin'">
+    <div class="row">
+      <div class="col-3 d-flex flex-column mb-3 align-bottom">
+        <label class="f-b mb-2">เลือกอาคาร</label>
+        <select
+          class="form-select rounded-3"
+          [(ngModel)]="building_id"
+          (change)="onBuildingChange()"
+        >
+          <option [value]="0">เลือกทั้งหมด</option>
+          <option *ngFor="let i of building_list" [value]="i.id">
+            {{ i.building_name }}
+          </option>
+        </select>
+      </div>
+    </div>
+  </ng-container>
+  
+    </div>
+
+    <!-- <div class="col-3 d-flex align-items-center justify-content-end position-relative">
+
+        <button class="btn btn-primary me-3" (click)="toggleDropdown()"
+            style="height: 40px; width: 150px; background-color:  rgba(0, 102, 102, 1);border-radius: 8px; border-color: rgba(0, 102, 102, 1);">
+            <img class="me-2" src="assets/system_icons/icon-Filter.png" style="height: 15px;"><span
+                style="font-size: 16px;">ตัวกรอง</span>
+        </button>
+        <div *ngIf="showDropdown" class="dropdown-box p-3">
+            <div class="row p-2">
+                <div class="col">
+                    <div class="form-check">
+                        <input [(ngModel)]="ckecked_all" class="form-check-input" type="checkbox"
+                            (click)="CheckAllType()">
+                        <span class="form-check-label" style="font-weight: 600; font-size: 18px; margin-top: 5px;">
+                            สถานะห้องทั้งหมด
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row p-2 justify-content-between">
+                <div class="col-6" *ngFor="let item of room_status_list, let index = index">
+                    <div class="form-check">
+                        <input [(ngModel)]="item.checked" class="form-check-input" type="checkbox"
+                            (click)="HandleType(item)">
+                        <span class="form-check-label" style="font-weight: 300; font-size: 18px; margin-top: 5px;">
+                            {{item.name}}
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div>
+            <input [(ngModel)]="search_input" class="nosubmit form-control" type="text" placeholder="ค้นหา">
+        </div>
+    </div> -->
+</div>
+
+
+
+<div class="row">
+    <div class="col">
+        <div class="card">
+            <div class="card-body">
+
+                <div class="row">
+                    <div class="col">
+                        <div class="card border-0 shadow-sm" style="background-color: #004C4C; border-radius: 16px;">
+                            <div class="card-body" style="background: linear-gradient(135deg, #008080, #006666, #004C4C);
+                            border-radius: 16px; border-radius: 16px;">
+                                <ng-container>
+                                    <div class="row d-flex justify-content-center flex-wrap">
+                                        <!-- Card 1 -->
+                                        <div class="col-md-12 col-lg-6 col-xl-3 mb-3">
+                                            <div class="card border-0 shadow-sm" style="border-radius: 8px;">
+                                                <div class="card-body" style=" border-radius: 8px;">
+                                                    <div class="row d-flex align-items-center">
+                                                        <div class="col">
+                                                            <p style="color: rgba(160, 174, 192, 1); font-weight: 700;">
+                                                                ห้องทั้งหมด</p>
+                                                            <span style="font-size: 18px; font-weight: 700;">{{
+                                                                total_room || 0 }} ห้อง</span>
+                                                        </div>
+                                                        <div class="col text-end">
+                                                            <img src="assets/system_icons/icon-total_room.png" alt=""
+                                                                style="width: 45px;">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Card 2 -->
+                                        <div class="col-md-12 col-lg-6 col-xl-3 mb-3">
+                                            <div class="card border-0 shadow-sm" style="border-radius: 15px;">
+                                                <div class="card-body" style=" border-radius: 8px;">
+                                                    <div class="row d-flex align-items-center">
+                                                        <div class="col">
+                                                            <p style="color: rgba(160, 174, 192, 1); font-weight: 700;">
+                                                                ผู้เช่าปัจจุบัน</p>
+                                                            <span style="font-size: 18px; font-weight: 700;">{{
+                                                                total_renter || 0 }} คน</span>
+                                                        </div>
+                                                        <div class="col text-end">
+                                                            <img src="assets/system_icons/icon-total_renter.png" alt=""
+                                                                style="width: 60px;">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Card 3 -->
+                                        <div class="col-md-12 col-lg-6 col-xl-3 mb-3">
+                                            <div class="card border-0 shadow-sm" style="border-radius: 15px;">
+                                                <div class="card-body" style=" border-radius: 8px;">
+                                                    <div class="row d-flex align-items-center">
+                                                        <div class="col">
+                                                            <p style="color: rgba(160, 174, 192, 1); font-weight: 700;">
+                                                                ห้องว่าง</p>
+                                                            <span style="font-size: 18px; font-weight: 700;">{{
+                                                                available_room || 0 }} ห้อง</span>
+                                                        </div>
+                                                        <div class="col text-end">
+                                                            <img src="assets/system_icons/icon-avaliable_room.png"
+                                                                alt="" style="width: 45px;">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Card 4 -->
+                                        <div class="col-md-12 col-lg-6 col-xl-3 mb-3">
+                                            <div class="card border-0 shadow-sm" style="border-radius: 15px;">
+                                                <div class="card-body" style=" border-radius: 8px;">
+                                                    <div class="row d-flex align-items-center">
+                                                        <div class="col-5">
+                                                            <p style="color: rgba(160, 174, 192, 1); font-weight: 700;">
+                                                                ห้องไม่ว่าง</p>
+                                                            <span style="font-size: 18px; font-weight: 700;">{{
+                                                                unavailable_room || 0 }} ห้อง</span>
+                                                        </div>
+
+                                                        <div class="col text-end">
+                                                            <img src="assets/system_icons/icon-unvaliable_room.png"
+                                                                alt="" style="width: 45px;">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </ng-container>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mt-5">
+                    <div class="col-md-6 mb-4">
+                        <canvas #billTypeCanvas></canvas>
+                    </div>
+                    <div class="col-md-6 mb-4">
+                        <canvas #billStatusCanvas></canvas>
+                    </div>
+                </div>
+
+
+
+
+                <div class="row mt-5">
+                    <div class="col-6 ">
+                        <canvas #barCanvas></canvas>
+                    </div>
+                    <div class="col-6">
+                        <canvas #pieCanvas></canvas>
+                    </div>
+                </div>
+
+                <div class="row mt-5">
+                    <div class="col-6">
+                        <canvas #typeCanvas></canvas>
+                    </div>
+                    <div class="col-6">
+                        <canvas #statusCanvas></canvas>
+                    </div>
+                </div>
+
+                <div class="row mt-5">
+                    <div class="col-6">
+                        <canvas #issueCanvas></canvas>
+                    </div>
+                    <div class="col-6">
+                        <canvas #issueStatusCanvas></canvas>
+                    </div>
+                </div>
+
+                <div class="row mt-5">
+                    <div class="col-6">
+                        <canvas #announceCanvas></canvas>
+                    </div>
+                    <div class="col-6">
+                        <canvas #announceSeenCanvas></canvas>
+                    </div>
+                </div>
+
+
+
+            </div>
+        </div>
+    </div>
+</div>

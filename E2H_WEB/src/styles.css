@@ -1,0 +1,282 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai+Looped:wght@100;200;300;400;500;600;700&display=swap');
+/* 
+#006666 เขียว
+#7A7A7A เทา
+#212529 เมนูนี้
+#FF96FD ชมพู
+##D477D2 ชมพู hover
+#fedce2 ชมพูอ่อน head table
+*/
+
+body {
+    overflow: hidden;
+    height: 100vh !important;
+    background-color: #f9f8fe !important;
+}
+
+* {
+    font-family: "IBM Plex Sans Thai Looped" !important;
+    font-size: 16px;
+}
+
+.material-icons {
+  font-family: "Material Icons" !important;
+}
+
+/* .add-remove-btn {
+  padding: 5px !important;
+} */
+
+.add-remove-btn .material-icons {
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+}
+
+.row {
+    margin: 0 !important;
+}
+
+::-webkit-scrollbar {
+    width: 5px;
+}
+
+::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px grey;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #ffc0cb !important;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #fba1c1 !important;
+}
+
+/* content */
+.head-title {
+    font-size: 28px;
+    font-weight: 500;
+    color: #006666;
+}
+
+.number-icon {
+  display: flex;
+  height: 35px;
+  width: 35px;
+  border: none;
+  border-radius: 50%;
+  background-color: #006666;
+  color: #ffffff;
+  justify-content: center;
+  align-items: center;
+}
+.number-icon2 {
+  /* display: flex; */
+  height: 20px;
+  width: 20px;
+  border: none;
+  border-radius: 50%;
+  background-color: #d50000;
+  color: #ffffff;
+  justify-content: center;
+  align-items: center;
+  position: relative; /* ทำให้เป็น absolute เพื่อกำหนดตำแหน่ง */
+  top: 0; /* วางที่มุมบน */
+  right: 0; /* วางที่มุมขวา */
+  margin: 0px 0px 0px 40px; /* ป้องกันการเว้นวรรค */
+  z-index: 1; /* ทำให้ตัวเลขอยู่ด้านบน */
+  font-size: 13px;
+}
+
+.f-b{
+  font-weight: 500;
+}
+
+.btn-add-something {
+    font-size: 18px !important;
+    background-color: #006666;
+    border: 1px #006666 solid;
+    color: #ffffff;
+    border-radius: 8px;
+    height: 40px !important;
+}
+.btn-add-something:hover {
+    font-size: 18px !important;
+    background-color: #6b8173;
+    border: 1px #6b8173 solid;
+    color: #ffffff;
+    border-radius: 8px;
+    height: 40px !important;
+}
+.btn-edit-something {
+  font-size: 18px !important;
+  background-color: #a9b7bf;
+  border: 1px #a9b7bf solid;
+  color: #ffffff;
+  border-radius: 8px;
+  height: 40px !important;
+}
+.btn-edit-something:hover {
+  font-size: 18px !important;
+  background-color: #a9b7bf;
+  border: 1px #a9b7bf solid;
+  color: #ffffff;
+  border-radius: 8px;
+  height: 40px !important;
+}
+.btn-icon-view {
+  display: flex;
+  height: 43px;
+  width: 43px !important;
+  border: none;
+  border-radius: 50%;
+  background-color: transparent !important;
+  color: #989898;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Pagination */
+
+.ngx-pagination .current {
+    padding: 0.1875rem 0.625rem !important;
+    background: #006666 !important;
+    width: 40px !important;
+    height: 40px;
+    color: #fefefe !important;
+    cursor: default !important;
+    border-radius: 8px !important;
+    text-align: center !important;
+    line-height: 35px !important;
+    font-weight: 300 !important;
+    margin: 0 10px !important;
+  }
+  
+  .ngx-pagination a:hover {
+    border-radius: 8px !important;
+  }
+  
+  .ngx-pagination .pagination-previous,
+  .ngx-pagination .pagination-next {
+    border: 1px solid rgba(218, 217, 221, 1) !important;
+    width: 40px !important;
+    height: 40px !important;
+    border-radius: 8px !important;
+    text-align: center !important;
+    line-height: 35px !important;
+  }
+  
+  .ngx-pagination .pagination-previous a:hover,
+  .ngx-pagination .pagination-next a:hover {
+    background-color: ccc !important;
+    width: 38.5px !important;
+    height: 38.5px !important;
+    border-radius: 8px !important;
+    line-height: 35px !important;
+  }
+  
+  
+  .ngx-pagination .pagination-previous a::before,
+  .ngx-pagination .pagination-previous.disabled::before {
+    content: '<' !important;
+    font-size: 16px;
+    color: #333;
+    margin-left: 5px;
+  
+  }
+  
+  .ngx-pagination .pagination-next a::after,
+  .ngx-pagination .pagination-next.disabled::after {
+    content: '>' !important;
+    font-size: 16px;
+    color: #333;
+    margin-right: 5px;
+  }
+
+  /* about table */
+  .body-table th {
+    min-width: 80px !important;
+    background-color: #fedce2 !important;
+  }
+  
+  .body-table td {
+    background-color: transparent !important;
+
+  }
+  
+  @media (max-width: 1024px) {
+    .body-table {
+      overflow-x: scroll !important;
+    }
+  }
+
+  .status-avaliable {
+    background-color: #6fcf971a;
+    color: #009d50;
+    border-radius: 10px;
+    border: 1px solid #009d50;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    padding: 10px;
+  }
+  .status-disabled {
+    background-color: #d7dadc;
+    color: #989898;
+    border-radius: 10px;
+    border: 1px solid #989898;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+  }
+
+/* about button */
+.btn-cancel {
+  color: #303030 !important;
+  border: 1px #006666 solid !important;
+  border-radius: 32px !important;
+  background-color: #ffffff !important;
+  opacity: 1 !important;
+  font-size: 18px !important;
+  min-height: 40px;
+}
+.btn-submit {
+  opacity: 1 !important;
+  color: white !important;
+  font-size: 18px !important;
+  border-radius: 32px !important;
+  background: #006666 !important;
+  min-height: 40px;
+}
+
+
+/* Color of MatDatePicker */
+.mat-calendar-body-cell-content.mat-focus-indicator.mat-calendar-body-selected{
+  background-color: #006666;
+}
+.mat-datepicker-toggle.mat-datepicker-toggle-active{
+  color: #006666;
+}
+
+.input-group> :not(:first-child):not(.dropdown-menu):not(.valid-tooltip):not(.valid-feedback):not(.invalid-tooltip):not(.invalid-feedback) {
+  border: 1px #24449b33 solid;
+  border-radius: 0px 30px 30px 0px !important;
+}
+
+.input-group:not(.has-validation)>.dropdown-toggle:nth-last-child(n + 3),
+.input-group:not(.has-validation)>.form-floating:not(:last-child)>.form-control,
+.input-group:not(.has-validation)>.form-floating:not(:last-child)>.form-select,
+.input-group:not(.has-validation)> :not(:last-child):not(.dropdown-toggle):not(.dropdown-menu):not(.form-floating) {
+  border-radius: 30px 0px 0px 30px;
+}

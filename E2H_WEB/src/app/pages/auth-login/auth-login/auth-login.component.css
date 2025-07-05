@@ -1,0 +1,22 @@
+.card{
+    border: none;
+    border-radius: 16px;
+    background-color: rgba(255, 255, 255, 0.55);
+    backdrop-filter: blur(5px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+    /* height: 450px; */
+}
+
+.glass-card {
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 16px;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  }
+
+.logo-img {
+    width: 220px;
+    height: auto;
+  }

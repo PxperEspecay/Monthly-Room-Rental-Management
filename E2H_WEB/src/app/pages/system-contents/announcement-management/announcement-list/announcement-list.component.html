@@ -1,0 +1,173 @@
+<div class="row align-items-center">
+    <div class="col-xl-6 col-lg-4 col-md-4 col-4 m-0 p-3">
+        <p class="head-title">รายการแจ้งเตือน และ ประกาศ</p>
+    </div>
+    <div class="col-xl-6 col-lg-8 col-md-8 col-8">
+        <div class="row justify-content-end p-0 m-0">
+            <div class="col d-flex align-items-center justify-content-end p-0 m-0">
+
+
+
+                <button class="me-3 btn-add-something" (click)="CreateNewAnnounce()">
+                    <img class="me-2" src="assets/system_icons/icon_new_announcement.png"
+                        style="height: 25px;"><span>เพิ่มประกาศใหม่</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row p-0 m-0 ps-3 d-flex">
+    <div class="col">
+        <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+            <li class="col nav-item" style="min-width: 120px" role="presentation">
+                <button class="nav-link rounded-pill" [ngClass]="listTab == 1 ? 'active' : ''" da0ta-bs-toggle="pill"
+                    type="button" role="tab" aria-selected="true">
+                    <span>ประวัติการแจ้งเตือน และ ประกาศ</span>
+                </button>
+            </li>
+        </ul>
+    </div>
+    
+    <div class="col-4 d-flex align-items-center justify-content-end position-relative">
+
+        <button class="btn btn-primary me-3" (click)="toggleDropdown()"
+            style="height: 40px; width: 150px; background-color:  rgba(0, 102, 102, 1);border-radius: 8px; border-color: rgba(0, 102, 102, 1);">
+            <img class="me-2" src="assets/system_icons/icon-Filter.png" style="height: 15px;"><span
+                style="font-size: 16px;">ตัวกรอง</span>
+        </button>
+        <div *ngIf="showDropdown" class="dropdown-box p-3">
+            <div class="row p-2">
+                <div class="col">
+                    <div class="form-check">
+                        <input [(ngModel)]="ckecked_all" class="form-check-input" type="checkbox"
+                            (click)="CheckAllType()">
+                        <span class="form-check-label" style="font-weight: 600; font-size: 18px; margin-top: 5px;">
+                            ประกาศทั้งหมด
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row p-2 justify-content-between">
+                <div class="col-6" *ngFor="let item of announcement_type_list, let index = index">
+                    <div class="form-check">
+                        <input [(ngModel)]="item.checked" class="form-check-input" type="checkbox"
+                            (click)="HandleType(item)">
+                        <span class="form-check-label" style="font-weight: 300; font-size: 18px; margin-top: 5px;">
+                            {{item.name}}
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div>
+            <input [(ngModel)]="search_input" class="nosubmit form-control" type="text" placeholder="ค้นหา"
+                (keydown.enter)="UpdateListType()">
+        </div>
+    </div>
+</div>
+
+<div class="row card p-0 m-0 border-0" style="background-color: #f9f8fe !important">
+    <div class="col">
+        <ng-container *ngIf="announcement_list.length > 0; else noDataFound">
+            <table *ngIf="listTab == 1" class="table body-table table-responsive table-hover">
+                <thead>
+                    <tr class="align-middle text-center" style=" color: #303030">
+                        <th class="border-0" style="border-radius: 10px 0px 0px 0px;">ลำดับ</th>
+                        <th class="border-0">ประเภท</th>
+                        <th class="border-0">เรื่องที่ประกาศ</th>
+                        <th class="border-0">แจ้งประกาศไปยัง</th>
+                        <th class="border-0">วันที่ประกาศ</th>
+                        <th class="border-0">เห็นประกาศ</th>
+                        <th class="border-0" style="border-radius: 0px 10px 0px 0px;">จัดการ</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="text-center align-middle" style="height: 60px" *ngFor="let i of announcement_list | paginate : { itemsPerPage: maxSize, currentPage: p }; 
+                    let order = index">
+                        <td class="border-0">{{ order+1 }}</td>
+                        <td class="border-0">
+                            <span *ngIf="i.announcement_type == 'G' " style="
+                            padding: 5px 10px;
+                            background-color: rgba(236, 250, 242, 1);
+                            color: rgba(0, 102, 102,1);
+                            border: 1px solid rgb(0, 102, 102,1);
+                            border-radius: 24px;"> {{ i.announcement_type == null ? "-" : 'ข่าวสารทั่วไป' }}
+                            </span>
+
+                            <span *ngIf="i.announcement_type == 'I' " style="
+                            padding: 5px 10px;
+                            background-color: rgba(255, 246, 230, 1);
+                            color: rgba(255, 168, 0, 1);
+                            border: 1px solid rgba(255, 168, 0, 1);
+                            border-radius: 24px;"> {{ i.announcement_type == null ? "-" : 'ประกาศสำคัญ' }}
+                            </span>
+
+                        </td>
+                        <td class="border-0">
+                            {{ i.title_announcement == null ? "-" : i.title_announcement }}
+                        </td>
+                        <td class="border-0">
+                            {{ i.location_name == null ? "-" : i.location_name }}
+                        </td>
+                        <td class="border-0">
+                            {{ i.createdAt}}
+                        </td>
+                        <td class="border-0">
+                            {{ i.renter_readed
+                            == null ? "-" : i.renter_readed
+                            }}
+                        </td>
+
+
+
+                        <td class="border-0">
+                            <div class="row justify-content-center">
+                                <div class="dropdown col-xl-2 col-lg-2 col-md-2 col-2">
+                                    <button style="background-color: transparent !important"
+                                        class="p-0 m-0 me-2 ms-2 btn-icon-view" type="button" id="dropdownMenuButton1"
+                                        data-bs-toggle="dropdown" aria-expanded="false">
+                                        <mat-icon role="button" class="fs-4">more_vert</mat-icon>
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton1">
+                                        <li class="border-bottom d-flex">
+                                            <a class="dropdown-item d-flex justify-content-between align-items-center"
+                                                role="button" (click)="openAnnouncementDetails(i.id)">
+                                                แก้ไข
+                                                <img style="width: 20px; height: 20px"
+                                                    src="assets/system_icons/icon-edit.png" alt="" />
+                                            </a>
+                                        </li>
+                                        <li class="border-bottom d-flex">
+                                            <a class="dropdown-item d-flex justify-content-between align-items-center"
+                                                role="button" (click)="DeleteAnnouncement(i.id)">
+                                                ลบ
+                                                <img style="width: 20px; height: 20px"
+                                                    src="assets/system_icons/icon_delete.png" alt="" />
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </ng-container>
+        <ng-template #noDataFound>
+            <div class="text-center d-flex justify-content-center">ไม่พบข้อมูล</div>
+        </ng-template>
+        <div class="row mt-5">
+            <div class="col-md-12 d-flex justify-content-center flex-wrap">
+                <span></span>
+                <pagination-controls class="text-center" (pageChange)="p = $event" previousLabel="" nextLabel=""
+                    [responsive]="true">
+                </pagination-controls>
+                <span class="ms-2"> </span>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,118 @@
+.divider {
+    margin: 0.1px 0px;
+    width: 100%;
+    height: 1px;
+    background-color: rgba(226, 232, 240, 1);
+}
+
+.btn-submited{
+    background-color: #006666;
+    color: #f2f2f2;
+    width: 100%;
+    height: 50px;
+}
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .modal-content {
+    position: relative;
+    max-width: 25%;
+    max-height: 90%;
+  }
+  
+  .close-btn {
+    position: absolute;
+    top: 50px;
+    right: 50px;
+    background: transparent;
+    border: none;
+    color: white;
+    font-size: 50px;
+    font-weight: bold;
+    cursor: pointer;
+    outline: none;
+  }
+  
+  .close-btn:hover {
+    color: red; /* เพิ่มเอฟเฟกต์เมื่อชี้เมาส์ */
+  }
+
+  .status-aog{
+    border: 1px solid rgba(21, 71, 121, 1);
+    border-radius: 24px;
+    color: rgba(21, 71, 121, 1);
+    background-color: rgba(247, 250, 254, 1);
+    padding: 5px 20px 5px 20px;
+    font-size: 16px;
+  }
+  .status-confirm{
+    border: 1px solid rgba(21, 71, 121, 1);
+    border-radius: 24px;
+    color: rgba(21, 71, 121, 1);
+    background-color: rgba(247, 250, 254, 1);
+    padding: 5px 20px 5px 20px;
+    font-size: 16px;
+  }
+  .status-ended-auction{
+    border: 1px solid rgba(21, 71, 121, 1);
+    border-radius: 24px;
+    color: rgba(180, 180, 180, 1);
+    background-color: rgba(247, 250, 254, 1);
+    padding: 5px 20px 5px 20px;
+    font-size: 16px;
+  }
+  .status-cancel{
+    border: 1px solid rgba(180, 180, 180, 1);
+    border-radius: 24px;
+    color: rgba(180, 180, 180, 1);
+    background-color: rgba(228, 228, 228, 1);
+    padding: 5px 20px 5px 20px;
+    font-size: 16px;
+  }
+  .ended_auc{
+    background-color: rgba(228, 228, 228, 1);
+    color: rgba(180, 180, 180, 1);
+  }
+  .status-bids{
+    border: 1px solid rgba(255, 168, 0, 1);
+    border-radius: 24px;
+    color: rgba(255, 168, 0, 1);
+    background-color: rgba(255, 246, 230, 1);
+    padding: 5px 20px 5px 20px;
+    font-size: 16px;
+  }
+  .status-in_progress{
+    border: 1px solid #44c2b8;
+    border-radius: 24px;
+    color: #44c2b8;
+    background-color: rgba(247, 250, 254, 1);
+    padding: 5px 20px 5px 20px;
+    font-size: 16px;
+  }
+  .status-final{
+    border: 1px solid rgba(65, 201, 128, 1);
+    border-radius: 24px;
+    color: rgba(65, 201, 128, 1);
+    background-color: rgba(236, 250, 242, 1);
+    padding: 5px 20px 5px 20px;
+    font-size: 16px;
+  }
+  .status-rejected{
+    border: 1px solid rgba(235, 87, 87, 1);
+    border-radius: 24px;
+    color: rgba(235, 87, 87, 1);
+    background-color: rgba(255, 245, 245, 1);
+    padding: 5px 20px 5px 20px;
+    font-size: 16px;
+  }

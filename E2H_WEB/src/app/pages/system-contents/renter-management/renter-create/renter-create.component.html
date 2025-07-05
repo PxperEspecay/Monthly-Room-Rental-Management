@@ -1,0 +1,473 @@
+<div class="row">
+    <div class="col mt-2 d-flex">
+        <button class="p-0 btn-icon-view shadow-sm" (click)="BackTo()">
+            <img src="assets/system_icons/back.png" alt="" />
+        </button>
+
+        <div class="col-xl-6 col-lg-4 col-md-4 col-4 mt-2 ms-3">
+            <p class="head-title">เพิ่มผู้เช่าใหม่</p>
+        </div>
+    </div>
+</div>
+
+<ng-container *ngIf="page == 1">
+
+    <div class="row">
+        <div class="col">
+            <div class="card" style="border-radius: 16px;">
+                <div class="card-body p-5">
+
+                    <div class="row">
+                        <div class="col-xl-12 d-flex align-items-center mb-3">
+                            <label class="number-icon me-3">1</label>
+                            <label>ข้อมูลส่วนตัว</label>
+                        </div>
+
+                        <div class="col-xl-12 d-flex flex-column">
+                            <label class="f-b mb-2">สัญชาติ</label>
+                            <ul class="nav nav-pills mb-4" id="pills-tab" role="tablist">
+                                <li class="col nav-item" role="presentation">
+                                    <button ngDefaultControl class="nav-link w-100" id="" data-bs-toggle="pill"
+                                        type="button" name="HaveBtn" aria-selected="true"
+                                        (click)="body.national_type = 'T'" [class.active]="body.national_type == 'T'"
+                                        [(ngModel)]="body.national_type">
+                                        ชาวไทย
+                                    </button>
+                                </li>
+                                <li class="col nav-item ps-2" role="presentation">
+                                    <button ngDefaultControl class="nav-link w-100" id="" data-bs-toggle="pill"
+                                        type="button" name="dontHaveBtn" aria-selected="false"
+                                        (click)="body.national_type = 'F'" [class.active]="body.national_type == 'F'"
+                                        [(ngModel)]="body.national_type">
+                                        ชาวต่างชาติ
+                                    </button>
+                                </li>
+                            </ul>
+                        </div>
+
+
+
+                        <ng-container *ngIf="body.national_type == 'T'">
+                            <div class="col-12 d-flex flex-column mb-3">
+                                <label class="f-b mb-2" for="TH">หมายเลขบัตรประจำตัวประชาชน</label>
+                                <input type="text" class="form-control rounded-3"
+                                    placeholder="หมายเลขบัตรประจำตัวประชาชน"
+                                    oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*?)\..*/g, '$1');"
+                                    maxlength="13" [(ngModel)]="body.identity_card_number" />
+                            </div>
+                        </ng-container>
+
+
+                        <ng-container *ngIf="body.national_type == 'F'">
+                            <div class="col-12 d-flex flex-column mb-3">
+                                <label class="f-b mb-2" for="TH">เลขที่หนังสือเดินทาง</label>
+                                <input type="text" class="form-control rounded-3" placeholder="เลขที่หนังสือเดินทาง"
+                                    [(ngModel)]="body.passport_number" />
+                                <!-- <div *ngIf="!check_th_name" style="color: red" class="mt-1">
+                                        กรุณากรอกชื่อกิจกรรม
+                                    </div> -->
+                            </div>
+                        </ng-container>
+
+                        <div class="row mb-3">
+                            <label class="f-b mb-2 p-0" for="">เพศ</label>
+                            <div class="col-xl-5 d-flex">
+                                <div class="form-check d-flex align-items-center">
+                                    <input role="button" class="form-check-input" type="radio" name="gender" id="male"
+                                        value="M" [(ngModel)]="body.gender" />
+                                    <label class="form-check-label mt-1 ms-2 " for="male">
+                                        ชาย
+                                    </label>
+                                </div>
+                                <div class="form-check d-flex align-items-center ms-3">
+                                    <input role="button" class="form-check-input" type="radio" name="gender" id="female"
+                                        value="F" [(ngModel)]="body.gender" />
+                                    <label class="form-check-label mt-1 ms-2" for="female">
+                                        หญิง
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <ng-container *ngIf="body.national_type == 'T'">
+                            <div class="col-xl-3 d-flex flex-column mb-3 align-bottom">
+                                <label class="f-b mb-2" for="">คำนำหน้าชื่อ</label>
+                                <select class="form-select rounded-3" [(ngModel)]="body.prefix">
+                                    <option selected disabled hidden value="">เลือก</option>
+                                    <option *ngFor="let i of prefix_name_th" [value]="i.prefix_name_th">
+                                        {{ i.prefix_name_th }}
+                                    </option>
+                                </select>
+                            </div>
+                        </ng-container>
+
+                        <ng-container *ngIf="body.national_type == 'F'">
+                            <div class="col-xl-3 d-flex flex-column mb-3 align-bottom">
+                                <label class="f-b mb-2" for="">คำนำหน้าชื่อ</label>
+                                <select class="form-select rounded-3" [(ngModel)]="body.prefix">
+                                    <option selected disabled hidden value="">เลือก</option>
+                                    <option *ngFor="let i of prefix_name_en" [value]="i.prefix_name_en">
+                                        {{ i.prefix_name_en }}
+                                    </option>
+                                </select>
+                            </div>
+                        </ng-container>
+
+
+                        <div class="col-xl-3 d-flex flex-column mb-3">
+                            <label class="f-b mb-2" for="">ชื่อ</label>
+                            <input type="text" class="form-control rounded-3" placeholder="ชื่อ" [(ngModel)]="body.first_name"/>
+                        </div>
+
+                        <div class="col-xl-3 d-flex flex-column mb-3">
+                            <label class="f-b mb-2" for="">ชื่อกลาง</label>
+                            <input type="text" class="form-control rounded-3" placeholder="ชื่อกลาง" [(ngModel)]="body.middle_name"/>
+                        </div>
+
+                        <div class="col-xl-3 d-flex flex-column mb-3">
+                            <label class="f-b mb-2" for="">นามสกุล</label>
+                            <input type="text" class="form-control rounded-3" placeholder="นามสกุล" [(ngModel)]="body.last_name"/>
+                        </div>
+
+
+                        <div class="col-xl-6 d-flex flex-column mb-3">
+                            <label class="f-b mb-2" for="">ชื่อเล่น</label>
+                            <input type="text" class="form-control rounded-3" placeholder="ชื่อเล่น" [(ngModel)]="body.nick_name"/>
+                        </div>
+
+                        <div class="col-xl-6 col-lg-6 mb-4">
+                            <label class="f-b mb-2" for="">วันเดือนปีเกิด <span class="color-required">*</span></label>
+                            <div class="input-group border-1 w-100">
+                                <input onkeydown="return false;" matInput [matDatepicker]="picker" class="form-control"
+                                    style="
+                                  position: relative;
+                                  border-top-left-radius: 8px;
+                                  border-bottom-left-radius: 8px;
+                                " placeholder="วัน/เดือน/ปี" ngDefaultControl [(ngModel)]="body.birth_date"/>
+                                <mat-datepicker-toggle style="height: 40px" matSuffix [for]="picker" 
+                                    class="mat-datepicker-toggle"></mat-datepicker-toggle>
+                                <mat-datepicker #picker class="mat-datepicker"></mat-datepicker>
+
+                            </div>
+                        </div>
+
+                        
+
+
+                        <div class="col-xl-9 d-flex flex-column mb-3">
+                            <label class="f-b mb-2" for="">อีเมล</label>
+                            <input type="text" class="form-control rounded-3" placeholder="อีเมล" [(ngModel)]="body.email"/>
+                        </div>
+
+                        <div class="col-xl-3 d-flex flex-column mb-3">
+                            <label class="f-b mb-2" for="">เบอร์โทรศัพท์</label>
+                            <input type="text" class="form-control rounded-3" placeholder="เบอร์โทรศัพท์"
+                                oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*?)\..*/g, '$1');"
+                                maxlength="10" [(ngModel)]="body.phone_number"/>
+                        </div>
+
+                        <!-- <div class="col-xl-4 d-flex flex-column mb-3">
+                            <label class="f-b mb-2" for="">ห้องที่จะเช่าอยู่</label>
+                            <select class="form-select rounded-3">
+                                <option value="">เลือก</option>
+    
+                            </select>
+                        </div> -->
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col mt-3">
+            <div class="card" style="border-radius: 16px;">
+                <div class="card-body p-5">
+
+                    <div class="row p-0 m-0">
+                        <div class="col-xl-12 d-flex align-items-center mb-3">
+                            <label class="number-icon me-3">2</label>
+                            <label>ที่อยู่ที่สามารถติดต่อได้</label>
+                        </div>
+                        <div class="col-xl-8 d-flex flex-column mb-3">
+                            <label class="f-b mb-2" for="">บ้านเลขที่,ซอย,หมู่,ถนน</label>
+                            <input type="text" class="form-control rounded-3" placeholder="ที่อยู่ที่สามารถติดต่อได้" [(ngModel)]="body.address"/>
+                        </div>
+                        <div class="invalid-feedback">
+                            กรุณากรอกที่อยู่ที่สามารถติดต่อได้
+                        </div>
+
+                        <div class="col-xl-4 d-flex flex-column mb-3">
+                            <label class="f-b mb-2" for="">หมู่</label>
+                            <input type="text" class="form-control rounded-3" placeholder="หมู่" [(ngModel)]="body.address_moo"/>
+                        </div>
+
+                        <div class="col-xl-4 d-flex flex-column mb-3">
+                            <label class="f-b mb-2" for="">ตำบล</label>
+                            <input type="text" class="form-control rounded-3" placeholder="ตำบล" [(ngModel)]="body.sub_district"/>
+                        </div>
+
+                        <div class="col-xl-4 d-flex flex-column mb-3">
+                            <label class="f-b mb-2" for="">อำเภอ</label>
+                            <input type="text" class="form-control rounded-3" placeholder="อำเภอ" [(ngModel)]="body.district"/>
+                        </div>
+
+                        <div class="col-xl-4 d-flex flex-column mb-3">
+                            <label class="f-b mb-2" for="">จังหวัด</label>
+                            <input type="text" class="form-control rounded-3" placeholder="จังหวัด" [(ngModel)]="body.province"/>
+                        </div>
+                        
+                        <div class="col-xl-4 d-flex flex-column mb-3">
+                            <label class="f-b mb-2" for="">รหัสไปรษณีย์</label>
+                            <input type="text" class="form-control rounded-3" placeholder="รหัสไปรษณีย์"
+                                oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*?)\..*/g, '$1');"
+                                maxlength="6" [(ngModel)]="body.zip_code"/>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col mt-3">
+            <div class="card" style="border-radius: 16px;">
+                <div class="card-body p-5">
+
+                    <div class="row p-0 m-0">
+                        <div class="col-xl-12 d-flex align-items-center mb-3">
+                            <label class="number-icon me-3">3</label>
+                            <label>ผู้ติดต่อฉุกเฉิน</label>
+                        </div>
+
+                        <div class="col-xl-3 d-flex flex-column mb-3 align-bottom">
+                            <label class="f-b mb-2" for="">คำนำหน้าชื่อ</label>
+                            <select class="form-select rounded-3" [(ngModel)]="body.emergency_prefix">
+                                <option selected disabled hidden value="">เลือก</option>
+                                <option *ngFor="let i of prefix_name_th" [value]="i.prefix_name_th">
+                                    {{ i.prefix_name_th }}
+                                </option>
+                            </select>
+                        </div>
+
+                        <div class="col-xl-3 d-flex flex-column mb-3">
+                            <label class="f-b mb-2" for="">ชื่อ</label>
+                            <input type="text" class="form-control rounded-3" placeholder="ชื่อ" [(ngModel)]="body.emergency_first_name"/>
+                        </div>
+
+                        <div class="col-xl-3 d-flex flex-column mb-3">
+                            <label class="f-b mb-2" for="">ชื่อกลาง</label>
+                            <input type="text" class="form-control rounded-3" placeholder="ชื่อกลาง" [(ngModel)]="body.emergency_middle_name"/>
+                        </div>
+
+                        <div class="col-xl-3 d-flex flex-column mb-3">
+                            <label class="f-b mb-2" for="">นามสกุล</label>
+                            <input type="text" class="form-control rounded-3" placeholder="นามสกุล" [(ngModel)]="body.emergency_last_name"/>
+                        </div>
+
+                        <div class="col-xl-4 d-flex flex-column mb-3">
+                            <label class="f-b mb-2" for="">ความสัมพันธ์</label>
+                            <input type="text" class="form-control rounded-3" placeholder="ความสัมพันธ์" [(ngModel)]="body.emergency_relationship"/>
+                        </div>
+                        <div class="col-xl-4 d-flex flex-column mb-3">
+                            <label class="f-b mb-2" for="">เบอร์โทรศัพท์</label>
+                            <input type="text" class="form-control rounded-3" placeholder="เบอร์โทรศัพท์" [(ngModel)]="body.emergency_phone_number"/>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</ng-container>
+
+<ng-container *ngIf="page == 2">
+    <div class="row">
+        <div class="col">
+            <div class="card" style="border-radius: 16px;">
+                <div class="card-body">
+
+                    <div class="row">
+                        <div class="col-xl-12 d-flex align-items-center mb-3">
+                            <label class="number-icon me-3">4</label>
+                            <label>สัญญาเช่า</label>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-6 d-flex flex-column mb-3 align-bottom">
+                                <label class="f-b mb-2" for="">ประเภทผู้เช่า</label>
+                                <select class="form-select rounded-3" [(ngModel)]="body.role_id" (change)="GetMasterAvaliableRoom()">
+                                    <option selected disabled hidden value="">เลือก</option>
+                                    <option *ngFor="let i of role_list" [value]="i.id">
+                                        {{ i.role_name }}
+                                    </option>
+                                </select>
+                            </div>
+
+                            <div class="col-6 d-flex flex-column mb-3 align-bottom" *ngIf="this.admin_data.role === 'super admin' ">
+                                <label class="f-b mb-2" for="">เลือกสถานที่</label>
+                                <select class="form-select rounded-3" [(ngModel)]="this.admin_data.location" (change)="GetMasterBuilding()">
+                                    <option selected disabled hidden value="">เลือก</option>
+                                    <option *ngFor="let i of location_list" [value]="i.id">
+                                        {{ i.location_name }}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-6 d-flex flex-column mb-3 align-bottom">
+                                <label class="f-b mb-2" for="">เลือกอาคาร</label>
+                                <select class="form-select rounded-3" [(ngModel)]="body.building_id" (change)="GetMasterAvaliableRoom()">
+                                    <option selected disabled hidden value="">เลือก</option>
+                                    <option *ngFor="let i of building_list" [value]="i.id">
+                                        {{ i.building_name }}
+                                    </option>
+                                </select>
+                            </div>
+
+                            <div class="col-6 d-flex flex-column mb-3 align-bottom">
+                                <label class="f-b mb-2" for="">เลือกห้องว่าง</label>
+                                <select class="form-select rounded-3" [(ngModel)]="body.room_id" (change)="UpdateStatusRoom()">
+                                    <option selected disabled hidden value="">เลือก</option>
+                                    <option *ngFor="let i of avaliable_room_list" [value]="i.id">
+                                        {{ i.room_number }}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row d-flex">
+                            <div class="col-xl-6 col-lg-6 mb-4">
+                                <label class="f-b mb-2" for="">วันที่เริ่มสัญญา <span
+                                        class="color-required">*</span></label>
+                                <div class="input-group border-1 w-100">
+                                    <input onkeydown="return false;" matInput [matDatepicker]="picker_start_contract"
+                                        class="form-control" style="
+                                      position: relative;
+                                      border-top-left-radius: 8px;
+                                      border-bottom-left-radius: 8px;
+                                    " placeholder="วัน/เดือน/ปี" ngDefaultControl [(ngModel)]="body.start_contract" />
+                                    <mat-datepicker-toggle style="height: 40px" matSuffix [for]="picker_start_contract"
+                                        class="mat-datepicker-toggle"></mat-datepicker-toggle>
+                                    <mat-datepicker #picker_start_contract class="mat-datepicker"></mat-datepicker>
+
+                                </div>
+                            </div>
+                            <div class="col-xl-6 col-lg-6 mb-4">
+                                <label class="f-b mb-2" for="">วันที่หมดสัญญา <span
+                                        class="color-required">*</span></label>
+                                <div class="input-group border-1 w-100">
+                                    <input onkeydown="return false;" matInput [matDatepicker]="picker_end_contract"
+                                        class="form-control" style="
+                                      position: relative;
+                                      border-top-left-radius: 8px;
+                                      border-bottom-left-radius: 8px;
+                                    " placeholder="วัน/เดือน/ปี" ngDefaultControl [(ngModel)]="body.end_contract" />
+                                    <mat-datepicker-toggle style="height: 40px" matSuffix [for]="picker_end_contract"
+                                        class="mat-datepicker-toggle"></mat-datepicker-toggle>
+                                    <mat-datepicker #picker_end_contract class="mat-datepicker"></mat-datepicker>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xl-6 col-lg-6 mb-4">
+                                <label class="f-b mb-2" for="">วันครบรอบบิล</label>
+                                <input type="text" class="form-control rounded-3" placeholder="วันครบรอบบิล" [(ngModel)]="body.billing_day"/>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <label class="f-b">อัพโหลดเอกสารสัญญาเช่า</label>
+                            <div class="col-xl-12 mt-4 d-flex justify-content-between" style="height: 40px;">
+                                <ul>
+                                    <li>
+                                        <label for="" class="f-b pb-4" style="color: #000">แนบไฟล์</label>
+                                    </li>
+                                </ul>
+                                <div>
+                                    <label for="select-documents" style="cursor: pointer">
+                                        <div class="border-select-documents text-center">
+                                            <mat-icon role="button" class="fs-4 rounded-2"
+                                                style="color: #171717; background-color: #f2f2f2">
+                                                add
+                                            </mat-icon>
+                                        </div>
+                                    </label>
+                                    <input id="select-documents" type="file" style="display: none" name="file_contract"
+                                        accept="application/pdf" (change)="UploadFile($event)" />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col d-flex justify-content-between">
+
+                                    <div *ngIf="fileInfo1" class="m-0 p-0 align-items-center"
+                                        style="position: relative !important">
+                                        <img class="circle-photo me-3 mb-3"
+                                            style="height: 30px !important; width: 30px !important; border-radius: 8px;"
+                                            [src]="preview1" alt="Preview" />
+                                        <span>{{ fileInfo1.name }}</span> <!-- File name -->
+
+                                    </div>
+
+                                    <!-- Section to display file details and remove option -->
+                                    <div *ngIf="fileInfo1"
+                                        class="m-0 p-0 d-flex justify-content-between align-items-center">
+                                        <div class="m-0 p-0 d-flex align-items-center text-end">
+                                            <span style="color: #989898;">{{ showMegaByte(fileInfo1.size) }} MB</span>
+                                            <!-- File size in MB -->
+                                            <span class="material-icons fs-5 ps-3" role="button"
+                                                (click)="DeleteContractFile()" style="color: red;">
+                                                close
+                                            </span> <!-- Remove icon -->
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-container>
+
+
+<ng-container *ngIf="page == 1">
+    <div class="row">
+        <div class="col text-end my-3">
+            <button class="col-xl-2 col-lg-2 col-md-2 col-2 btn btn-cancel me-2" mat-button color="primary">
+                ยกเลิก11111
+            </button>
+            <button class="col-xl-2 col-lg-2 col-md-2 col-2 btn btn-submit ms-2" mat-button color="primary"
+                (click)="NextPage(2)">
+                ถัดไป11111
+            </button>
+        </div>
+    </div>
+</ng-container>
+
+<ng-container *ngIf="page == 2">
+    <div class="row">
+        <div class="col text-end my-3">
+            <button class="col-xl-2 col-lg-2 col-md-2 col-2 btn btn-cancel me-2" mat-button color="primary"
+                (click)="NextPage(1)">
+                ย้อนกลับ22222
+            </button>
+            <button class="col-xl-2 col-lg-2 col-md-2 col-2 btn btn-submit ms-2" mat-button color="primary" (click)="CreateRenter()">
+                บันทึก2222
+            </button>
+        </div>
+    </div>
+</ng-container>

@@ -1,0 +1,68 @@
+
+
+<div class="row align-items-center">
+    <div class="col-xl-6 col-lg-4 col-md-4 col-4 m-0 p-3">
+        <p class="head-title">การจัดการผู้ดูแลระบบ</p>
+    </div>
+    <div class="col-xl-6 col-lg-8 col-md-8 col-8">
+        <div class="row justify-content-end p-0 m-0">
+            <div class="col d-flex align-items-center justify-content-end p-0 m-0">
+
+
+
+                <button class="me-3 btn-add-something" (click)="CreateAdmin()">
+                    <img class="me-2" src="assets/system_icons/icon_add.png"
+                        style="height: 25px;" ><span>เพิ่มผู้ดูแลระบบ</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row card p-0 m-0 border-0" style="background-color: #f9f8fe !important">
+    <div class="col body-table card-body border-0">
+        <ng-container *ngIf="admin_list.length > 0; else NoData">
+            <table class="table body-table table-responsive table-hover">
+                <thead>
+                    <tr class="align-middle text-center">
+                        <th class="border-0" scope="col" style="border-radius: 10px 0px 0px 0px;">ลำดับ</th>
+                        <th class="border-0" scope="col">ชื่อ-นามสกุล</th>
+                        <th class="border-0" scope="col">สถานที่ที่รับผิดชอบ</th>
+                        <th class="border-0" scope="col">เบอร์โทรศัพท์</th>
+                        <th class="border-0" scope="col" style="border-radius: 0px 10px 0px 0px;"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="text-center align-middle" *ngFor="let admin of admin_list | paginate : { itemsPerPage: itemsPerPage, currentPage: page }; let order = index">
+                        <td class="border-0">{{ admin.order }}</td>
+                        <td class="border-0">{{ admin.fullname }} ( {{ admin.nickname }} ) </td>
+                        <td class="border-0">{{ admin.location }}</td>
+                        <td class="border-0">{{ admin.phone_number }}</td>
+                        <td class="border-0">
+                            <img class="me-4" src="assets/system_icons/icon_details.png" style="width: 25px;"
+                                 (click)="DetailsAdmin(admin.id)" role="button" >
+                                <img class="me-4" src="assets/system_icons/icon_delete.png"
+                                    style="width: 25px;" role="button" (click)="DeleteAdmin()">
+                        </td>
+                        
+                    </tr>
+                </tbody>
+            </table>
+        </ng-container>
+    </div>
+    <ng-template #NoData>
+        <div class="text-center d-flex justify-content-center">ไม่พบข้อมูล</div>
+    </ng-template>
+</div>
+
+<ng-container>
+    <div class="row mt-5">
+        <div class="col-md-12 d-flex justify-content-center flex-wrap">
+            <span></span>
+            <pagination-controls class="text-center" (pageChange)="page = $event" previousLabel="" nextLabel=""
+                [responsive]="true">
+            </pagination-controls>
+            <span class="ms-2"> </span>
+        </div>
+    </div>
+</ng-container>

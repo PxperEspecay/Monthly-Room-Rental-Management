@@ -1,0 +1,253 @@
+<div class="row">
+    <div class="col mt-2 d-flex">
+        <button class="p-0 btn-icon-view shadow-sm" (click)="BackTo()">
+            <img src="assets/system_icons/back.png" alt="" />
+        </button>
+
+        <div class="col-xl-6 col-lg-4 col-md-4 col-4 mt-2 ms-3">
+            <p class="head-title">รายละเอียด</p>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col">
+        <div class="card" style="border: none;">
+            <div class="card-body">
+
+                <div *ngIf="issue_details.urgent_issue === true" class="row my-2">
+                    <div class="col d-flex align-items-center">
+                        <span class="ms-3 status-aog" style="background-color: rgb(255, 255, 255); color: rgba(255, 21, 21, 1); font-size: 20px; font-weight: 500;
+                        border: 1px solid rgba(255, 21, 21, 1);
+                        padding: 5px;
+                        border-radius: 6px;">
+                            <img *ngIf="issue_details.urgent_issue === true"
+                                src="/assets/system_icons/icon-urgent-request.png" alt="" style="width: 38px;">
+
+                            <span *ngIf="issue_details.urgent_issue === true" class="ms-2"
+                                style="font-size: 18px;">{{'เรื่องด่วน'}}</span>
+
+                        </span>
+                    </div>
+                    <div class="col d-flex align-items-center justify-content-end">
+                        <!-- <span *ngIf="status == 'waiting_to_check'" class="status-aog">รอตรวจสอบ</span>
+                        <span *ngIf="status == 'pending'" class="status-bids">กำลังดำเนินการ</span>
+                        <span *ngIf="status == 'waiting_to_check'" class="status-aog">รอตรวจสอบคำร้อง</span> -->
+                        <span *ngIf="issue_details.status == 'waiting_to_check'"
+                            class="status-aog">รอตรวจสอบคำร้อง</span>
+                        <span *ngIf="issue_details.status == 'pending'" class="status-bids">รอดำเนินการ</span>
+                        <span *ngIf="issue_details.status == 'in_progress'"
+                            class="status-in_progress">กำลังดำเนินการ</span>
+                        <span *ngIf="issue_details.status == 'completed'" class="status-final">ดำเนินการเสร็จสิ้น</span>
+                        <span *ngIf="issue_details.status == 'rejected'" class="status-rejected">ปฎิเสธคำร้อง</span>
+                        <span *ngIf="issue_details.status == 'cancel'" class="status-cancel">ผู้แจ้งยกเลิก</span>
+                    </div>
+                </div>
+
+                <div *ngIf="issue_details.urgent_issue === false" class="row my-2">
+                    <div class="col d-flex align-items-center">
+                        <span class="ms-3" style="background-color: rgb(247, 250, 254, 1); color: rgba(21, 71, 121, 1); font-size: 20px; font-weight: 500;
+                        border: 1px solid rgba(21, 71, 121, 1);
+                        padding: 5px;
+                        border-radius: 6px;">
+                            <img *ngIf="issue_details.urgent_issue === true"
+                                src="/assets/system_icons/icon-urgent-request.png" alt="" style="width: 38px;">
+
+                            <span *ngIf="issue_details.urgent_issue === false" class="ms-2"
+                                style="font-size: 18px;">{{'เรื่องทั่วไป'}}</span>
+
+                        </span>
+                    </div>
+                    <div class="col d-flex align-items-center justify-content-end">
+                        <!-- <span *ngIf="status == 'waiting_to_check'" class="status-aog">รอตรวจสอบ</span>
+                        <span *ngIf="status == 'pending'" class="status-bids">กำลังดำเนินการ</span>
+                        <span *ngIf="status == 'waiting_to_check'" class="status-aog">รอตรวจสอบคำร้อง</span> -->
+                        <span *ngIf="issue_details.status == 'waiting_to_check'"
+                            class="status-aog">รอตรวจสอบคำร้อง</span>
+                        <span *ngIf="issue_details.status == 'pending'" class="status-bids">รอดำเนินการ</span>
+                        <span *ngIf="issue_details.status == 'in_progress'"
+                            class="status-in_progress">กำลังดำเนินการ</span>
+                        <span *ngIf="issue_details.status == 'completed'" class="status-final">ดำเนินการเสร็จสิ้น</span>
+                        <span *ngIf="issue_details.status == 'rejected'" class="status-rejected">ปฎิเสธคำร้อง</span>
+                        <span *ngIf="issue_details.status == 'cancel'" class="status-cancel">ผู้แจ้งยกเลิก</span>
+                    </div>
+                </div>
+
+                <div class="divider"></div>
+
+                <ng-container>
+
+                    <div class="row my-2">
+                        <div class="col">
+                            <div class="card"
+                                style="background-color: rgba(243, 243, 243, 1); border-radius: 8px; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);">
+                                <div class="card-body">
+
+                                    <div class="row">
+                                        <div class="col d-flex">
+                                            <p style="color: rgba(0, 102, 102, 1); font-size: 20px; font-weight: 600;">
+                                                หัวข้อ : </p>
+                                            <p class="ms-1" style="font-size: 20px;">
+                                                {{issue_details.title}}</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-2">
+                                            <p style="color: rgba(0, 102, 102, 1); font-size: 20px; font-weight: 600;">
+                                                รายละเอียด </p>
+                                        </div>
+                                        <!-- <div class="col">
+                                            <p class="ms-1" style="font-size: 20px;">{{issue_details.issue_description}}</p>
+                                        </div> -->
+                                    </div>
+                                    <div class="row">
+                                        <!-- <div class="col-2">
+                                            <p style="color: rgba(0, 102, 102, 1); font-size: 20px; font-weight: 600;">รายละเอียด  </p>
+                                        </div> -->
+                                        <div class="col">
+                                            <p class="ms-1" style="font-size: 20px;">
+                                                {{issue_details.description}}</p>
+                                        </div>
+                                    </div>
+
+                                    <ng-container class="" *ngFor="let item of photo_list">
+                                        <img [src]="item" alt=""
+                                            style="height: 150px; width: 150px; margin: 7.5px; cursor: pointer; margin-bottom: 25px;"
+                                            (click)="openImage(item)" />
+                                    </ng-container>
+
+                                    <!-- Popup Modal -->
+                                    <div class="modal" *ngIf="selectedImage" (click)="closeImage()">
+                                        <div class="modal-content" (click)="$event.stopPropagation()">
+                                            <img [src]="selectedImage" alt=""
+                                                style="max-width: 100%; max-height: 100%;" />
+
+                                        </div>
+                                        <button class="close-btn" (click)="closeImage()">&#x2715;</button>
+
+                                    </div>
+
+                                    <div class="divider2"></div>
+
+                                    <div class="row mt">
+                                        <div class="col d-flex">
+                                            <p style="color: rgba(0, 102, 102, 1); font-size: 20px; font-weight: 600;">
+                                                ผู้แจ้ง : </p>
+                                            <p class="ms-1" style="font-size: 20px;">
+                                                {{issue_details?.Renter?.prefix}}{{issue_details?.Renter?.first_name}}
+                                                {{issue_details?.Renter?.last_name}}</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="row mt">
+                                        <div class="col d-flex">
+                                            <p style="color: rgba(0, 102, 102, 1); font-size: 20px; font-weight: 600;">
+                                                ห้อง/บ้านเลขที่ : </p>
+                                            <p class="ms-1" style="font-size: 20px;">
+                                                {{issue_details?.Renter?.Room.room_number}}</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="row mt">
+                                        <div class="col d-flex">
+                                            <p style="color: rgba(0, 102, 102, 1); font-size: 20px; font-weight: 600;">
+                                                วันเวลาที่แจ้ง : </p>
+                                            <p class="ms-1" style="font-size: 20px;">
+                                                {{this.issue_details.formattedDate}} ,
+                                                {{this.issue_details.formattedTime}}</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="row mt">
+                                        <div class="col d-flex">
+                                            <p style="color: rgba(0, 102, 102, 1); font-size: 20px; font-weight: 600;">
+                                                เบอร์ติดต่อกลับ : </p>
+                                            <p class="ms-1" style="font-size: 20px;">
+                                                {{this.issue_details.callback_phone}}</p>
+                                        </div>
+                                    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </ng-container>
+
+                <div class="row my-3">
+                    <div class="col-8"></div>
+                    <div class="col-4 d-flex justify-content-end">
+
+                        <div class="col-3 d-flex justify-content-end align-items-center"
+                            *ngIf="this.issue_details.status == 'waiting_to_check'">
+
+                            <select class="form-select me-2" [(ngModel)]="selectedStatus" style="width: 160px;">
+                                <option [ngValue]="null" disabled selected>เลือกสถานะ</option>
+                                <option *ngFor="let status of statusOptions" [value]="status.value">{{ status.label }}
+                                </option>
+                            </select>
+
+                            <button class="btn btn-submited" [disabled]="!selectedStatus" (click)="SubmitStatus()">
+                                ยืนยัน
+                            </button>
+                        </div>
+
+
+                    </div>
+                    <div class="col-9"></div>
+
+                </div>
+
+                <ng-container>
+                    <div class="row my-3">
+                        <div class="col-9"></div>
+
+                        <div class="col-3 d-flex justify-content-end align-items-center" *ngIf="this.issue_details.status == 'pending'">
+
+                            <select class="form-select me-2" [(ngModel)]="selectedStatus" style="width: 160px;">
+                                <option [ngValue]="null" disabled selected>เลือกสถานะ</option>
+                                <option *ngFor="let status of statusOptions2" [value]="status.value">
+                                    {{ status.label }}
+                                </option>
+                            </select>
+
+                            <button class="btn btn-submited" [disabled]="!selectedStatus" (click)="SubmitStatus()">
+                                ยืนยัน
+                            </button>
+                        </div>
+
+                        <div class="col-3 d-flex justify-content-end align-items-center" *ngIf="this.issue_details.status == 'in_progress'">
+
+                            <select class="form-select me-2" [(ngModel)]="selectedStatus" style="width: 160px;">
+                                <option [ngValue]="null" disabled selected>เลือกสถานะ</option>
+                                <option *ngFor="let status of statusOptions3" [value]="status.value">
+                                    {{ status.label }}
+                                </option>
+                            </select>
+
+                            <button class="btn btn-submited" [disabled]="!selectedStatus" (click)="SubmitStatus()">
+                                ยืนยัน
+                            </button>
+                        </div>
+
+
+                    </div>
+                </ng-container>
+
+            </div>
+        </div>
+    </div>
+</div>

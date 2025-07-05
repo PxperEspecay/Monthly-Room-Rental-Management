@@ -1,0 +1,281 @@
+<div class="row align-items-center">
+  <div class="col-xl-6 col-lg-4 col-md-4 col-4 m-0 p-3">
+    <p class="head-title">ข้อมูลห้องเช่า</p>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col">
+    <ng-container *ngIf="this.admin_data.role === 'super admin' ">
+      <div class="row">
+        <div class="col-3 d-flex flex-column mb-3 align-bottom">
+          <label class="f-b mb-2">เลือกสถานที่</label>
+          <select class="form-select rounded-3" [(ngModel)]="admin_data.location"
+            (change)="GetMasterBuilding(); GetRoomsListWithRenter()">
+            <option value="0">ทั้งหมด</option> <!-- ✅ เพิ่มตัวเลือก "ทั้งหมด" -->
+            <option selected disabled hidden value="">เลือก</option>
+            <option *ngFor="let i of location_list" [value]="i.id">
+              {{ i.location_name }}
+            </option>
+          </select>
+        </div>
+
+        <div class="col-3 d-flex flex-column mb-3 align-bottom">
+          <label class="f-b mb-2" for="">เลือกอาคาร</label>
+          <select class="form-select rounded-3" [(ngModel)]="this.building_id" (change)="GetRoomsListWithRenter()">
+            <option [value]="0">เลือกทั้งหมด</option>
+            <option *ngFor="let i of building_list" [value]="i.id">
+              {{ i.building_name }}
+            </option>
+          </select>
+        </div>
+      </div>
+    </ng-container>
+    <ng-container *ngIf="this.admin_data.role === 'admin' ">
+      <div class="row">
+        <div class="col-3 d-flex flex-column mb-3 align-bottom">
+          <label class="f-b mb-2" for="">เลือกอาคาร</label>
+          <select class="form-select rounded-3" [(ngModel)]="this.building_id" (change)="GetRoomsListWithRenter()">
+            <option [value]="0">เลือกทั้งหมด</option>
+            <option *ngFor="let i of building_list" [value]="i.id">
+              {{ i.building_name }}
+            </option>
+          </select>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+
+  <div class="col-3 d-flex align-items-center justify-content-end position-relative">
+
+    <button class="btn btn-primary me-3" (click)="toggleDropdown()"
+      style="height: 40px; width: 150px; background-color:  rgba(0, 102, 102, 1);border-radius: 8px; border-color: rgba(0, 102, 102, 1);">
+      <img class="me-2" src="assets/system_icons/icon-Filter.png" style="height: 15px;"><span
+        style="font-size: 16px;">ตัวกรอง</span>
+    </button>
+    <div *ngIf="showDropdown" class="dropdown-box p-3">
+      <div class="row p-2">
+        <div class="col">
+          <div class="form-check">
+            <input [(ngModel)]="ckecked_all" class="form-check-input" type="checkbox" (click)="CheckAllType()">
+            <span class="form-check-label" style="font-weight: 600; font-size: 18px; margin-top: 5px;">
+              สถานะห้องทั้งหมด
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="row p-2 justify-content-between">
+        <div class="col-6" *ngFor="let item of room_status_list, let index = index">
+          <div class="form-check">
+            <input [(ngModel)]="item.checked" class="form-check-input" type="checkbox" (click)="HandleType(item)">
+            <span class="form-check-label" style="font-weight: 300; font-size: 18px; margin-top: 5px;">
+              {{item.name}}
+            </span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div>
+      <input [(ngModel)]="search_input" class="nosubmit form-control" type="text" placeholder="ค้นหา"
+        (keydown.enter)="UpdateListType()">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+<!-- <ng-container *ngIf="room_with_renter_list?.length > 0; else NoData">
+    <div class="row mt-3" *ngFor="let room of room_with_renter_list">
+        <div class="col-6">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <span style="font-size: 20px; color: #006666; font-weight: 600;">ห้อง : {{ room.room_number }} </span>
+    
+                    <div class=" gap-1" style="opacity: 100;">
+                        <span class="status-disabled" *ngIf="room.status_room == 'N'">{{'ไม่ว่าง'}}</span>
+                        <span class="status-avaliable" *ngIf="room.status_room == 'Y'">{{'ห้องว่าง'}}</span>
+                    </div>
+                </div>
+                <div class="card-body d-flex justify-content-around align-items-center"
+                    *ngIf="room.Renters && room.Renters.length > 0">
+    
+                    <div class="col card p-3" *ngFor="let renter of room.Renters">
+                        <div class="d-flex justify-content-around align-items-center">
+    
+                            <img *ngIf="renter.gender == 'F'"
+                                src="{{renter.img_profile == null || renter.img_profile == '' ? 'assets/system_icons/icon_avatar_women.png' : renter.img_profile}}"
+                                alt="Richard Hendricks" class="profile-image">
+                            <img *ngIf="renter.gender == 'M'"
+                                src="{{renter.img_profile == null || renter.img_profile == '' ? 'assets/system_icons/icon_avatar_men.png' : renter.img_profile}}"
+                                alt="Richard Hendricks" class="profile-image">
+                            <div>
+                                <p class="mb-1" style="color: #006666;"><strong>{{renter.prefix}} {{ renter.first_name }} {{ renter.last_name }} <span *ngIf="renter.nick_name">({{renter.nick_name}})</span></strong></p>
+                                <p class="mb-0" style="color: #666;">เบอร์โทรศัพท์: {{ renter.phone_number }}</p>
+                                <p class="mb-1" style="color: #666;">อีเมล: {{ renter.email }}</p>
+                                <p *ngIf="renter.role_id == '3'" class="mb-1" style="color: #666;">ประเภท: ผู้เช่าหลัก</p>
+                                <p *ngIf="renter.role_id == '4'" class="mb-1" style="color: #666;">ประเภท: ผู้เช่าร่วม</p>
+                            </div>
+                        </div>
+                        <div *ngIf="room.Renters.length === 0">
+                            <p>ไม่มีข้อมูลผู้เช่า</p>
+                        </div>
+                    </div>
+    
+                </div>
+            </div>
+        </div>
+        <ng-container *ngIf="room_with_renter_list.length < 0">
+            asdasd
+        </ng-container>
+    </div>
+</ng-container>
+<ng-template #NoData>
+    <div class="text-center d-flex justify-content-center">ไม่พบข้อมูล</div>
+</ng-template> -->
+
+<div class="row">
+  <div class="col">
+    <div class="card border-0 shadow-sm" style="background-color: #004C4C; border-radius: 16px;">
+      <div class="card-body" style="background: linear-gradient(135deg, #008080, #006666, #004C4C);
+            border-radius: 16px; border-radius: 16px;">
+        <ng-container>
+          <div class="row d-flex justify-content-center flex-wrap">
+            <!-- Card 1 -->
+            <div class="col-md-12 col-lg-6 col-xl-3 mb-3">
+              <div class="card border-0 shadow-sm" style="border-radius: 8px;">
+                <div class="card-body" style=" border-radius: 8px;">
+                  <div class="row d-flex align-items-center">
+                    <div class="col">
+                      <p style="color: rgba(160, 174, 192, 1); font-weight: 700;">ห้องทั้งหมด</p>
+                      <span style="font-size: 18px; font-weight: 700;">{{this.total_room}} ห้อง</span>
+                    </div>
+                    <div class="col text-end">
+                      <img src="assets/system_icons/icon-total_room.png" alt="" style="width: 45px;">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="col-md-12 col-lg-6 col-xl-3 mb-3">
+              <div class="card border-0 shadow-sm" style="border-radius: 15px;">
+                <div class="card-body" style=" border-radius: 8px;">
+                  <div class="row d-flex align-items-center">
+                    <div class="col">
+                      <p style="color: rgba(160, 174, 192, 1); font-weight: 700;">ผู้เช่าปัจจุบัน</p>
+                      <span style="font-size: 18px; font-weight: 700;">{{this.total_renter}} คน</span>
+                    </div>
+                    <div class="col text-end">
+                      <img src="assets/system_icons/icon-total_renter.png" alt="" style="width: 60px;">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="col-md-12 col-lg-6 col-xl-3 mb-3">
+              <div class="card border-0 shadow-sm" style="border-radius: 15px;">
+                <div class="card-body" style=" border-radius: 8px;">
+                  <div class="row d-flex align-items-center">
+                    <div class="col">
+                      <p style="color: rgba(160, 174, 192, 1); font-weight: 700;">ห้องว่าง</p>
+                      <span style="font-size: 18px; font-weight: 700;">{{this.available_room}} ห้อง</span>
+                    </div>
+                    <div class="col text-end">
+                      <img src="assets/system_icons/icon-avaliable_room.png" alt="" style="width: 45px;">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Card 4 -->
+            <div class="col-md-12 col-lg-6 col-xl-3 mb-3">
+              <div class="card border-0 shadow-sm" style="border-radius: 15px;">
+                <div class="card-body" style=" border-radius: 8px;">
+                  <div class="row d-flex align-items-center">
+                    <div class="col-5">
+                      <p style="color: rgba(160, 174, 192, 1); font-weight: 700;">ห้องไม่ว่าง</p>
+                      <span style="font-size: 18px; font-weight: 700;">{{this.unavailable_room}} ห้อง</span>
+                    </div>
+
+                    <div class="col text-end">
+                      <img src="assets/system_icons/icon-unvaliable_room.png" alt="" style="width: 45px;">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+<ng-container *ngIf="room_with_renter_list_filtered?.length > 0; else NoData">
+  <div class="row mt-3">
+    <div class="col-12 col-md-6 col-lg-4 mb-4"
+      *ngFor="let room of room_with_renter_list_filtered | paginate: { itemsPerPage: 9, currentPage: page };">
+      <div class="card h-100 border-0 shadow-sm">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <span style="font-size: 20px; color: #006666; font-weight: 600;">
+            ห้อง : {{ room.room_number }}
+          </span>
+          <div class="gap-1" style="opacity: 100;">
+            <span class="status-disabled" *ngIf="room.status_room == 'N'">ไม่ว่าง</span>
+            <span class="status-avaliable" *ngIf="room.status_room == 'Y'">ห้องว่าง</span>
+          </div>
+        </div>
+
+        <div class="card-body" *ngIf="room.Renters && room.Renters.length > 0">
+          <div class="card p-3 mb-2" *ngFor="let renter of room.Renters">
+            <div class="d-flex align-items-start gap-2">
+              <img [src]="renter.img_profile == null || renter.img_profile == '' 
+                        ? (renter.gender == 'F' 
+                            ? 'assets/system_icons/icon_avatar_women.png' 
+                            : 'assets/system_icons/icon_avatar_men.png') 
+                        : renter.img_profile" alt="avatar" class="profile-image" />
+              <div>
+                <p class="mb-1" style="color: #006666;">
+                  <strong>
+                    {{renter.prefix}} {{ renter.first_name }} {{ renter.last_name }}
+                    <span *ngIf="renter.nick_name">({{renter.nick_name}})</span>
+                  </strong>
+                </p>
+                <p class="mb-0 text-muted">เบอร์โทรศัพท์: {{ renter.phone_number }}</p>
+                <p class="mb-0 text-muted">อีเมล: {{ renter.email }}</p>
+                <p class="mb-0 text-muted" *ngIf="renter.role_id == '3'">ประเภท: ผู้เช่าหลัก</p>
+                <p class="mb-0 text-muted" *ngIf="renter.role_id == '4'">ประเภท: ผู้เช่าร่วม</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-body" *ngIf="!room.Renters || room.Renters.length === 0">
+          <p class="text-center text-muted">ไม่มีข้อมูลผู้เช่า</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-container>
+
+<ng-template #NoData>
+  <div class="text-center d-flex justify-content-center my-5">ไม่พบข้อมูล</div>
+</ng-template>
+
+<div class="row text-center">
+  <div class="col-12  mt-3">
+    <pagination-controls (pageChange)="page = $event" previousLabel="" nextLabel=""></pagination-controls>
+  </div>
+</div>
